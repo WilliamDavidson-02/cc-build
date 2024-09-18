@@ -2,11 +2,11 @@ import { FC } from "react";
 
 type DropdownProps = {
   title: string;
-  option: string;
+  // options: string[];
   size: "xSmall" | "small" | "medium" | "large";
 };
 
-const Dropdown: FC<DropdownProps> = ({ title, option, size }) => {
+const Dropdown: FC<DropdownProps> = ({ title, size }) => {
   const sizeClasses = {
     xSmall: "w-20",
     small: "w-40",
@@ -19,9 +19,9 @@ const Dropdown: FC<DropdownProps> = ({ title, option, size }) => {
       <select
         name="pets"
         id="pet-select"
-        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-4 py-3 `}
+        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-6 py-4 `}
       >
-        <option value={option}>{option}</option>
+        <option value="cat">Cat</option>
       </select>
     </div>
   );
