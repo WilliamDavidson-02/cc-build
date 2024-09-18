@@ -1,4 +1,5 @@
 import DatePicker from "@/components/DatePicker";
+import Input from "@/components/Input";
 import {
   ProgressSteps,
   ProgressStepsCard,
@@ -8,8 +9,6 @@ import {
 import Textfield from "@/components/Textfield";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
-
-
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -39,7 +38,6 @@ const Home: FC = () => {
 
   return (
     <div>
-      <Textfield title={"Project"} size="large" />{" "}
       <ProgressSteps>
         {defaultSteps.map((s, i) => (
           <ProgressStepsCard
@@ -60,7 +58,9 @@ const Home: FC = () => {
           </ProgressStepsCard>
         ))}
       </ProgressSteps>
-      <DatePicker selected={selected} setSelected={setSelected} />      
+      <DatePicker selected={selected} setSelected={setSelected} />
+      <Input type="radio" />
+      <Input type="checkbox" />
     </div>
   );
 };
