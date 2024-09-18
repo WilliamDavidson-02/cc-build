@@ -1,9 +1,13 @@
 import { FC } from "react";
 
-type TextfieldProps = { title: string; size: "small" | "medium" | "large" };
+type TextfieldProps = {
+  title: string;
+  size: "xSmall" | "small" | "medium" | "large";
+};
 
 const Textfield: FC<TextfieldProps> = ({ title, size }) => {
   const sizeClasses = {
+    xSmall: "w-20",
     small: "w-40",
     medium: "w-80",
     large: "w-full",
