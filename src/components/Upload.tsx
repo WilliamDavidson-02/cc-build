@@ -9,14 +9,21 @@ const uploadSchema = z.object({
   title: z.string(),
   onFilesSelected: z.function().args(z.array(z.instanceof(File))).optional(),
   className: z.string().optional(),
+  acceptedFileTypes: z.array(z.string()).optional(),
 });
 
 type FileUploadProps = z.infer<typeof uploadSchema>;
 
-
-const FileUpload: React.FC<FileUploadProps> = ({ title, onFilesSelected, className, }, ...props ) => {
+const FileUpload: React.FC<FileUploadProps> = ({ 
+  title,
+  onFilesSelected, 
+  className,
+  acceptedFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'],
+}) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const acceptAttribute = acceptedFileTypes.join(',');
 
   const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -52,33 +59,53 @@ const FileUpload: React.FC<FileUploadProps> = ({ title, onFilesSelected, classNa
   };
 
   const handleFiles = (files: File[]) => {
-    if (onFilesSelected) {
-      onFilesSelected(files);
-    }
+    const validFiles = files.filter(file => 
+      acceptedFileTypes.includes(file.type) || 
+      acceptedFileTypes.some(type => file.name.endsWith(type.replace('image/', '.')))
+    );
     
+    if (onFilesSelected) {
+      onFilesSelected(validFiles);
+    }
   };
 
   const handleClick = () => {
     fileInputRef.current?.click();
   };
-//the size of the Upload component is dependent on its parent. for example: 
-/*
-    <div className="flex flex-row gap-2">
-      <Upload title="Produktbilder" />
-      <Upload title="Produktfiler" />
+/* To use the FileUpload component we need supply a handlerfunction, and the size is dependent on the parents size:
+
+    const handleFilesSelected = (files: File[]) => {
+        // Handle the selected files here
+        console.log('Selected files:', files);
+      };
+
+
+    <div className="flex flex-col gap-4">
+      <Upload 
+        title="Produktbilder" 
+        onFilesSelected={handleFilesSelected}
+        acceptedFileTypes={['image/jpeg', 'image/png', 'image/svg+xml']}
+      />
+
+      <Upload 
+        title="ProduktFiler" 
+        onFilesSelected={handleFilesSelected}
+        acceptedFileTypes={['application/pdf', 'application/txt', 'application/zip']}
+      />
     </div>
 */
   return (
-    <div className={cn("w-full", className)}  {...props} >
-      <label >
-        <Typography variant="h5" className="mb-0 font-semibold text-[14px] ">
-        {title}
+    <div className={cn("w-full", className)}>
+      <label>
+        <Typography variant="h5" className="mb-0 font-semibold text-[14px]">
+          {title}
         </Typography>
       </label>
       <div
-        className={`flex flex-row justify-center items-center bg-[#F9F9F9] border-2 border-[##E2E2E2] rounded-md p-4 text-center cursor-pointer ${
-          isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-        }`}
+        className={cn(
+          "flex flex-row justify-center items-center bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-md p-4 text-center cursor-pointer",
+          isDragging ? 'border-blue-500 bg-blue-50' : 'border-[#E2E2E2]'
+        )}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
@@ -90,7 +117,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ title, onFilesSelected, classNa
           ref={fileInputRef}
           className="hidden"
           multiple
-          accept="image/*,.svg"
+          accept={acceptAttribute}
           onChange={handleFileInput}
         />       
         <img src={upload} alt="upload" className="h-8 w-8 text-black" />
