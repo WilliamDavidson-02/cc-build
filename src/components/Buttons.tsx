@@ -1,13 +1,14 @@
 import { FC, ReactNode } from 'react';
 
 type ButtonProps = {
-  size: 'small' | 'medium' | 'large';
-  variant: 'blue' | 'white' | 'lightBlue' | 'grey';
+  size?: 'small' | 'medium' | 'large';
+  variant?: 'blue' | 'white' | 'lightBlue' | 'grey';
   children?: ReactNode;
-  onClick: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
 };
 
-const Button: FC<ButtonProps> = ({ size, onClick, variant, children, ...props }) => {
+const Button: FC<ButtonProps> = ({ size, onClick, variant, children, className, ...props }) => {
 
   
   const sizes = () => {
@@ -41,7 +42,7 @@ const Button: FC<ButtonProps> = ({ size, onClick, variant, children, ...props })
 
   return (
     <button
-      className={`${sizes()} ${colors()}`}
+      className={`${sizes()} ${colors()} ${className}`}
       onClick={onClick}
       {...props}
     >
