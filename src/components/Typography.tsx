@@ -1,73 +1,90 @@
 import React from 'react';
 import { FC } from 'react';
+import { cn } from '../lib/utils';
 
 type TypographyProps = {
-  children: React.ReactNode
-  className?: string
-  component?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p'
-  size?: 'sm' | 'md' | 'lg'
+  children: React.ReactNode;
+  className?: string;
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl';
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p';
 };
 
+const typographyVariants ={
+  variants: {
+    variant: { //variant with default textsize if no size is provided
+      h1: 'text-6xl font-bold md:text-7xl',
+      h2: 'text-4xl font-bold md:text-5xl',
+      h3: 'text-3xl font-semibold md:text-4xl',
+      h4: 'text-lg font-semibold md:text-xl',
+      h5: 'text-md font-medium md:text-lg',
+      h6: 'text-md font-medium',
+      p: 'font-normal',
+    },
+    size: {
+      sm: 'text-sm',
+      md: 'text-base',
+      lg: 'text-lg',
+      xl: 'text-2xl',
+      xxl: 'text-3xl',
+      xxxl: 'text-5xl',
+    },
+  },
+  compoundVariants: [
+    { variant: 'p', size: 'sm', class: 'text-sm' },
+    { variant: 'p', size: 'md', class: 'text-base' },
+    { variant: 'p', size: 'lg', class: 'text-lg' },
+  ],
+  defaultVariants: {
+    variant: 'p',
+    size: 'md',
+  },
+};
 
-// EXAMPLE USAGE:
+// helperfunction to get the classnames from variant and size
+const getTypographyClassNames = (
+  variant: keyof typeof typographyVariants.variants.variant, 
+  size: keyof typeof typographyVariants.variants.size 
+) => {
+  
+  const baseClass = typographyVariants.variants.variant[variant] || typographyVariants.defaultVariants.variant;
+  const sizeClass = typographyVariants.variants.size[size] || '';
+
+  
+  const compoundVariant = typographyVariants.compoundVariants.find(
+    (cv) => cv.variant === variant && cv.size === size
+  );
+
+  
+  return cn(baseClass, sizeClass, compoundVariant?.class);
+};
+
+// usage exemple : choose variant, size(optional) and add your own classname(optional)
 /*
-<Typography component="h1" size="lg" className="text-blue-500">
-  This is a large H1 heading
+<Typography variant="h1" size="xxxl" className="underline text-[#3f9a3e]">
+  Hello World
 </Typography>
 
-USING THE 'as' PROP:
-<Typography component="h1" as="h3" className="text-blue-500" size="md">
-  This is an H1 tag styled as an H3
+using the 'as' prop to change the element type
+<Typography variant="h1" as="h3" size="xxxl" className="underline text-[#3f9a3e]">
+  Hello World
 </Typography>
-
 */
 
+const Typography: FC<TypographyProps> = ({ children, className, variant = 'p', size = 'md', as,  ...props }) => {  
 
-const Typography: FC<TypographyProps> = ({ children, className, component = 'p', size, as, ...props }) => {  
+  const Element = (as || variant) as keyof JSX.IntrinsicElements;
 
-  const styledComponent = as || component;
+  return (
+    <Element
+    className={cn(getTypographyClassNames(variant, size), className, {...props})}
+    >
+      {children}
+    </Element>
+  )
 
-
-  const sizes = () => {
-    switch (size) {
-      case 'sm':
-        return 'text-sm';
-      case 'md':
-        return 'text-base';
-      case 'lg':
-        return 'text-lg';
-      default:
-        return '';
-    }
-  };
-
-  const variants = () => {
-    switch (styledComponent) {
-      case 'h1':
-        return 'text-4xl font-bold';
-      case 'h2':
-        return 'text-3xl font-bold';
-      case 'h3':
-        return 'text-2xl font-bold';
-      case 'h4':
-        return 'text-xl font-bold';
-      case 'h5':
-        return 'text-lg font-bold';
-      case 'h6':
-        return 'text-base font-bold';
-      case 'p':
-        return 'text-base';
-      default:
-        return '';
-    }
-  }
-
-  return React.createElement(
-    component,  
-    { className: `${sizes()} ${variants()} ${className}`, ...props },  
-    children  
-  );
+  
+  
 };
 
 
