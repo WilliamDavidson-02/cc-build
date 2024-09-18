@@ -14,12 +14,12 @@ const Textfield: FC<TextfieldProps> = ({ title, size }) => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1">
       <label>{title}</label>
       <input
         name="title"
         type="text"
-        className={`bg-slate-100 p-2 rounded ${sizeClasses[size]}`}
+        className={`bg-slate-100 p-2 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
       ></input>
     </div>
   );
