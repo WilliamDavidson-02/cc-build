@@ -8,7 +8,7 @@ import {
 import Textfield from "@/components/Textfield";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
-import Dropdown from "@/components/Dropdown";
+
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
