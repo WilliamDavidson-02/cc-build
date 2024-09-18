@@ -1,4 +1,5 @@
 import DatePicker from "@/components/DatePicker";
+import Input from "@/components/Input";
 import {
   ProgressSteps,
   ProgressStepsCard,
@@ -59,6 +60,8 @@ const Home: FC = () => {
         ))}
       </ProgressSteps>
       <DatePicker selected={selected} setSelected={setSelected} />
+      <Input type="radio" />
+      <Input type="checkbox" />
     </div>
   );
 };
