@@ -2,7 +2,10 @@ import { FC } from "react";
 
 type DropdownProps = {
   title: string;
-  options: string[];
+  size: "xSmall" | "small" | "medium" | "large";
+};
+
+const Dropdown: FC<DropdownProps> = ({ title, size }) => {
   size: "xSmall" | "small" | "medium" | "large";
 };
 
@@ -19,11 +22,12 @@ const Dropdown: FC<DropdownProps> = ({ title, options, size }) => {
       <select
         name="pets"
         id="pet-select"
-        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-4 py-3 `}
+        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-6 py-4 `}
       >
         {options.map((option, index) => (
           <option key={index} value={option}>{option}</option>
         ))}
+
       </select>
     </div>
   );
