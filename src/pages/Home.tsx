@@ -6,7 +6,7 @@ const Home: FC = () => {
   return (
     <div>
       {" "}
-      <Textfield title={"Project"} size="large" />{" "}
+      <Textfield title={"Project"} size="xSmall" />{" "}
     </div>
   );
 };
