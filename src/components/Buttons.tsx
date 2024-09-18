@@ -1,12 +1,12 @@
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
 
 
 const buttonSchema = z.object({
-  children: z.custom<React.ReactNode>(),
+  children: z.custom<ReactNode>(),
   className: z.string().optional(),
-  variant: z.enum(['primary', 'secondary', 'tertiary', 'ghost']).optional(),
+  variant: z.enum(['blue', 'white', 'lightblue', 'ghost']).optional(),
   size: z.enum(['sm', 'md', 'lg']).optional(),
   onClick: z.function().args(z.custom<React.MouseEvent<HTMLButtonElement>>()).optional(),
   disabled: z.boolean().optional(),
@@ -15,14 +15,13 @@ const buttonSchema = z.object({
 
 type ButtonProps = z.infer<typeof buttonSchema>;
 
-
 const buttonVariants = {
   variants: {
     variant: {
-      primary: 'bg-blue-600 text-white hover:bg-blue-700',
-      secondary: 'bg-white border border-blue-600 text-blue-600 hover:bg-blue-50',
-      tertiary: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
-      ghost: 'bg-transparent text-blue-600 hover:bg-blue-50',
+      blue: 'bg-blueZodiac rounded-[100px] text-white hover:bg-blue-700',
+      white: 'bg-none border border-blueZodiac rounded-[100px] text-blueZodiac hover:bg-white-100',
+      lightblue: 'bg-bostonBlue rounded-[100px] text-white hover:bg-blue-200',     
+      ghost: 'text-paleSky bg-seaShell rounded-[100px] hover:bg-paleSky hover:text-seaShell',
     },
     size: {
       sm: 'px-3 py-1.5 text-sm',
@@ -31,7 +30,7 @@ const buttonVariants = {
     },
   },
   defaultVariants: {
-    variant: 'primary',
+    variant: 'blue',
     size: 'md',
   },
 };
@@ -50,7 +49,7 @@ const getButtonClassNames = (
 const Button: React.FC<ButtonProps> = ({
   children,
   className,
-  variant = 'primary',
+  variant = 'blue',
   size = 'md',
   onClick,
   disabled = false,
@@ -64,7 +63,12 @@ const Button: React.FC<ButtonProps> = ({
     console.error('Button props validation failed:', error);
     return null; 
   }
-
+/*
+Example usage: 
+<Button variant="blue" size="md">
+  primary
+</Button>
+*/
   return (
     <button
       className={cn(

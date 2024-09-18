@@ -8,7 +8,7 @@ import {
 import Textfield from "@/components/Textfield";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
-import Upload from "@/components/Upload";
+
 
 const defaultSteps: { title: string; status: Status }[] = [
   {
@@ -60,9 +60,8 @@ const Home: FC = () => {
           </ProgressStepsCard>
         ))}
       </ProgressSteps>
-      <DatePicker selected={selected} setSelected={setSelected} />
-
-      <Upload title="upload files" />
+      <DatePicker selected={selected} setSelected={setSelected} />      
+      
     </div>
   );
 };
