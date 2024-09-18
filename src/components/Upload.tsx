@@ -4,15 +4,17 @@ import { z } from 'zod';
 import upload from "/upload.svg";
 import Typography from './Typography';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const uploadSchema = z.object({
   title: z.string(),
   onFilesSelected: z.function().args(z.array(z.instanceof(File))).optional(),
+  className: z.string().optional(),
 });
 
 type FileUploadProps = z.infer<typeof uploadSchema>;
 
 
-const FileUpload: React.FC<FileUploadProps> = ({ title, onFilesSelected }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ title, onFilesSelected, className, }, ...props ) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -59,9 +61,15 @@ const FileUpload: React.FC<FileUploadProps> = ({ title, onFilesSelected }) => {
   const handleClick = () => {
     fileInputRef.current?.click();
   };
-
+//the size of the Upload component is dependent on its parent. for example: 
+/*
+    <div className="flex flex-row gap-2">
+      <Upload title="Produktbilder" />
+      <Upload title="Produktfiler" />
+    </div>
+*/
   return (
-    <div className="w-full">
+    <div className={cn("w-full", className)}  {...props} >
       <label >
         <Typography variant="h5" className="mb-0 font-semibold text-[14px] ">
         {title}
