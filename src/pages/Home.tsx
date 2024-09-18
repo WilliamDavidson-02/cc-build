@@ -1,3 +1,4 @@
+import DatePicker from "@/components/DatePicker";
 import {
   ProgressSteps,
   ProgressStepsCard,
@@ -33,6 +34,7 @@ const defaultSteps: { title: string; status: Status }[] = [
 
 const Home: FC = () => {
   const [step, setStep] = useState(2);
+  const [selected, setSelected] = useState<Date>();
 
   return (
     <div>
@@ -57,6 +59,7 @@ const Home: FC = () => {
           </ProgressStepsCard>
         ))}
       </ProgressSteps>
+      <DatePicker selected={selected} setSelected={setSelected} />
     </div>
   );
 };
