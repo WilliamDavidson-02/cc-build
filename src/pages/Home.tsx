@@ -60,8 +60,6 @@ const Home: FC = () => {
         ))}
       </ProgressSteps>
       <DatePicker selected={selected} setSelected={setSelected} />
-
-      <Dropdown title="country" size="medium" options={["Sweden", "Denmark", "Norway", "Finland"]} />
     </div>
   );
 };
