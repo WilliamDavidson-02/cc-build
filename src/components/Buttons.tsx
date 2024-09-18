@@ -7,7 +7,7 @@ const buttonSchema = z.object({
   children: z.custom<ReactNode>(),
   className: z.string().optional(),
   variant: z.enum(['blue', 'white', 'lightblue', 'ghost']).optional(),
-  size: z.enum(['sm', 'md', 'lg']).optional(),
+  size: z.enum(['small', 'medium', 'large']).optional(),
   onClick: z.function().args(z.custom<React.MouseEvent<HTMLButtonElement>>()).optional(),
   disabled: z.boolean().optional(),
   type: z.enum(['button', 'submit', 'reset']).optional(),
@@ -24,9 +24,9 @@ const buttonVariants = {
       ghost: 'text-paleSky bg-seaShell rounded-[100px] hover:bg-paleSky hover:text-seaShell',
     },
     size: {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-4 py-2 text-base',
-      lg: 'px-6 py-3 text-lg',
+      small: 'px-4 py-2 text-sm',
+      medium: 'px-6 py-3 text-base',
+      large: 'px-8 py-4 text-lg',
     },
   },
   defaultVariants: {
@@ -50,7 +50,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   className,
   variant = 'blue',
-  size = 'md',
+  size = 'medium',
   onClick,
   disabled = false,
   type = 'button',
@@ -65,7 +65,7 @@ const Button: React.FC<ButtonProps> = ({
   }
 /*
 Example usage: 
-<Button variant="blue" size="md">
+<Button variant="blue" size="medium">
   primary
 </Button>
 */

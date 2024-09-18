@@ -6,7 +6,6 @@ import {
   ProgressStepsCardNumber,
   Status,
 } from "@/components/products/ProgressSteps";
-import Textfield from "@/components/Textfield";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
 const defaultSteps: { title: string; status: Status }[] = [
