@@ -1,7 +1,6 @@
 import Textfield from "@/components/Textfield";
 import { FC } from "react";
 
-import Typography from "@/components/Typography";
 
 const Home: FC = () => {
 
@@ -9,9 +8,6 @@ const Home: FC = () => {
     <div>
       {" "}
       <Textfield title={"Project"} size="large" />{" "}
-
-      
-
     </div>
   );
 };
