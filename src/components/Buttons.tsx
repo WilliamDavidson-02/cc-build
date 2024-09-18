@@ -1,48 +1,84 @@
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { z } from 'zod';
 
-type ButtonProps = {
-  size: 'small' | 'medium' | 'large';
-  variant: 'blue' | 'white' | 'lightBlue' | 'grey';
-  children?: ReactNode;
-  onClick: () => void;
+
+const buttonSchema = z.object({
+  children: z.custom<ReactNode>(),
+  className: z.string().optional(),
+  variant: z.enum(['blue', 'white', 'lightblue', 'ghost']).optional(),
+  size: z.enum(['small', 'medium', 'large']).optional(),
+  onClick: z.function().args(z.custom<React.MouseEvent<HTMLButtonElement>>()).optional(),
+  disabled: z.boolean().optional(),
+  type: z.enum(['button', 'submit', 'reset']).optional(),
+});
+
+type ButtonProps = z.infer<typeof buttonSchema>;
+
+const buttonVariants = {
+  variants: {
+    variant: {
+      blue: 'bg-blueZodiac rounded-[100px] text-white hover:bg-blue-700',
+      white: 'bg-none border border-blueZodiac rounded-[100px] text-blueZodiac hover:bg-white-100',
+      lightblue: 'bg-bostonBlue rounded-[100px] text-white hover:bg-blue-200',     
+      ghost: 'text-paleSky bg-seaShell rounded-[100px] hover:bg-paleSky hover:text-seaShell',
+    },
+    size: {
+      small: 'px-4 py-2 text-sm',
+      medium: 'px-6 py-3 text-base',
+      large: 'px-8 py-4 text-lg',
+    },
+  },
+  defaultVariants: {
+    variant: 'blue',
+    size: 'md',
+  },
 };
 
-const Button: FC<ButtonProps> = ({ size, onClick, variant, children, ...props }) => {
+const getButtonClassNames = (
+  variant: keyof typeof buttonVariants.variants.variant,
+  size: keyof typeof buttonVariants.variants.size
+) => {
+  const baseClass = 'rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2';
+  const variantClass = buttonVariants.variants.variant[variant] || buttonVariants.defaultVariants.variant;
+  const sizeClass = buttonVariants.variants.size[size] || buttonVariants.defaultVariants.size;
 
-  
-  const sizes = () => {
-    switch (size) {
-      case 'small':
-        return 'px-4 py-2 text-sm';
-      case 'medium':
-        return 'px-6 py-3 text-base';
-      case 'large':
-        return 'px-8 py-4 text-lg';
-      default:
-        return '';
-    }
-  };
+  return cn(baseClass, variantClass, sizeClass);
+};
 
-  
-  const colors = () => {
-    switch (variant) {
-      case 'blue':
-        return 'bg-[#112f5f] rounded-[100px] text-white';
-      case 'white':
-        return 'bg-none border border-[#112f5f] rounded-[100px] text-[#112f5f]';
-      case 'lightBlue':
-        return 'bg-[#488AC6] rounded-[100px] text-white';
-      case 'grey':
-        return 'text-[#6C757D] bg-[#F1F1F1] rounded-[100px]';
-      default:
-        return '';
-    }
-  };
-
+const Button: React.FC<ButtonProps> = ({
+  children,
+  className,
+  variant = 'blue',
+  size = 'medium',
+  onClick,
+  disabled = false,
+  type = 'button',
+  ...props
+}) => {
+  // Validate props using Zod schema
+  try {
+    buttonSchema.parse({ children, className, variant, size, onClick, disabled, type, ...props });
+  } catch (error) {
+    console.error('Button props validation failed:', error);
+    return null; 
+  }
+/*
+Example usage: 
+<Button variant="blue" size="medium">
+  primary
+</Button>
+*/
   return (
     <button
-      className={`${sizes()} ${colors()}`}
+      className={cn(
+        getButtonClassNames(variant, size),
+        disabled && 'opacity-50 cursor-not-allowed',
+        className
+      )}
       onClick={onClick}
+      disabled={disabled}
+      type={type}
       {...props}
     >
       {children}

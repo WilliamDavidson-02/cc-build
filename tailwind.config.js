@@ -2,7 +2,14 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        seaShell: '#F1F1F1',
+        paleSky: '#6C757D',
+        bostonBlue: '#488AC6',
+        blueZodiac: '#112F5F',
+      }
+    },
   },
   plugins: [require("@tailwindcss/forms")],
 };
