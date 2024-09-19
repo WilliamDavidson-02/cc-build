@@ -7,7 +7,7 @@ import {
   ProgressStepsCardNumber,
   Status,
 } from "@/components/products/ProgressSteps";
-import { useUser } from "@/context/userContext";
+//import { useUser } from "@/context/userContext";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
 const defaultSteps: { title: string; status: Status }[] = [
@@ -37,11 +37,11 @@ const Home: FC = () => {
   const [step, setStep] = useState(2);
   const [selected, setSelected] = useState<Date>();
 
-  const { user, isLoading, signOut } = useUser();
-
+  /* const { user, isLoading, signOut } = useUser();
+ */
   return (
     <div>
-      {!isLoading && user && <Button onClick={signOut}>Logga ut</Button>}
+     {/*  {!isLoading && user && <Button onClick={signOut}>Logga ut</Button>} */}
       <ProgressSteps>
         {defaultSteps.map((s, i) => (
           <ProgressStepsCard
