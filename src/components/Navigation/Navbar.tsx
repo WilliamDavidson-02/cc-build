@@ -63,7 +63,7 @@ const Navbar: FC<NavbarProps> = ({ currentPath }) => {
               {!isLoading && user && <Button onClick={signOut}>Logga ut</Button>}
             </div>
           ) : (
-            // not-logged in view
+            //not-logged in view
             <>
               <div className='flex flex-col gap-1 py-4'>
                 <div className="hidden md:flex md:flex-wrap gap-1 space-x-4 mt-4">
@@ -120,14 +120,14 @@ const Navbar: FC<NavbarProps> = ({ currentPath }) => {
         <div className="bg-blueZodiac w-screen mt-2">
           <div className="flex flex-row justify-between items-center max-w-7xl mx-auto px-4">
             <div className="   flex space-x-4 text-white py-2">
-              <Link to="/oversikt" className="hover:text-gray-300">ÖVERSIKT</Link>
-              <Link to="/projekt" className="hover:text-gray-300">PROJEKT</Link>
-              <Link to="/produkter" className="hover:text-gray-300">PRODUKTER</Link>
-              <Link to="/efterlysningar" className="hover:text-gray-300">EFTERLYSNINGAR</Link>
-              <Link to="/organisationsadmin" className="hover:text-gray-300">ORGANISATIONSADMIN</Link>
-              <Link to="/vardeanalys" className="hover:text-gray-300">VÄRDEANALYS</Link>
-              <Link to="/markning" className="hover:text-gray-300">MÄRKNING</Link>
-              <Link to="/hjalp" className="hover:text-gray-300">HJÄLP</Link>
+              <Link to="#" className="hover:text-gray-300">ÖVERSIKT</Link>
+              <Link to="#" className="hover:text-gray-300">PROJEKT</Link>
+              <Link to="#" className="hover:text-gray-300">PRODUKTER</Link>
+              <Link to="#" className="hover:text-gray-300">EFTERLYSNINGAR</Link>
+              <Link to="#" className="hover:text-gray-300">ORGANISATIONSADMIN</Link>
+              <Link to="#" className="hover:text-gray-300">VÄRDEANALYS</Link>
+              <Link to="#" className="hover:text-gray-300">MÄRKNING</Link>
+              <Link to="#" className="hover:text-gray-300">HJÄLP</Link>
               
             </div>
             <div className="relative py-4">
