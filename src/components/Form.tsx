@@ -4,6 +4,7 @@ import Textfield from "@/components/Textfield";
 import Button from "@/components/Buttons";
 import { useState } from "react";
 import { supabase } from "@/lib/sbClient";
+import FormNavigationButtons from "./FormNavBtns";
 
 type FormProps = {};
 
@@ -94,7 +95,7 @@ const Form: FC<FormProps> = ({}) => {
           </div>
           {errors?.product_id && <span>{errors.product_id._errors[0]}</span>}
 
-          <section className="flex justify-between flex-wrap gap-6">
+          {/* <section className="flex justify-between flex-wrap gap-6">
             <div>
               <Button size="medium" variant="white" onClick={handleButtonClick}>
                 Föregående
@@ -111,7 +112,9 @@ const Form: FC<FormProps> = ({}) => {
                 Submit
               </Button>
             </div>
-          </section>
+          </section> */}
+
+          <FormNavigationButtons currentStep={1} totalSteps={5} />
         </form>
       </div>
     </div>
