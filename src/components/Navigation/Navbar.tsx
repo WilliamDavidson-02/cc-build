@@ -27,7 +27,7 @@ const Navbar: FC<NavbarProps> = ({ currentPath }) => {
             <div className="hidden md:flex md:flex-wrap gap-1 space-x-4 mt-4">
               {pageLinks.slice(0, 5).map((link) => (
                 <Link
-                  key={link.path}
+                  key={link.title}
                   to={link.path}
                   className={`text-gray-700 hover:text-gray-900 ${currentPath === link.path ? 'font-bold' : ''}`}
                 >
@@ -40,7 +40,7 @@ const Navbar: FC<NavbarProps> = ({ currentPath }) => {
               <>
                 {pageLinks.slice(5).map((link) => (
                   <Link
-                    key={link.path}
+                    key={link.title}
                     to={link.path}
                     className={`text-gray-700 hover:text-gray-900 ${currentPath === link.path ? 'font-bold' : ''}`}
                   >
