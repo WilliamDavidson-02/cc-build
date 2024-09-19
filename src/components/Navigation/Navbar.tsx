@@ -117,7 +117,7 @@ const Navbar: FC<NavbarProps> = ({ currentPath }) => {
         </div>
       </div>
       {user && (
-        <div className="bg-blueZodiac w-screen mt-2">
+        <div className="bg-blueZodiac w-full mt-2">
           <div className="flex flex-row justify-between items-center max-w-7xl mx-auto px-4">
             <div className="   flex space-x-4 text-white py-2">
               <Link to="#" className="hover:text-gray-300">ÖVERSIKT</Link>
