@@ -1,10 +1,11 @@
-import { FC, useState, createContext, ReactNode } from 'react';
+import { FC, useState, createContext, ReactNode, useContext, useRef } from 'react';
 
 interface FormContextType {
   formData: Record<string, unknown>; 
   setFormData: (data: Record<string, unknown>) => void;
   errors: Record<string, string[]> | null;
   setErrors: (errors: Record<string, string[]> | null) => void;
+  saveForm: React.MutableRefObject<() => void>;
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -12,26 +13,21 @@ const FormContext = createContext<FormContextType | undefined>(undefined);
 const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({});
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
-
+  const saveForm = useRef(() => {});
+  
   return (
-    <FormContext.Provider value={{ formData, setFormData, errors, setErrors }}>
+    <FormContext.Provider value={{ formData, setFormData, errors, setErrors, saveForm }}>
       {children}
     </FormContext.Provider>
   );
 };
 
-/* usage example:
+const useFormContext = () => {
+  const context = useContext(FormContext);
+  if (context === undefined) {
+    throw new Error('useFormContext must be used within a FormProvider');
+  }
+  return context;
+};
 
-import { useContext } from 'react';
-
-const context = useContext(FormContext);
-
-  const { formData, setFormData, errors, setErrors } = context;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { productName, value } = event.target;
-    setFormData(prev => ({ ...prev, [productName]: value }));
-  };
-
-*/
-export { FormProvider, FormContext };
+export { FormProvider, useFormContext };
