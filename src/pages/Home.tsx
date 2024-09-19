@@ -8,6 +8,7 @@ import {
 } from "@/components/products/ProgressSteps";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
+import Form from "@/components/Form";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -60,6 +61,7 @@ const Home: FC = () => {
       <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
       <Input type="checkbox" />
+      <Form />
     </div>
   );
 };
