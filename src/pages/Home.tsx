@@ -10,7 +10,8 @@ import {
 //import { useUser } from "@/context/userContext";
 import { cn } from "@/lib/utils";
 import { FC, useState } from "react";
-import Form from "@/components/Form";
+//import Form from "@/components/Form";
+import FormStep2 from "@/components/Form_2";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -66,7 +67,8 @@ const Home: FC = () => {
       <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
       <Input type="checkbox" />
-      <Form />
+      {/* <Form /> */}
+      <FormStep2 />
     </div>
   );
 };
