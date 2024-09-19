@@ -14,51 +14,58 @@ const FormNavigationButtons: React.FC<FormNavigationButtonsProps> = ({ currentSt
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
-      navigate(`/form/step${currentStep + 1}`);
+      saveForm.current();
+      navigate(`/step${currentStep + 1}`);
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
-      navigate(`/form/step${currentStep - 1}`);
+      navigate(`/step${currentStep - 1}`);
     }
   };
 
+  const handleSave = () => {
+    saveForm.current();
+  };
+
   return (
-    <div className="flex justify-between mt-4">
+    <section className="w-full flex justify-between">
       <Button
         onClick={handlePrevious}
         disabled={currentStep === 1}
         size="medium"
         variant="white"
       >
-        &lt;Föregående
+        &lt; Föregående
       </Button>
-      <Button
-        onClick={saveForm}
-        size="medium"
-        variant="white"
-      >
-        Spara utkast
-      </Button>
-      {currentStep < totalSteps ? (
+      <div className='flex gap-2'>
         <Button
-          onClick={handleNext}
+          onClick={handleSave}
           size="medium"
-          variant="blue"
+          variant="white"
         >
-          Nästa&gt;
+          Spara utkast
         </Button>
-      ) : (
-        <Button
-          onClick={saveForm}
-          size="medium"
-          variant="blue"
-        >
-          Spara
-        </Button>
-      )}
-    </div>
+        {currentStep < totalSteps ? (
+          <Button
+            onClick={handleNext}
+            size="medium"
+            variant="blue"
+          >
+            Nästa &gt;
+          </Button>
+        ) : (
+          <Button
+            onClick={handleSave}
+            size="medium"
+            variant="blue"
+          >
+            Spara
+          </Button>
+        )}
+      </div>
+    </section>
   );
 };
 

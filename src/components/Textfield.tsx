@@ -6,6 +6,7 @@ type TextfieldProps = {
   name: string;
   value: string | number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 };
 
 const Textfield: FC<TextfieldProps> = ({
@@ -13,6 +14,7 @@ const Textfield: FC<TextfieldProps> = ({
   size,
   name,
   value,
+  placeholder,
   onChange,
 }) => {
   const sizeClasses = {
@@ -29,6 +31,7 @@ const Textfield: FC<TextfieldProps> = ({
         type="text"
         name={name}
         value={value}
+        placeholder={placeholder}
         onChange={onChange}
         className={`bg-slate-100 p-2 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
       ></input>

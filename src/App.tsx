@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 
 const AppContent: FC = () => {
   const location = useLocation();
-//I needed to style the appContent to make the footer stick to the bottom of the page no matter the size of the content
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar currentPath={location.pathname} />
