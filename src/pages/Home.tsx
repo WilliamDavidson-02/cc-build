@@ -9,6 +9,7 @@ import {
 //import { useUser } from "@/context/userContext";
 import { FC, useState } from "react";
 import Form from "@/components/Form";
+import FormStepThree from "@/components/FormStepThree";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -53,6 +54,7 @@ const Home: FC = () => {
           />
         ))}
       </ProgressSteps>
+      <FormStepThree />
     </div>
   );
 };
