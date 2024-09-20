@@ -19,9 +19,9 @@ const buttonVariants = {
   variants: {
     variant: {
       blue: 'bg-blueZodiac rounded-[100px] text-white hover:bg-blue-700',
-      white: 'bg-none border border-blueZodiac rounded-[100px] text-blueZodiac hover:bg-white-100',
-      lightblue: 'bg-bostonBlue rounded-[100px] text-white hover:bg-blue-200',     
-      ghost: 'text-paleSky bg-seaShell rounded-[100px] hover:bg-paleSky hover:text-seaShell',
+      white: 'bg-[#FFFFFF] border border-[#151515] rounded-[100px] text-[#151515] hover:bg-white-100',
+      lightblue: 'bg-bostonBlue rounded-[100px] text-[#FFFFFF] hover:bg-blue-200',     
+      ghost: 'text-paleSky border border-paleSky bg-seaShell rounded-[100px] hover:bg-paleSky hover:text-seaShell',
     },
     size: {
       small: 'px-4 py-2 text-sm',
