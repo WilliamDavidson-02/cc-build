@@ -30,7 +30,7 @@ const Textfield: FC<TextfieldProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`bg-slate-100 p-2 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
+        className={`bg-slate-100 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
       ></input>
     </div>
   );

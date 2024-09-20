@@ -39,10 +39,10 @@ const Home: FC = () => {
   const [selected, setSelected] = useState<Date>();
 
   /* const { user, isLoading, signOut } = useUser();
- */
+   */
   return (
     <div>
-     {/*  {!isLoading && user && <Button onClick={signOut}>Logga ut</Button>} */}
+      {/*  {!isLoading && user && <Button onClick={signOut}>Logga ut</Button>} */}
       <ProgressSteps>
         {defaultSteps.map((s, i) => (
           <ProgressStepsCard
@@ -63,10 +63,6 @@ const Home: FC = () => {
           </ProgressStepsCard>
         ))}
       </ProgressSteps>
-      <DatePicker selected={selected} setSelected={setSelected} />
-      <Input type="radio" />
-      <Input type="checkbox" />
-      <Form />
     </div>
   );
 };

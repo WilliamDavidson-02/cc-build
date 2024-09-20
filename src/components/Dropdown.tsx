@@ -19,7 +19,7 @@ const Dropdown: FC<DropdownProps> = ({ title, options, size = "medium" }) => {
       <select
         name="pets"
         id="pet-select"
-        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-6 py-4 `}
+        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-6 py-3 `}
       >
         {options.map((option, index) => (
           <option key={index} value={option}>
