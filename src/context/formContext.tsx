@@ -142,21 +142,21 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
     address: "",
     postalCode: 0,
     locality: "",
-    comment: ""
+    comment: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
   const saveForm = useRef(() => {});
 
-  const handleSetFormData = (data: FormData) => {
+  /* const handleSetFormData = (data: FormData) => {
     setFormData(prevData => ({
       ...prevData,
       ...data,
     }));
-  };
+  }; */
 
   return (
-    <FormContext.Provider value={{ formData, setFormData: handleSetFormData, errors, setErrors, saveForm }}>
+    <FormContext.Provider value={{ formData, setFormData, errors, setErrors, saveForm }}>
       {children}
     </FormContext.Provider>
   );
