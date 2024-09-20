@@ -13,6 +13,7 @@ export default {
         current: "#5B96CCBF",
         missing: "#EFDA6CB2",
         incomplete: "#FF7F29B2",
+        mercury: "#E2E2E2",
       },
     },
   },

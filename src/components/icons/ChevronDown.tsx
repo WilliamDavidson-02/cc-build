@@ -31,12 +31,12 @@ const ChevronDown: FC<ChevronDownProps> = ({ ...props }) => {
         <path
           d="M12 13.4679L18.7339 6.73394L20 8L12 16L4 8L5.26606 6.73394L12 13.4679Z"
           fill="black"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
         <path
           d="M12 13.4679L18.7339 6.73394L20 8L12 16L4 8L5.26606 6.73394L12 13.4679Z"
           fill="black"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
       </g>
     </svg>
