@@ -1,0 +1,14 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Property 1=up">
+<mask id="mask0_325_2705" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+<rect id="Bounding box" x="40" y="40" width="40" height="40" transform="rotate(-180 40 40)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_325_2705)">
+<g id="keyboard_arrow_up">
+<path d="M19.4229 17.6722L11.0054 26.0897L9.42285 24.5071L19.4229 14.5071L29.4229 24.5071L27.8403 26.0897L19.4229 17.6722Z" fill="#151515"/>
+<path d="M19.4229 17.6722L11.0054 26.0897L9.42285 24.5071L19.4229 14.5071L29.4229 24.5071L27.8403 26.0897L19.4229 17.6722Z" fill="black" fill-opacity="0.2"/>
+<path d="M19.4229 17.6722L11.0054 26.0897L9.42285 24.5071L19.4229 14.5071L29.4229 24.5071L27.8403 26.0897L19.4229 17.6722Z" fill="black" fill-opacity="0.2"/>
+</g>
+</g>
+</g>
+</svg>

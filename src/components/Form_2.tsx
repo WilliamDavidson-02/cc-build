@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from '@/context/formContext';
 //import FormNavigationButtons from './FormNavBtns';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,25 @@ type Step2Data = z.infer<typeof Step2Schema>;
 const FormStep2: React.FC = () => {  
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
-
+  const [formSections, setFormSections] = useState<Step2Data[]>([
+    {
+      amount: 1,
+      status: "Ej inventerad",
+      marketplace: "Ej publicerad",
+      place1: "",
+      place2: "",
+      place3: "",
+      place4: "",
+      dismantability: "Ej Demonterbar",
+      accessibility: "Ej Åtkomlig",
+      dateAcces: new Date(),
+      dateFirstPosDelivery: new Date(),
+      decisionDesignation1: "",
+      decisionDesignation2: "",
+      decisionDesignation3: "",
+      decisionDesignation4: "",
+    }
+  ]);
 
   /* LAST WORKING VERSION
   
@@ -92,6 +110,7 @@ const FormStep2: React.FC = () => {
   }, [formData, setFormData]);
 
 
+  /* LAST WORKING VERSION
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
@@ -100,27 +119,22 @@ const FormStep2: React.FC = () => {
       [name]: name === 'antal' ? parseInt(value, 10) : value,
     }));
   };
+   */
 
-  
-  /* LAST WORKING VERSION
-  
-  const handleSave = async () => {
-    const validation = Step2Schema.safeParse(formData);
-    if (!validation.success) {
-      const formattedErrors: Record<string, string[]> = {};
-      Object.entries(validation.error.format()).forEach(([key, value]) => {
-        if (key !== '_errors' && typeof value === 'object' && 'errors' in value) {
-          formattedErrors[key] = value.errors as string[];
-        }
-      });
-      setErrors(formattedErrors);
-    } else {
-      setErrors(null);
-      console.log("Data saved successfully:", formData);
-    }
-  }; */
+  const handleInputChange = (index: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormSections((prevSections) =>
+      prevSections.map((section, i) =>
+        i === index
+          ? { ...section, [name]: name === 'amount' ? parseInt(value, 10) : value }
+          : section
+      )
+    );
+  };
 
-  const handleSave = () => {
+ /* LAST WORKING VERSION before adding multiple sections
+ 
+ const handleSave = () => {
     const result = Step2Schema.safeParse(formData);
     if (!result.success) {
       const formattedErrors: Record<string, string[]> = {};
@@ -137,17 +151,57 @@ const FormStep2: React.FC = () => {
       const validatedData: Step2Data = result.data;
       console.log("Data saved successfully:", validatedData);
     }
+  }; */
+  const handleSave = () => {
+    const result = Step2Schema.safeParse(formSections[0]);
+    if (!result.success) {
+      const formattedErrors: Record<string, string[]> = {};
+      result.error.issues.forEach((issue) => {
+        const path = issue.path.join('.');
+        if (!formattedErrors[path]) {
+          formattedErrors[path] = [];
+        }
+        formattedErrors[path].push(issue.message);
+      });
+      setErrors(formattedErrors);
+    } else {
+      setErrors({});
+      console.log("Data saved successfully:", result.data);
+    }
   };
   
-  const [isSelected, setIsSelected] = React.useState(false);
-  const handleCheckboxChange = () => setIsSelected(prev => !prev);
-  
+  // Add new form section
+  const handleAdd = () => {
+    setFormSections(prevSections => [
+      ...prevSections,
+      {
+        amount: 1,
+        status: "Ej inventerad",
+        marketplace: "Ej publicerad",
+        place1: "",
+        place2: "",
+        place3: "",
+        place4: "",
+        dismantability: "Ej Demonterbar",
+        accessibility: "Ej Åtkomlig",
+        dateAcces: new Date(),
+        dateFirstPosDelivery: new Date(),
+        decisionDesignation1: "",
+        decisionDesignation2: "",
+        decisionDesignation3: "",
+        decisionDesignation4: "",
+      }
+    ]);
+  };
 
-  
-  const handleAdd = () => isSelected && console.log('Add new section');
-  const handleDel = () => isSelected && console.log('Delete selected section');
-  const handleChange = () => isSelected && console.log('Change selected section');
-  const handleCom = () => isSelected && console.log('Add comment to selected section');
+  const handleDel = () => {
+    const toDelete = checkedStates.map((checked, idx) => checked ? idx : -1).filter(idx => idx !== -1);    
+    setFormSections((prev) => prev.filter((_, idx) => !toDelete.includes(idx)));
+    setCheckedStates((prev) => prev.filter((_, idx) => !toDelete.includes(idx)));
+  };
+
+  const handleChange = () => console.log('Change selected section');
+  const handleCom = () => console.log('Add comment to selected section');
 
   const handleNext = () => {    
       handleSave();
@@ -159,118 +213,155 @@ const FormStep2: React.FC = () => {
       navigate(`/form`);
     }
   
+  //checkboxstates
+  const [checkedStates, setCheckedStates] = React.useState<boolean[]>(Array(formSections.length).fill(false));
+
+  const handleCheckboxChange = (index: number) => {
+    setCheckedStates((prev) => {
+      const newCheckedStates = [...prev];
+      newCheckedStates[index] = !newCheckedStates[index];
+      return newCheckedStates;
+    });
+  };
+
+  //expandable sections
+  const [expandedForms, setExpandedForms] = React.useState<Record<number, boolean>>({});
+
+  const toggleExpand = (index: number) => {
+    setExpandedForms((prev) => ({
+      ...prev,
+      [index]: !prev[index], 
+    }));
+  };
+  
 
 
   return (
-    <main className="bg-slate-100 py-28 px-28 flex flex-col">
+    <main className="mt-16 px-28 flex flex-col">
+
+      <div className='flex justify-start items-center mb-4 '>
+        <Typography variant="h2" size="md" className='text-[#151515] text-[31px] font-bold font-poppins'>Antal/Status/Plats</Typography>
+      </div>
 
 
-      <div className='flex flex-row gap-4 mb-4 '>
+      <div className='flex flex-row gap-6 pt-8 pb-4 '>
         <Button size="medium" variant="blue" onClick={handleAdd}>Lägg till ny</Button>
         <Button size="medium" variant="white" onClick={handleDel}>Radera</Button>
         <Button size="medium" variant="white" onClick={handleChange}>Ändra</Button>
         <Button size="medium" variant="white" onClick={handleCom}>Kommentar</Button>
       </div>
 
-
-      <div className="flex">
+      {formSections.map((section, index) => (
+      <div key={index} className="flex flex-row gap-4">
         <div className='flex h-full items-start pt-8 pr-2'>
-          <Input type="checkbox" onChange={handleCheckboxChange} />
+          <Input type="checkbox" checked={checkedStates[index]} onChange={() => handleCheckboxChange(index)} />
         </div>
-        <form className="flex flex-col gap-10">
+        <form key={index} className="flex flex-col">
           <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
-             
             <div className="flex gap-6">
               <div className="flex flex-col gap-2">
-                <label className='text-[14px] font-semibold'>Antal</label>          
-                <input              
+                <label className="text-[14px] font-semibold">Antal</label>
+                <input
                   type="number"
                   name="amount"
-                  value={formData.amount || 1}
-                  onChange={handleInputChange}
+                  value={section.amount || 1}
+                  onChange={(e) => handleInputChange(index, e)}
                   placeholder="Antal (st)"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label className='text-[14px] font-semibold'>Status</label>
+                <label className="text-[14px] font-semibold">Status</label>
                 <select
                   name="status"
-                  value={formData.status || "Ej inventerad"}
-                  onChange={handleInputChange}
+                  value={section.status || "Ej inventerad"}
+                  onChange={(e) => handleInputChange(index, e)}
                 >
                   <option value="Inventerad">Inventerad</option>
                   <option value="Ej inventerad">Ej inventerad</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
-                <label className='text-[14px] font-semibold'>Marknadsplatsen</label>
+                <label className="text-[14px] font-semibold">Marknadsplatsen</label>
                 <select
                   name="marketplace"
-                  value={formData.marketplace || "Ej publicerad"}
-                  onChange={handleInputChange}
+                  value={section.marketplace || "Ej publicerad"}
+                  onChange={(e) => handleInputChange(index, e)}
                 >
                   <option value="Ej publicerad">Ej publicerad</option>
                   <option value="Publicerad">Publicerad</option>
                 </select>
               </div>
             </div>
-
-
             <div className="flex gap-6">
               <div className="relative flex flex-col gap-2">
-                  <Textfield
-                    title="Plats"
-                    size="small"
-                    name="place1"
-                    placeholder='Ange plats'
-                    value={formData.place1 || ""}
-                    onChange={handleInputChange}
-                  /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
-                </div>
-                <div className="relative flex flex-col gap-2">
-                  <Textfield
-                    title="Plats"
-                    size="small"
-                    name="place2"
-                    placeholder='Ange plats'
-                    value={formData.place2 || ""}
-                    onChange={handleInputChange}
-                  /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
-                </div>
-                <div className="relative flex flex-col gap-2">
-                  <Textfield
-                    title="Plats"
-                    size="small"
-                    name="place3"
-                    placeholder='Ange plats'
-                    value={formData.place3 || ""}
-                    onChange={handleInputChange}
-                  /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
-                </div>
-                <div className="relative flex flex-col gap-2">
-                  <Textfield                
-                    title="Plats"
-                    size="small"
-                    name="place4"
-                    placeholder='Ange plats'
-                    value={formData.place4 || ""}
-                    onChange={handleInputChange}
-                  /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
-                </div>
+                <Textfield
+                  title="Plats"
+                  size="small"
+                  name="place1"
+                  placeholder='Ange plats'
+                  value={formData.place1 || ""}
+                  onChange={(e) => handleInputChange(index, e)}
+                /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
               </div>
-
-
+              <div className="relative flex flex-col gap-2">
+                <Textfield
+                  title="Plats"
+                  size="small"
+                  name="place2"
+                  placeholder='Ange plats'
+                  value={formData.place2 || ""}
+                  onChange={(e) => handleInputChange(index, e)}
+                /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
+              </div>
+              <div className="relative flex flex-col gap-2">
+                <Textfield
+                  title="Plats"
+                  size="small"
+                  name="place3"
+                  placeholder='Ange plats'
+                  value={formData.place3 || ""}
+                  onChange={(e) => handleInputChange(index, e)}
+                /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
+              </div>
+              <div className="relative flex flex-col gap-2">
+                <Textfield                
+                  title="Plats"
+                  size="small"
+                  name="place4"
+                  placeholder='Ange plats'
+                  value={formData.place4 || ""}
+                  onChange={(e) => handleInputChange(index, e)}
+                /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
+              </div>
+            </div>
           </section>
 
-
-          <section className="flex flex-col gap-6 px-4">
+          
+          <div 
+            className='flex flex-row gap-6 justify-center items-center py-2 px-8 cursor-pointer w-full'
+            onClick={() => toggleExpand(index)}            
+          >
+            <p className='cursor-pointer font-medium text-[16px] text-[#15151]'>              
+              {expandedForms[index] ? "Dölj" : "Se mer"} 
+            </p>
+            {expandedForms[index] ? 
+            <img src="/up.svg" alt="up arrow" className='w-6 h-6' /> 
+            : 
+            <img src="/down.svg" alt="down arrow" className='w-6 h-6' />
+            }
+            
+          </div>
+          {/*section that is initially hidden under the expandable " se mer"*/}
+          {expandedForms[index] && (
+            <>
+          <section className="flex flex-col gap-6 px-4 py-2 mb-12">
             <div className="flex gap-6">
               <div className="flex flex-col gap-2">
                   <label className='text-[14px] font-semibold'>Demonterbarhet</label>
                   <select
                     name="dismantability"
                     value={formData.dismantability || "Ej Demonterbar"}
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Demonterbar">Demonterbar</option>
                     <option value="Ej Demonterbar">Ej Demonterbar</option>
@@ -281,7 +372,7 @@ const FormStep2: React.FC = () => {
                   <select
                     name="accessibility"
                     value={formData.accessibility || "Ej Åtkomlig"}
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Åtkomlig">Åtkomlig</option>
                     <option value="Ej Åtkomlig">Ej Åtkomlig</option>
@@ -301,13 +392,11 @@ const FormStep2: React.FC = () => {
                     <DatePicker
                       selected={new Date()}
                       setSelected={() => {}}
+                      
                     />
                   </div>
               </div>
-          </section>
-
-
-          <section className="flex flex-row gap-6 px-4">
+          <div className="flex gap-6">
             <div className="relative flex flex-col gap-2">
                 <Textfield                
                   title="Beslutsbenämning"
@@ -315,7 +404,7 @@ const FormStep2: React.FC = () => {
                   name="decisionDesignation1"
                   placeholder='Ange'
                   value={formData.decisionDesignation1 || ""}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
 
@@ -327,7 +416,7 @@ const FormStep2: React.FC = () => {
                   name="decisionDesignation2"
                   placeholder='Ange'
                   value={formData.decisionDesignation2 || ""}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
               <div className="relative flex flex-col gap-2">
@@ -337,7 +426,7 @@ const FormStep2: React.FC = () => {
                   name="decisionDesignation3"
                   placeholder='Ange'
                   value={formData.decisionDesignation3 || ""}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
               <div className="relative flex flex-col gap-2">
@@ -347,10 +436,18 @@ const FormStep2: React.FC = () => {
                   name="decisionDesignation4"
                   placeholder='Ange'
                   value={formData.decisionDesignation4 || ""}
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
+              </div>
           </section>
+          </>
+          )}
+        </form>
+      </div>
+      ))}
+
+     
          
           {errors && (
             <div className="text-red-500">
@@ -361,7 +458,7 @@ const FormStep2: React.FC = () => {
           )}
 
 
-          <section className="w-full flex justify-between">
+          <section className="w-full flex justify-between mb-12">
             <Button
               onClick={handlePrevious}              
               size="medium"
@@ -391,8 +488,7 @@ const FormStep2: React.FC = () => {
             </div>
           </section>
 
-        </form>
-      </div>
+        
     </main>
   );
 };

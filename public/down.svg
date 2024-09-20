@@ -1,0 +1,14 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Property 1=down">
+<mask id="mask0_325_2698" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+<rect id="Bounding box" width="40" height="40" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_325_2698)">
+<g id="keyboard_arrow_down">
+<path d="M20.5771 22.3278L28.9946 13.9103L30.5771 15.4929L20.5771 25.4929L10.5771 15.4929L12.1597 13.9103L20.5771 22.3278Z" fill="#151515"/>
+<path d="M20.5771 22.3278L28.9946 13.9103L30.5771 15.4929L20.5771 25.4929L10.5771 15.4929L12.1597 13.9103L20.5771 22.3278Z" fill="black" fill-opacity="0.2"/>
+<path d="M20.5771 22.3278L28.9946 13.9103L30.5771 15.4929L20.5771 25.4929L10.5771 15.4929L12.1597 13.9103L20.5771 22.3278Z" fill="black" fill-opacity="0.2"/>
+</g>
+</g>
+</g>
+</svg>
