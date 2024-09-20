@@ -10,6 +10,7 @@ import {
 import { FC, useState } from "react";
 import Form from "@/components/Form";
 import { Tooltip } from "@/components/ToolTip";
+import FormStepThree from "@/components/FormStepThree";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -59,6 +60,7 @@ const Home: FC = () => {
       <Input type="checkbox" />
       <Form />
       <Tooltip info="This is the tooltip info" />
+      <FormStepThree />
     </div>
   );
 };
