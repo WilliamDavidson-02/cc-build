@@ -53,10 +53,6 @@ const Home: FC = () => {
           />
         ))}
       </ProgressSteps>
-      <DatePicker selected={selected} setSelected={setSelected} />
-      <Input type="radio" />
-      <Input type="checkbox" />
-      <Form />
     </div>
   );
 };
