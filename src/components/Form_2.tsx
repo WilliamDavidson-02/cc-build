@@ -1,10 +1,9 @@
 import React, { ChangeEvent, useEffect } from 'react';
-import { useFormContext } from '@/context/formContext';
+import { useFormContext, FormContextType  } from '@/context/formContext';
 import FormNavigationButtons from './FormNavBtns';
 import { z } from 'zod';
 import Button from './Buttons';
 import Textfield from './Textfield';
-import Dropdown from './Dropdown';
 import DatePicker from './DatePicker';
 import Typography from './Typography';
 import Input from './Input';
@@ -14,9 +13,18 @@ import Input from './Input';
 
 const Step2Schema = z.object({
   antal: z.number().min(1, "Minsta tillåtna antal är 1"),
-  status: z.enum(["Inventerad", "Ej inventerad"]),
-  marknadsplatsen: z.enum(["Ej publicerad", "Publicerad"]),
-  plats: z.string().min(2, "Plats måste vara minst 2 tecken"),
+  status: z.enum(["Inventerad", "Ej inventerad"]).optional(),
+  marknadsplatsen: z.enum(["Ej publicerad", "Publicerad"]).optional(),
+  plats1: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  plats2: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  plats3: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  plats4: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  Demonterbarhet: z.enum(["Demonterbar", "Ej Demonterbar"]).optional(),
+  Åtkomlighet: z.enum(["Åtkomlig", "Ej Åtkomlig"]).optional(),
+  beslutsbenämning1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  beslutsbenämning2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  beslutsbenämning3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  beslutsbenämning4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
 });
 
 
@@ -25,19 +33,27 @@ type Step2Errors = z.ZodFormattedError<Step2Data>;
 
 
 const FormStep2: React.FC = () => {
-  const { formData, setFormData, errors, setErrors, saveForm } = useFormContext();
+  const { formData, setFormData, setErrors } = useFormContext();
 
-
-  useEffect(() => {    
-    if (!formData.step2) {
-      setFormData(prevData => ({
+  useEffect(() => {
+    if (!formData.antal) {
+      setFormData((prevData) => ({
         ...prevData,
-        step2: {
-          antal: 1,
-          status: "Ej inventerad",
-          marknadsplatsen: "Ej publicerad",
-          plats: "",
-        }
+        antal: 1,
+        status: "Ej inventerad",
+        marknadsplatsen: "Ej publicerad",
+        plats1: "",
+        plats2: "",
+        plats3: "",
+        plats4: "",
+        Demonterbarhet: "Ej Demonterbar",
+        Åtkomlighet: "Ej Åtkomlig",
+        datumTillgänglig: new Date(),
+        datumFörstaMöjligaLeverans: new Date(),
+        beslutsbenämning1: "",
+        beslutsbenämning2: "",
+        beslutsbenämning3: "",
+        beslutsbenämning4: "",
       }));
     }
   }, [formData, setFormData]);
@@ -45,21 +61,33 @@ const FormStep2: React.FC = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+
+    setFormData((prevData) => ({
       ...prevData,
-      step2: {
-        ...(prevData.step2 as Step2Data),
-        [name]: name === 'antal' ? parseInt(value, 10) : value,
-      }
+      [name]: name === 'antal' ? parseInt(value, 10) : value,
     }));
   };
 
-
   const handleSave = async () => {
-    const step2Data = formData.step2 as Step2Data;
+    const step2Data: Step2Data = {
+      antal: formData.antal,
+      status: formData.status,
+      marknadsplatsen: formData.marknadsplatsen,
+      plats1: formData.plats1,
+      plats2: formData.plats2,
+      plats3: formData.plats3,
+      plats4: formData.plats4,
+      Demonterbarhet: formData.Demonterbarhet,
+      Åtkomlighet: formData.Åtkomlighet,
+      datumTillgänglig: formData.datumTillgänglig,
+      datumFörstaMöjligaLeverans: formData.datumFörstaMöjligaLeverans,
+      beslutsbenämning1: formData.beslutsbenämning1,
+      beslutsbenämning2: formData.beslutsbenämning2,
+      beslutsbenämning3: formData.beslutsbenämning3,
+      beslutsbenämning4: formData.beslutsbenämning4,
+    };
+
     const validation = Step2Schema.safeParse(step2Data);
-
-
     if (!validation.success) {
       setErrors(validation.error.format() as Step2Errors);
     } else {
@@ -68,43 +96,16 @@ const FormStep2: React.FC = () => {
     }
   };
 
+  
+  const [isSelected, setIsSelected] = React.useState(false);
+  const handleCheckboxChange = () => setIsSelected(prev => !prev);
+  
 
-  useEffect(() => {
-    saveForm.current = handleSave;
-  }, [saveForm, formData]);
-
-
-  const handleCheckboxChange = () => {
-    setIsSelected(prev => !prev);
-  };
-
-
-  const handleAdd = () => {
-    if (isSelected) {
-      console.log('Add new section');      
-    }
-  };
-
-
-  const handleDel = () => {
-    if (isSelected) {
-      console.log('Delete selected section');
-    }
-  };
-
-
-  const handleChange = () => {
-    if (isSelected) {
-      console.log('Change selected section');
-    }
-  };
-
-
-  const handleCom = () => {
-    if (isSelected) {
-      console.log('Add comment to selected section');
-    }
-  };
+  
+  const handleAdd = () => isSelected && console.log('Add new section');
+  const handleDel = () => isSelected && console.log('Delete selected section');
+  const handleChange = () => isSelected && console.log('Change selected section');
+  const handleCom = () => isSelected && console.log('Add comment to selected section');
 
 
   return (
@@ -121,7 +122,7 @@ const FormStep2: React.FC = () => {
 
       <div className="flex">
         <div className='flex h-full items-start pt-8 pr-2'>
-          <Input type="checkbox"  />
+          <Input type="checkbox" onChange={handleCheckboxChange} />
         </div>
         <form className="flex flex-col gap-10">
           <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
@@ -132,7 +133,7 @@ const FormStep2: React.FC = () => {
                 <input              
                   type="number"
                   name="antal"
-                  value={(formData.step2 as Step2Data)?.antal || 1}
+                  value={formData.antal || 1}
                   onChange={handleInputChange}
                   placeholder="Antal (st)"
                 />
@@ -141,7 +142,7 @@ const FormStep2: React.FC = () => {
                 <label className='text-[14px] font-semibold'>Status</label>
                 <select
                   name="status"
-                  value={(formData.step2 as Step2Data)?.status || "Ej inventerad"}
+                  value={formData.status || "Ej inventerad"}
                   onChange={handleInputChange}
                 >
                   <option value="Inventerad">Inventerad</option>
@@ -152,7 +153,7 @@ const FormStep2: React.FC = () => {
                 <label className='text-[14px] font-semibold'>Marknadsplatsen</label>
                 <select
                   name="marknadsplatsen"
-                  value={(formData.step2 as Step2Data)?.marknadsplatsen || "Ej publicerad"}
+                  value={formData.marknadsplatsen || "Ej publicerad"}
                   onChange={handleInputChange}
                 >
                   <option value="Ej publicerad">Ej publicerad</option>
@@ -169,7 +170,7 @@ const FormStep2: React.FC = () => {
                     size="small"
                     name="plats1"
                     placeholder='Ange plats'
-                    value={(formData.step2 as Step2Data)?.plats1 || ""}
+                    value={formData.plats1 || ""}
                     onChange={handleInputChange}
                   /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
                 </div>
@@ -179,7 +180,7 @@ const FormStep2: React.FC = () => {
                     size="small"
                     name="plats2"
                     placeholder='Ange plats'
-                    value={(formData.step2 as Step2Data)?.plats2 || ""}
+                    value={formData.plats2 || ""}
                     onChange={handleInputChange}
                   /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
                 </div>
@@ -189,7 +190,7 @@ const FormStep2: React.FC = () => {
                     size="small"
                     name="plats3"
                     placeholder='Ange plats'
-                    value={(formData.step2 as Step2Data)?.plats3 || ""}
+                    value={formData.plats3 || ""}
                     onChange={handleInputChange}
                   /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
                 </div>
@@ -199,7 +200,7 @@ const FormStep2: React.FC = () => {
                     size="small"
                     name="plats4"
                     placeholder='Ange plats'
-                    value={(formData.step2 as Step2Data)?.plats4 || ""}
+                    value={formData.plats4 || ""}
                     onChange={handleInputChange}
                   /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
                 </div>
@@ -215,7 +216,7 @@ const FormStep2: React.FC = () => {
                   <label className='text-[14px] font-semibold'>Demonterbarhet</label>
                   <select
                     name="Demonterbarhet"
-                    value={(formData.step2 as Step2Data)?.Demonterbarhet || "Ej Demonterbar"}
+                    value={formData.Demonterbarhet || "Ej Demonterbar"}
                     onChange={handleInputChange}
                   >
                     <option value="Demonterbar">Demonterbar</option>
@@ -226,7 +227,7 @@ const FormStep2: React.FC = () => {
                   <label className='text-[14px] font-semibold'>Åtkomlighet</label>
                   <select
                     name="Åtkomlighet"
-                    value={(formData.step2 as Step2Data)?.Åtkomlighet || "Ej Åtkomlig"}
+                    value={formData.Åtkomlighet || "Ej Åtkomlig"}
                     onChange={handleInputChange}
                   >
                     <option value="Åtkomlig">Åtkomlig</option>
@@ -260,7 +261,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="beslutsbenämning1"
                   placeholder='Ange'
-                  value={(formData.step2 as Step2Data)?.beslutsbenämning1 || ""}
+                  value={formData.beslutsbenämning1 || ""}
                   onChange={handleInputChange}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -272,7 +273,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="beslutsbenämning2"
                   placeholder='Ange'
-                  value={(formData.step2 as Step2Data)?.beslutsbenämning2 || ""}
+                  value={formData.beslutsbenämning2 || ""}
                   onChange={handleInputChange}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -282,7 +283,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="beslutsbenämning3"
                   placeholder='Ange'
-                  value={(formData.step2 as Step2Data)?.beslutsbenämning3 || ""}
+                  value={formData.beslutsbenämning3 || ""}
                   onChange={handleInputChange}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -292,7 +293,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="beslutsbenämning4"
                   placeholder='Ange'
-                  value={(formData.step2 as Step2Data)?.beslutsbenämning4 || ""}
+                  value={formData.beslutsbenämning4 || ""}
                   onChange={handleInputChange}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -301,13 +302,13 @@ const FormStep2: React.FC = () => {
 
 
          
-          {errors && (
+       {/*    {errors && (
             <div className="text-red-500">
               {Object.entries(errors).map(([key, value]) => (
                 <p key={key}>{(value as { _errors: string[] })._errors.join(', ')}</p>
               ))}
             </div>
-          )}
+          )} */}
           <FormNavigationButtons currentStep={2} totalSteps={5} />
         </form>
       </div>
