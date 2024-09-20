@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useFormContext } from '@/context/formContext';
-//import FormNavigationButtons from './FormNavBtns';
+import { supabase } from "@/lib/sbClient";
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import Button from './Buttons';
@@ -58,30 +58,7 @@ const FormStep2: React.FC = () => {
     }
   ]);
 
-  /* LAST WORKING VERSION
   
-  useEffect(() => {
-    if (!formData) {
-      setFormData((prevData) => ({
-        ...prevData,
-        amount: 1,
-        status: "Ej inventerad",
-        marketplace: "Ej publicerad",
-        place1: "",
-        place2: "",
-        place3: "",
-        place4: "",
-        dismantability: "Ej Demonterbar",
-        accessibility: "Ej Åtkomlig",
-        dateAcces: new Date(),
-        dateFirstPosDelivery: new Date(),
-        decisionDesignation1: "",
-        decisionDesignation2: "",
-        decisionDesignation3: "",
-        decisionDesignation4: "",
-      }));
-    }
-  }, [formData, setFormData]); */
 
   useEffect(() => {
     if (!formData) {
@@ -110,16 +87,7 @@ const FormStep2: React.FC = () => {
   }, [formData, setFormData]);
 
 
-  /* LAST WORKING VERSION
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: name === 'antal' ? parseInt(value, 10) : value,
-    }));
-  };
-   */
+  
 
   const handleInputChange = (index: number, e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -132,27 +100,8 @@ const FormStep2: React.FC = () => {
     );
   };
 
- /* LAST WORKING VERSION before adding multiple sections
  
- const handleSave = () => {
-    const result = Step2Schema.safeParse(formData);
-    if (!result.success) {
-      const formattedErrors: Record<string, string[]> = {};
-      result.error.issues.forEach((issue) => {
-        const path = issue.path.join('.');
-        if (!formattedErrors[path]) {
-          formattedErrors[path] = [];
-        }
-        formattedErrors[path].push(issue.message);
-      });
-      setErrors(formattedErrors);
-    } else {
-      setErrors({});
-      const validatedData: Step2Data = result.data;
-      console.log("Data saved successfully:", validatedData);
-    }
-  }; */
-  const handleSave = () => {
+  /* const handleSave = async() => {
     const result = Step2Schema.safeParse(formSections[0]);
     if (!result.success) {
       const formattedErrors: Record<string, string[]> = {};
@@ -164,9 +113,90 @@ const FormStep2: React.FC = () => {
         formattedErrors[path].push(issue.message);
       });
       setErrors(formattedErrors);
-    } else {
+    } else {      
       setErrors({});
-      console.log("Data saved successfully:", result.data);
+      try {
+        const { data, error } = await supabase.from("products").insert([
+          {
+            amount: formSections[0].amount,
+            status: formSections[0].status,
+            marketplace: formSections[0].marketplace,
+            place1: formSections[0].place1,
+            place2: formSections[0].place2,
+            place3: formSections[0].place3,
+            place4: formSections[0].place4,
+            dismantability: formSections[0].dismantability,
+            accessibility: formSections[0].accessibility,
+            dateAcces: formSections[0].dateAcces,
+            dateFirstPosDelivery: formSections[0].dateFirstPosDelivery,
+            decisionDesignation1: formSections[0].decisionDesignation1,
+            decisionDesignation2: formSections[0].decisionDesignation2,
+            decisionDesignation3: formSections[0].decisionDesignation3,
+            decisionDesignation4: formSections[0].decisionDesignation4,
+          },
+        ]);
+
+        if (error) throw error;
+        //else
+        console.log("Data inserted successfully:", data);
+      } catch (error) {
+        console.error("Error inserting data:", error);
+      }
+    }
+  }; */
+
+  const handleSave = async () => {
+    const results = formSections.map(section => Step2Schema.safeParse(section));
+    const hasErrors = results.some(result => !result.success);
+  
+    if (hasErrors) {
+      const formattedErrors: Record<string, string[]> = {};
+  
+      results.forEach((result) => {
+        if (!result.success) {
+          result.error.issues.forEach(issue => {
+            const path = issue.path.join('.');
+            if (!formattedErrors[path]) {
+              formattedErrors[path] = [];
+            }
+            formattedErrors[path].push(issue.message);
+          });
+        }
+      });
+  
+      setErrors(formattedErrors);
+      return;
+    }
+  
+    setErrors({});
+    console.log("All forms submitted successfully", formSections);
+  
+    try {
+      const { data, error } = await supabase.from("products").insert(
+        formSections.map(section => ({
+          amount: section.amount,
+          status: section.status,
+          marketplace: section.marketplace,
+          place1: section.place1,
+          place2: section.place2,
+          place3: section.place3,
+          place4: section.place4,
+          dismantability: section.dismantability,
+          accessibility: section.accessibility,
+          dateAcces: section.dateAcces,
+          dateFirstPosDelivery: section.dateFirstPosDelivery,
+          decisionDesignation1: section.decisionDesignation1,
+          decisionDesignation2: section.decisionDesignation2,
+          decisionDesignation3: section.decisionDesignation3,
+          decisionDesignation4: section.decisionDesignation4,
+        }))
+      );
+  
+      if (error) throw error;
+  
+      console.log("Data inserted successfully:", data);
+    } catch (error) {
+      console.error("Error inserting data:", error);
     }
   };
   
@@ -252,7 +282,7 @@ const FormStep2: React.FC = () => {
       </div>
 
       {formSections.map((section, index) => (
-      <div key={index} className="flex flex-row gap-4">
+      <div key={index} className="flex flex-row gap-4 py-6 px-4">
         <div className='flex h-full items-start pt-8 pr-2'>
           <Input type="checkbox" checked={checkedStates[index]} onChange={() => handleCheckboxChange(index)} />
         </div>
