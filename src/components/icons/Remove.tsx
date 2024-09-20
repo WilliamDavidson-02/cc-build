@@ -28,12 +28,12 @@ const Remove: FC<RemoveProps> = ({ ...props }) => {
         <path
           d="M5.5 12.75V11.25H18.5V12.75H5.5Z"
           fill="black"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
         <path
           d="M5.5 12.75V11.25H18.5V12.75H5.5Z"
           fill="black"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
       </g>
     </svg>

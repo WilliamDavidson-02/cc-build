@@ -31,12 +31,12 @@ const ChevronLeft: FC<ChevronLeftProps> = ({ ...props }) => {
         <path
           d="M14.9954 20L7 12.0046L14.9954 4L16.2585 5.26305L9.52609 12.0046L16.2585 18.737L14.9954 20Z"
           fill="black"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
         <path
           d="M14.9954 20L7 12.0046L14.9954 4L16.2585 5.26305L9.52609 12.0046L16.2585 18.737L14.9954 20Z"
           fill="black"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
       </g>
     </svg>

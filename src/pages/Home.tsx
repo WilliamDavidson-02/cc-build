@@ -9,6 +9,7 @@ import {
 //import { useUser } from "@/context/userContext";
 import { FC, useState } from "react";
 import Form from "@/components/Form";
+import { Tooltip } from "@/components/ToolTip";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -57,6 +58,7 @@ const Home: FC = () => {
       <Input type="radio" />
       <Input type="checkbox" />
       <Form />
+      <Tooltip info="This is the tooltip info" />
     </div>
   );
 };
