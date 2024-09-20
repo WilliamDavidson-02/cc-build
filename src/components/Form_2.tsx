@@ -16,18 +16,18 @@ const Step2Schema = z.object({
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
   status: z.string().optional(),
   marketplace: z.string().optional(),
-  place1: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  place2: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  place3: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  place4: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  place1: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
+  place2: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
+  place3: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
+  place4: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
   dismantability: z.string().optional(),
   accessibility: z.string().optional(),
   dateAcces: z.date().optional(),
   dateFirstPosDelivery: z.date().optional(),
-  decisionDesignation1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
-  decisionDesignation2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
-  decisionDesignation3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
-  decisionDesignation4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  decisionDesignation1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  decisionDesignation2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  decisionDesignation3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  decisionDesignation4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
 });
 
 
@@ -220,8 +220,6 @@ const FormStep2: React.FC = () => {
     }));
   };
   
-console.log('formSections:', formSections);
-
   return (
     <main className="mt-16 px-28 flex flex-col">
 
