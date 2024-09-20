@@ -10,70 +10,70 @@ export interface FormContextType {
 
 type FormData = {
 
-      projekt: string;
-      produktnamn: string;
-      produktkategori1: string;
-      produktkategori2: string;
-      produktkategori3: string;
-      estSkick: string;
-      funkSkick: string;
-      prodBilder: Array<string>;
-      prodFiler: Array<string>;
-      egetId: number;
+      project: string;
+      productname: string;
+      productcategori1: string;
+      productcategori2: string;
+      productcategori3: string;
+      estState: string;
+      funcState: string;
+      prodImg: Array<string>;
+      prodFiles: Array<string>;
+      ownId: number;
 
 
 
-      antal: number;
+      amount: number;
       status: string;
-      marknadsplatsen: string;
-      plats1: string;
-      plats2: string;
-      plats3: string;
-      plats4: string;
-      Demonterbarhet: string;
-      Åtkomlighet:  string;
-      datumTillgänglig: Date;
-      datumFörstaMöjligaLeverans:   Date;
-      beslutsbenämning1: string;
-      beslutsbenämning2: string;
-      beslutsbenämning3:  string;
-      beslutsbenämning4: string;
+      marketplace: string;
+      place1: string;
+      place2: string;
+      place3: string;
+      place4: string;
+      dismantability: string;
+      accessibility:  string;
+      dateAcces: Date;
+      dateFirstPosDelivery:   Date;
+      decisionDesignation1: string;
+      decisionDesignation2: string;
+      decisionDesignation3:  string;
+      decisionDesignation4: string;
         
 
       material: string;
-      färgFinish: string;
-      måttEnhet: string;
-      bredd: number;
-      höjd: number;
-      djup: number;
+      colorFinish: string;
+      unitOfMeasure: string;
+      width: number;
+      height: number;
+      depth: number;
       diameter: number;
-      tjocklek: number;
-      viktEnehet: string;
-      vikt: number;
-      snitthöjdMin: number;
-      snitthöjdMax: number;
-      ryggStöd: number;
+      thickness: number;
+      weightUnit: string;
+      weight: number;
+      avgHeightMin: number;
+      avgHeightMax: number;
+      backSupport: number;
 
-      tillverkare: string;
-      artikelnummer: string;
-      tillverkningsår: number;
-      inköpsår: number;
+      manufactor: string;
+      articelNumber: string;
+      manufactorYear: number;
+      boughtYear: number;
       gtin: boolean;
       rsk: boolean;
       bsab: boolean;
       enr: boolean;
       bk04: boolean;
 
-      nypris: number;
+      priceNew: number;
       buyerPrice: boolean;
-      externPris: number;
-      internPris: number;
+      externPrice: number;
+      internPrice: number;
       picUpOnSite: boolean;
       sendWithFreight: boolean;
       address: string;
-      postkod: number;
-      ort: string;
-      kommentar: string;
+      postalCode: number;
+      locality: string;
+      comment: string;
 
 };
 
@@ -82,67 +82,67 @@ const FormContext = createContext<FormContextType | undefined>(undefined);
 
 const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>({
-    projekt: "",
-    produktnamn: "",
-    produktkategori1: "",
-    produktkategori2: "",
-    produktkategori3: "",
-    estSkick: "",
-    funkSkick: "",
-    prodBilder: [],
-    prodFiler: [],
-    egetId: 0,
+    project: "",
+    productname: "",
+    productcategori1: "",
+    productcategori2: "",
+    productcategori3: "",
+    estState: "",
+    funcState: "",
+    prodImg: [],
+    prodFiles: [],
+    ownId: 0,
 
-    antal: 1,
+    amount: 1,
     status: "Ej inventerad",
-    marknadsplatsen: "Ej publicerad",
-    plats1: "",
-    plats2: "",
-    plats3: "",
-    plats4: "",
-    Demonterbarhet: "Ej Demonterbar",
-    Åtkomlighet: "Ej Åtkomlig",
-    datumTillgänglig: new Date(),
-    datumFörstaMöjligaLeverans: new Date(),
-    beslutsbenämning1: "",
-    beslutsbenämning2: "",
-    beslutsbenämning3: "",
-    beslutsbenämning4: "",
+    marketplace: "Ej publicerad",
+    place1: "",
+    place2: "",
+    place3: "",
+    place4: "",
+    dismantability: "Ej Demonterbar",
+    accessibility: "Ej Åtkomlig",
+    dateAcces: new Date(),
+    dateFirstPosDelivery: new Date(),
+    decisionDesignation1: "",
+    decisionDesignation2: "",
+    decisionDesignation3: "",
+    decisionDesignation4: "",
 
     material: "",
-    färgFinish: "",
-    måttEnhet: "",
-    bredd: 0,
-    höjd: 0,
-    djup: 0,
+    colorFinish: "",
+    unitOfMeasure: "",
+    width: 0,
+    height: 0,
+    depth: 0,
     diameter: 0,
-    tjocklek: 0,
-    viktEnehet: "",
-    vikt: 0,
-    snitthöjdMin: 0,
-    snitthöjdMax: 0,
-    ryggStöd: 0,
+    thickness: 0,
+    weightUnit: "",
+    weight: 0,
+    avgHeightMin: 0,
+    avgHeightMax: 0,
+    backSupport: 0,
 
-    tillverkare: "",
-    artikelnummer: "",
-    tillverkningsår: 0,
-    inköpsår: 0,
+    manufactor: "",
+    articelNumber: "",
+    manufactorYear: 0,
+    boughtYear: 0,
     gtin: false,
     rsk: false,
     bsab: false,
     enr: false,
     bk04: false,
 
-    nypris: 0,
+    priceNew: 0,
     buyerPrice: false,
-    externPris: 0,
-    internPris: 0,
+    externPrice: 0,
+    internPrice: 0,
     picUpOnSite: false,
     sendWithFreight: false,
     address: "",
-    postkod: 0,
-    ort: "",
-    kommentar: "",
+    postalCode: 0,
+    locality: "",
+    comment: ""
   });
 
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
