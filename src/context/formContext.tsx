@@ -7,7 +7,7 @@ export interface FormContextType {
   setErrors: (errors: Record<string, string[]> | null) => void;
   saveForm: React.MutableRefObject<() => void>;
 }
-
+//we need to rename all the fields to their actual names they have in teh db
 type FormData = {
 
       project: string;
