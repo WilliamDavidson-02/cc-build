@@ -100,50 +100,6 @@ const FormStep2: React.FC = () => {
     );
   };
 
- 
-  /* const handleSave = async() => {
-    const result = Step2Schema.safeParse(formSections[0]);
-    if (!result.success) {
-      const formattedErrors: Record<string, string[]> = {};
-      result.error.issues.forEach((issue) => {
-        const path = issue.path.join('.');
-        if (!formattedErrors[path]) {
-          formattedErrors[path] = [];
-        }
-        formattedErrors[path].push(issue.message);
-      });
-      setErrors(formattedErrors);
-    } else {      
-      setErrors({});
-      try {
-        const { data, error } = await supabase.from("products").insert([
-          {
-            amount: formSections[0].amount,
-            status: formSections[0].status,
-            marketplace: formSections[0].marketplace,
-            place1: formSections[0].place1,
-            place2: formSections[0].place2,
-            place3: formSections[0].place3,
-            place4: formSections[0].place4,
-            dismantability: formSections[0].dismantability,
-            accessibility: formSections[0].accessibility,
-            dateAcces: formSections[0].dateAcces,
-            dateFirstPosDelivery: formSections[0].dateFirstPosDelivery,
-            decisionDesignation1: formSections[0].decisionDesignation1,
-            decisionDesignation2: formSections[0].decisionDesignation2,
-            decisionDesignation3: formSections[0].decisionDesignation3,
-            decisionDesignation4: formSections[0].decisionDesignation4,
-          },
-        ]);
-
-        if (error) throw error;
-        //else
-        console.log("Data inserted successfully:", data);
-      } catch (error) {
-        console.error("Error inserting data:", error);
-      }
-    }
-  }; */
 
   const handleSave = async () => {
     const results = formSections.map(section => Step2Schema.safeParse(section));
@@ -264,7 +220,7 @@ const FormStep2: React.FC = () => {
     }));
   };
   
-
+console.log('formSections:', formSections);
 
   return (
     <main className="mt-16 px-28 flex flex-col">
@@ -294,7 +250,7 @@ const FormStep2: React.FC = () => {
                 <input
                   type="number"
                   name="amount"
-                  value={section.amount || 1}
+                  value={formSections[index].amount || 1}
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder="Antal (st)"
                 />
@@ -303,7 +259,7 @@ const FormStep2: React.FC = () => {
                 <label className="text-[14px] font-semibold">Status</label>
                 <select
                   name="status"
-                  value={section.status || "Ej inventerad"}
+                  value={formSections[index].status || "Ej inventerad"}
                   onChange={(e) => handleInputChange(index, e)}
                 >
                   <option value="Inventerad">Inventerad</option>
@@ -314,7 +270,7 @@ const FormStep2: React.FC = () => {
                 <label className="text-[14px] font-semibold">Marknadsplatsen</label>
                 <select
                   name="marketplace"
-                  value={section.marketplace || "Ej publicerad"}
+                  value={formSections[index].marketplace || "Ej publicerad"}
                   onChange={(e) => handleInputChange(index, e)}
                 >
                   <option value="Ej publicerad">Ej publicerad</option>
@@ -329,7 +285,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="place1"
                   placeholder='Ange plats'
-                  value={formData.place1 || ""}
+                  value={formSections[index].place1 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -339,7 +295,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="place2"
                   placeholder='Ange plats'
-                  value={formData.place2 || ""}
+                  value={formSections[index].place2 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -349,7 +305,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="place3"
                   placeholder='Ange plats'
-                  value={formData.place3 || ""}
+                  value={formSections[index].place3 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -359,7 +315,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="place4"
                   placeholder='Ange plats'
-                  value={formData.place4 || ""}
+                  value={formSections[index].place4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[20%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -390,7 +346,7 @@ const FormStep2: React.FC = () => {
                   <label className='text-[14px] font-semibold'>Demonterbarhet</label>
                   <select
                     name="dismantability"
-                    value={formData.dismantability || "Ej Demonterbar"}
+                    value={formSections[index].dismantability || "Ej Demonterbar"}
                     onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Demonterbar">Demonterbar</option>
@@ -401,7 +357,7 @@ const FormStep2: React.FC = () => {
                   <label className='text-[14px] font-semibold'>Åtkomlighet</label>
                   <select
                     name="accessibility"
-                    value={formData.accessibility || "Ej Åtkomlig"}
+                    value={formSections[index].accessibility || "Ej Åtkomlig"}
                     onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Åtkomlig">Åtkomlig</option>
@@ -433,7 +389,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="decisionDesignation1"
                   placeholder='Ange'
-                  value={formData.decisionDesignation1 || ""}
+                  value={formSections[index].decisionDesignation1 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -445,7 +401,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="decisionDesignation2"
                   placeholder='Ange'
-                  value={formData.decisionDesignation2 || ""}
+                  value={formSections[index].decisionDesignation2 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -455,7 +411,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="decisionDesignation3"
                   placeholder='Ange'
-                  value={formData.decisionDesignation3 || ""}
+                  value={formSections[index].decisionDesignation3 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -465,7 +421,7 @@ const FormStep2: React.FC = () => {
                   size="small"
                   name="decisionDesignation4"
                   placeholder='Ange'
-                  value={formData.decisionDesignation4 || ""}
+                  value={formSections[index].decisionDesignation4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
