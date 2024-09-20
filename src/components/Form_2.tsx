@@ -12,19 +12,21 @@ import Input from './Input';
 
 
 const Step2Schema = z.object({
-  antal: z.number().min(1, "Minsta tillåtna antal är 1"),
+  amount: z.number().min(1, "Minsta tillåtna antal är 1"),
   status: z.enum(["Inventerad", "Ej inventerad"]).optional(),
-  marknadsplatsen: z.enum(["Ej publicerad", "Publicerad"]).optional(),
-  plats1: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  plats2: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  plats3: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  plats4: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
-  Demonterbarhet: z.enum(["Demonterbar", "Ej Demonterbar"]).optional(),
-  Åtkomlighet: z.enum(["Åtkomlig", "Ej Åtkomlig"]).optional(),
-  beslutsbenämning1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
-  beslutsbenämning2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
-  beslutsbenämning3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
-  beslutsbenämning4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  marketplace: z.enum(["Ej publicerad", "Publicerad"]).optional(),
+  place1: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  place2: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  place3: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  place4: z.string().min(2, "Plats måste vara minst 2 tecken").optional(),
+  dismantability: z.enum(["Demonterbar", "Ej Demonterbar"]).optional(),
+  accessibility: z.enum(["Åtkomlig", "Ej Åtkomlig"]).optional(),
+  dateAcces: z.date().optional(),
+  dateFirstPosDelivery: z.date().optional(),
+  decisionDesignation1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  decisionDesignation2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  decisionDesignation3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
+  decisionDesignation4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional(),
 });
 
 
@@ -39,21 +41,21 @@ const FormStep2: React.FC = () => {
     if (!formData.antal) {
       setFormData((prevData) => ({
         ...prevData,
-        antal: 1,
+        amount: 1,
         status: "Ej inventerad",
-        marknadsplatsen: "Ej publicerad",
-        plats1: "",
-        plats2: "",
-        plats3: "",
-        plats4: "",
-        Demonterbarhet: "Ej Demonterbar",
-        Åtkomlighet: "Ej Åtkomlig",
-        datumTillgänglig: new Date(),
-        datumFörstaMöjligaLeverans: new Date(),
-        beslutsbenämning1: "",
-        beslutsbenämning2: "",
-        beslutsbenämning3: "",
-        beslutsbenämning4: "",
+        marketplace: "Ej publicerad",
+        place1: "",
+        place2: "",
+        place3: "",
+        place4: "",
+        dismantability: "Ej Demonterbar",
+        accessibility: "Ej Åtkomlig",
+        dateAcces: new Date(),
+        dateFirstPosDelivery: new Date(),
+        decisionDesignation1: "",
+        decisionDesignation2: "",
+        decisionDesignation3: "",
+        decisionDesignation4: "",
       }));
     }
   }, [formData, setFormData]);
@@ -70,7 +72,7 @@ const FormStep2: React.FC = () => {
 
   const handleSave = async () => {
     const step2Data: Step2Data = {
-      antal: formData.antal,
+      amount: formData.antal,
       status: formData.status,
       marknadsplatsen: formData.marknadsplatsen,
       plats1: formData.plats1,
