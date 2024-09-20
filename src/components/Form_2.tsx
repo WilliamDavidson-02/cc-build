@@ -72,21 +72,21 @@ const FormStep2: React.FC = () => {
 
   const handleSave = async () => {
     const step2Data: Step2Data = {
-      amount: formData.antal,
+      antal: formData.amount,
       status: formData.status,
-      marknadsplatsen: formData.marknadsplatsen,
-      plats1: formData.plats1,
-      plats2: formData.plats2,
-      plats3: formData.plats3,
-      plats4: formData.plats4,
-      Demonterbarhet: formData.Demonterbarhet,
-      Åtkomlighet: formData.Åtkomlighet,
-      datumTillgänglig: formData.datumTillgänglig,
-      datumFörstaMöjligaLeverans: formData.datumFörstaMöjligaLeverans,
-      beslutsbenämning1: formData.beslutsbenämning1,
-      beslutsbenämning2: formData.beslutsbenämning2,
-      beslutsbenämning3: formData.beslutsbenämning3,
-      beslutsbenämning4: formData.beslutsbenämning4,
+      marknadsplatsen: formData.marketplace,
+      plats1: formData.place1,
+      plats2: formData.place2,
+      plats3: formData.place3,
+      plats4: formData.place4,
+      Demonterbarhet: formData.dismantability,
+      Åtkomlighet: formData.accessibility,
+      datumTillgänglig: formData.dateAcces,
+      datumFörstaMöjligaLeverans: formData.dateFirstPosDelivery,
+      beslutsbenämning1: formData.decisionDesignation1,
+      beslutsbenämning2: formData.decisionDesignation2,
+      beslutsbenämning3: formData.decisionDesignation3,
+      beslutsbenämning4: formData.decisionDesignation4,
     };
 
     const validation = Step2Schema.safeParse(step2Data);
