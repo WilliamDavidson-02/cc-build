@@ -82,67 +82,67 @@ const FormContext = createContext<FormContextType | undefined>(undefined);
 
 const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>({
-    project: "", // projekt
-    productname: "", // produktnamn
-    productcategori1: "", // produktkategori1
-    productcategori2: "", // produktkategori2
-    productcategori3: "", // produktkategori3
-    estState: "", // estSkick
-    funcState: "", // funkSkick
-    prodImg: [], // prodBilder
-    prodFiles: [], // prodFiler
-    ownId: 0, // egetId
+    project: "",
+    productname: "",
+    productcategori1: "",
+    productcategori2: "",
+    productcategori3: "",
+    estState: "",
+    funcState: "",
+    prodImg: [],
+    prodFiles: [],
+    ownId: 0,
 
-    amount: 1, // antal
-    status: "Ej inventerad", 
-    marketplace: "Ej publicerad", 
-    place1: "", // plats1
-    place2: "", // plats2
-    place3: "", // plats3
-    place4: "", // plats4
-    dismantability: "Ej Demonterbar", 
-    accessibility: "Ej Åtkomlig", 
-    dateAcces: new Date(), // datumTillgänglig
-    dateFirstPosDelivery: new Date(), // datumFörstaMöjligaLeverans
-    decisionDesignation1: "", // beslutsbenämning1
-    decisionDesignation2: "", // beslutsbenämning2
-    decisionDesignation3: "", // beslutsbenämning3
-    decisionDesignation4: "", // beslutsbenämning4
+    amount: 1,
+    status: "Ej inventerad",
+    marketplace: "Ej publicerad",
+    place1: "",
+    place2: "",
+    place3: "",
+    place4: "",
+    dismantability: "Ej Demonterbar",
+    accessibility: "Ej Åtkomlig",
+    dateAcces: new Date(),
+    dateFirstPosDelivery: new Date(),
+    decisionDesignation1: "",
+    decisionDesignation2: "",
+    decisionDesignation3: "",
+    decisionDesignation4: "",
 
-    material: "", // material
-    colorFinish: "", // färgFinish
-    unitOfMeasure: "", // måttEnhet
-    width: 0, // bredd
-    height: 0, // höjd
-    depth: 0, // djup
-    diameter: 0, // diameter
-    thickness: 0, // tjocklek
-    weightUnit: "", // viktEnehet
-    weight: 0, // vikt
-    avgHeightMin: 0, // snitthöjdMin
-    avgHeightMax: 0, // snitthöjdMax
-    backSupport: 0, 
+    material: "",
+    colorFinish: "",
+    unitOfMeasure: "",
+    width: 0,
+    height: 0,
+    depth: 0,
+    diameter: 0,
+    thickness: 0,
+    weightUnit: "",
+    weight: 0,
+    avgHeightMin: 0,
+    avgHeightMax: 0,
+    backSupport: 0,
 
-    manufactor: "", 
-    articelNumber: "", 
-    manufactorYear: 0, 
-    boughtYear: 0, 
-    gtin: false, 
-    rsk: false, 
-    bsab: false, 
-    enr: false, 
+    manufactor: "",
+    articelNumber: "",
+    manufactorYear: 0,
+    boughtYear: 0,
+    gtin: false,
+    rsk: false,
+    bsab: false,
+    enr: false,
     bk04: false,
 
-    priceNew: 0, 
-    buyerPrice: false, 
-    externPrice: 0, 
-    internPrice: 0, 
-    picUpOnSite: false, 
-    sendWithFreight: false, 
-    address: "", 
-    postalCode: 0, 
-    locality: "", 
-    comment: "" 
+    priceNew: 0,
+    buyerPrice: false,
+    externPrice: 0,
+    internPrice: 0,
+    picUpOnSite: false,
+    sendWithFreight: false,
+    address: "",
+    postalCode: 0,
+    locality: "",
+    comment: ""
   });
 
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
