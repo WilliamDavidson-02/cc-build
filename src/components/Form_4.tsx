@@ -5,6 +5,7 @@ import { useFormContext } from '@/context/formContext';
 import { supabase } from "@/lib/sbClient";
 import Typography from "./Typography";
 import { z } from 'zod';
+import Textfield from "./Textfield";
 
 const Step4Schema = z.object({
   manufactor: z.string().optional(),
@@ -122,14 +123,88 @@ const handlePrevious = () => {
   }
 
   return (
-    <main className="mt-16 px-28 flex flex-col">
+    <main className="mt-16 px-48 flex flex-col items-center justify-center w-full">
 
-      <div className='flex justify-start items-center mb-4 '>
+      <div className='flex justify-start items-center mb-10 w-full'>
         <Typography variant="h2" size="md" className='text-[#151515] text-[31px] font-bold font-poppins'>Produktinformation</Typography>
       </div>
 
+      <div className="flex flex-row gap-10 w-full justify-center">
+        <section className="flex flex-col gap-6 px-4 py-5 w-1/2 shadow-lg">
+          <div className="flex flex-col gap-4 w-full">
+            <Textfield
+              title="Tillverkare/Leverantör"
+              name="manufactor"
+              size="large"
+              placeholder="ange tillverkare eller leverantör"
+              value={formSection.manufactor || ""}
+              onChange={handleInputChange}
+              
+            />
+          </div>
 
-      <section className="w-full flex justify-between mb-12">
+          <div className="flex flex-col gap-4 w-full">
+            <Textfield
+              title="Artikelnummer"
+              name="articelNumber"
+              size="large"
+              placeholder="ange artikelnummer"
+              value={formSection.articelNumber || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="flex flex-col gap-4 w-full">
+            <Textfield
+              title="Tillverkningsår"
+              name="manufactorYear"
+              size="large"
+              placeholder="ange tillverkningsår"
+              value={formSection.manufactorYear || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="flex flex-col gap-4 w-full">
+            <Textfield
+              title="Inköpsår"
+              name="boughtYear"
+              size="large"
+              placeholder="ange inköpsår"
+              value={formSection.boughtYear || ""}
+              onChange={handleInputChange}
+            />          
+          </div>
+
+        </section>
+
+        <section className="flex flex-col gap-6 justify-center px-4 py-5 w-1/2">
+          <div className="flex gap-4 w-full  items-center">
+            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> GTIN</Button>
+            <Typography variant="p" size="md" className="text-inter" >Ange GTIN om GTIN finns/är känt</Typography>
+          </div>
+          <div className="flex gap-4 w-full">
+            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> RSK</Button>
+            <Typography variant="p" size="md" className="text-inter" >Relevant för elektronik och VVS</Typography>
+          </div>
+          <div className="flex gap-4 w-full">
+            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> BSAB</Button>
+            <Typography variant="p" size="md" className="text-inter" >Ange BSAB-kod om känt/relevant. Används för att underlätta klassificering och sökning.</Typography>
+          </div>
+          <div className="flex gap-4 w-full">
+            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> E-NR</Button>
+            <Typography variant="p" size="md" className="text-inter" >Relevant för elektronik och VVS</Typography>
+          </div>
+          <div className="flex gap-4 w-full">
+            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> BK-04</Button>
+            <Typography variant="p" size="md" className="text-inter" >Ange BK04-kod om känt/relevant. Används för att underlätta klassificering och sökning.</Typography>
+          </div>
+        </section>
+
+      </div>
+
+
+      <section className="w-full flex justify-between my-12">
         <Button
           onClick={handlePrevious}              
           size="medium"
