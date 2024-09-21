@@ -65,6 +65,13 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   }));
 };
 
+const toggleFeature = (feature: keyof Step4Data) => {
+  setFormSection((prevSection) => ({
+    ...prevSection,
+    [feature]: !prevSection[feature],
+  }));
+};
+
 const handleSave = async () => {
   const result = Step4Schema.safeParse(formSection); 
 
@@ -122,6 +129,7 @@ const handlePrevious = () => {
     navigate(`/form5`);
   }
 
+  
   return (
     <main className="mt-16 px-48 flex flex-col items-center justify-center w-full">
 
@@ -148,7 +156,7 @@ const handlePrevious = () => {
               title="Artikelnummer"
               name="articelNumber"
               size="large"
-              placeholder="ange artikelnummer"
+              placeholder="ange tillverkare/leverantörens artikelnummer"
               value={formSection.articelNumber || ""}
               onChange={handleInputChange}
             />
@@ -159,7 +167,7 @@ const handlePrevious = () => {
               title="Tillverkningsår"
               name="manufactorYear"
               size="large"
-              placeholder="ange tillverkningsår"
+              placeholder="ange uppskattat  tillverkningsår"
               value={formSection.manufactorYear || ""}
               onChange={handleInputChange}
             />
@@ -170,7 +178,7 @@ const handlePrevious = () => {
               title="Inköpsår"
               name="boughtYear"
               size="large"
-              placeholder="ange inköpsår"
+              placeholder="ange uppskattat inköpsår"
               value={formSection.boughtYear || ""}
               onChange={handleInputChange}
             />          
@@ -180,23 +188,23 @@ const handlePrevious = () => {
 
         <section className="flex flex-col gap-6 justify-center px-4 py-5 w-1/2">
           <div className="flex gap-4 w-full  items-center">
-            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> GTIN</Button>
+            <Button size="medium" variant="blue" className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]" onClick={() => toggleFeature('gtin')}><span className="text-[24px]">+</span> GTIN</Button>
             <Typography variant="p" size="md" className="text-inter" >Ange GTIN om GTIN finns/är känt</Typography>
           </div>
-          <div className="flex gap-4 w-full">
-            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> RSK</Button>
+          <div className="flex gap-4 w-full items-center">
+            <Button size="medium" variant="blue" className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]" onClick={() => toggleFeature('rsk') }><span className="text-[24px]">+</span> RSK</Button>
             <Typography variant="p" size="md" className="text-inter" >Relevant för elektronik och VVS</Typography>
           </div>
-          <div className="flex gap-4 w-full">
-            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> BSAB</Button>
+          <div className="flex gap-4 w-full items-center">
+            <Button size="medium" variant="blue" className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]" onClick={() => toggleFeature('bsab') }><span className="text-[24px]">+</span> BSAB</Button>
             <Typography variant="p" size="md" className="text-inter" >Ange BSAB-kod om känt/relevant. Används för att underlätta klassificering och sökning.</Typography>
           </div>
-          <div className="flex gap-4 w-full">
-            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> E-NR</Button>
+          <div className="flex gap-4 w-full items-center">
+            <Button size="medium" variant="blue" className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]" onClick={() => toggleFeature('enr') }><span className="text-[24px]">+</span> E-NR</Button>
             <Typography variant="p" size="md" className="text-inter" >Relevant för elektronik och VVS</Typography>
           </div>
-          <div className="flex gap-4 w-full">
-            <Button size="medium" variant="blue" className="min-w-[110px]"><span className="text-[24px]">+</span> BK-04</Button>
+          <div className="flex gap-4 w-full items-center">
+            <Button size="medium" variant="blue" className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]" onClick={() => toggleFeature('bk04') }><span className="text-[24px]">+</span> BK-04</Button>
             <Typography variant="p" size="md" className="text-inter" >Ange BK04-kod om känt/relevant. Används för att underlätta klassificering och sökning.</Typography>
           </div>
         </section>
