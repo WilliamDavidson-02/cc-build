@@ -15,25 +15,25 @@ type FormData = {
       productcategori1: string;
       productcategori2: string;
       productcategori3: string;
-      estState: string;
-      funcState: string;
-      prodImg: Array<string>;
+      visual_condition: string;
+      working_condition: string;
+      image: Array<string>;
       prodFiles: Array<string>;
       ownId: number;
 
 
 
       amount: number;
-      status: string;
-      marketplace: string;
+      prod_status: string;
+      market_status: string;
       place1: string;
       place2: string;
       place3: string;
       place4: string;
-      dismantability: string;
+      disassembly: string;
       accessibility:  string;
-      dateAcces: Date;
-      dateFirstPosDelivery:   Date;
+      availability: Date;
+      delivery:   Date;
       decisionDesignation1: string;
       decisionDesignation2: string;
       decisionDesignation3:  string;
