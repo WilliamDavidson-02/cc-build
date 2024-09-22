@@ -8,7 +8,7 @@ import { UserProvider } from "./context/userContext";
 import AuthenticationRoutes from "./components/protectedRoutes/AuthenticationRoutes";
 import Navbar from "./components/Navigation/Navbar";
 import Footer from "./components/Footer";
-
+import Test from "./pages/Test";
 
 const AppContent: FC = () => {
   const location = useLocation();
@@ -20,6 +20,7 @@ const AppContent: FC = () => {
         <FormProvider>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/test-components" element={<Test />} />
             <Route element={<AuthenticationRoutes />}>
               <Route path="/sign-in" element={<Signin />} />
               <Route path="/sign-up" element={<Signup />} />
