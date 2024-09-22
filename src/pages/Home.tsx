@@ -22,7 +22,7 @@ const defaultSteps: { title: string; status: Status }[] = [
   },
   {
     title: "Egenskaper",
-    status: "error",
+    status: "pending",
   },
   {
     title: "Produktinformation",

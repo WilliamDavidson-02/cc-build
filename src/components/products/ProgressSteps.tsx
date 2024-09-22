@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { FC, HTMLAttributes } from "react";
 import Typography from "../Typography";
 
-export type Status = "pending" | "error" | "complete" | null;
+export type Status = "pending" | "complete" | null;
 
 type ProgressStepsProps = {
   className?: string;
@@ -37,7 +37,6 @@ export const ProgressStepsCard: FC<ProgressStepsCardProps> = ({
       className={cn(
         "flex flex-grow py-4 px-6 bg-zinc-200 text-black gap-6 cursor-pointer w-full items-center",
         { "bg-missing": status === "pending" },
-        { "bg-incomplete": status === "error" },
         { "bg-complete": status === "complete" },
         { "bg-current": active }
       )}

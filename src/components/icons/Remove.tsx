@@ -21,18 +21,18 @@ const Remove: FC<RemoveProps> = ({ ...props }) => {
         width="24"
         height="24"
       >
-        <rect width="24" height="24" fill="#D9D9D9" />
+        <rect width="24" height="24" fill="currentColor" />
       </mask>
       <g mask="url(#mask0_201_2634)">
-        <path d="M5.5 12.75V11.25H18.5V12.75H5.5Z" fill="#151515" />
+        <path d="M5.5 12.75V11.25H18.5V12.75H5.5Z" fill="currentColor" />
         <path
           d="M5.5 12.75V11.25H18.5V12.75H5.5Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
         <path
           d="M5.5 12.75V11.25H18.5V12.75H5.5Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
       </g>
