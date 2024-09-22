@@ -21,21 +21,21 @@ const ArrowUpRight: FC<ArrowUpRightProps> = ({ ...props }) => {
         width="24"
         height="24"
       >
-        <rect width="24" height="24" fill="#D9D9D9" />
+        <rect width="24" height="24" fill="currentColor" />
       </mask>
       <g mask="url(#mask0_341_2089)">
         <path
           d="M6.29425 17.6443L5.25 16.6L15.0905 6.75H6.14425V5.25H17.6443V16.75H16.1443V7.80375L6.29425 17.6443Z"
-          fill="#151515"
+          fill="currentColor"
         />
         <path
           d="M6.29425 17.6443L5.25 16.6L15.0905 6.75H6.14425V5.25H17.6443V16.75H16.1443V7.80375L6.29425 17.6443Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
         <path
           d="M6.29425 17.6443L5.25 16.6L15.0905 6.75H6.14425V5.25H17.6443V16.75H16.1443V7.80375L6.29425 17.6443Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
       </g>

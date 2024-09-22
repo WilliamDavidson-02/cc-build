@@ -21,21 +21,21 @@ const ChevronLeft: FC<ChevronLeftProps> = ({ ...props }) => {
         width="24"
         height="24"
       >
-        <rect width="24" height="24" fill="#D9D9D9" />
+        <rect width="24" height="24" fill="currentColor" />
       </mask>
       <g mask="url(#mask0_172_1201)">
         <path
           d="M14.9954 20L7 12.0046L14.9954 4L16.2585 5.26305L9.52609 12.0046L16.2585 18.737L14.9954 20Z"
-          fill="#151515"
+          fill="currentColor"
         />
         <path
           d="M14.9954 20L7 12.0046L14.9954 4L16.2585 5.26305L9.52609 12.0046L16.2585 18.737L14.9954 20Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
         <path
           d="M14.9954 20L7 12.0046L14.9954 4L16.2585 5.26305L9.52609 12.0046L16.2585 18.737L14.9954 20Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
       </g>

@@ -21,21 +21,21 @@ const ChevronDown: FC<ChevronDownProps> = ({ ...props }) => {
         width="24"
         height="24"
       >
-        <rect width="24" height="24" fill="#D9D9D9" />
+        <rect width="24" height="24" fill="currentColor" />
       </mask>
       <g mask="url(#mask0_172_1202)">
         <path
           d="M12 13.4679L18.7339 6.73394L20 8L12 16L4 8L5.26606 6.73394L12 13.4679Z"
-          fill="#151515"
+          fill="currentColor"
         />
         <path
           d="M12 13.4679L18.7339 6.73394L20 8L12 16L4 8L5.26606 6.73394L12 13.4679Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
         <path
           d="M12 13.4679L18.7339 6.73394L20 8L12 16L4 8L5.26606 6.73394L12 13.4679Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
       </g>
