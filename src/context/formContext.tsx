@@ -11,10 +11,10 @@ export interface FormContextType {
 type FormData = {
 
       project: string;
-      productname: string;
-      productcategori1: string;
-      productcategori2: string;
-      productcategori3: string;
+      name: string;
+      product_category_1: string;
+      product_category_2: string;
+      product_category_3: string;
       visual_condition: string;
       working_condition: string;
       image: Array<string>;

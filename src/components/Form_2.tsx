@@ -14,20 +14,20 @@ import Input from './Input';
 
 const Step2Schema = z.object({
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
-  status: z.string().optional(),
-  marketplace: z.string().optional(),
+  prod_status: z.string().optional(),
+  market_status: z.string().optional(),
   place1: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
   place2: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
   place3: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
   place4: z.string().min(2, "Plats måste vara minst 2 tecken").optional().or(z.literal("")),
-  dismantability: z.string().optional(),
+  disassembly: z.string().optional(),
   accessibility: z.string().optional(),
-  dateAcces: z.date().optional(),
-  dateFirstPosDelivery: z.date().optional(),
-  decisionDesignation1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
-  decisionDesignation2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
-  decisionDesignation3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
-  decisionDesignation4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  availability: z.date().optional(),
+  delivery: z.date().optional(),
+  decision_designation_1: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  decision_designation_2: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  decision_designation_3: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
+  decision_designation_4: z.string().min(2, "Beslutsbenämning måste vara minst 2 tecken").optional().or(z.literal("")),
 });
 
 
@@ -41,20 +41,20 @@ const FormStep2: React.FC = () => {
   const [formSections, setFormSections] = useState<Step2Data[]>([
     {
       amount: 1,
-      status: "Ej inventerad",
-      marketplace: "Ej publicerad",
+      prod_status: "Ej inventerad",
+      market_status: "Ej publicerad",
       place1: "",
       place2: "",
       place3: "",
       place4: "",
-      dismantability: "Ej Demonterbar",
+      disassembly: "Ej Demonterbar",
       accessibility: "Ej Åtkomlig",
-      dateAcces: new Date(),
-      dateFirstPosDelivery: new Date(),
-      decisionDesignation1: "",
-      decisionDesignation2: "",
-      decisionDesignation3: "",
-      decisionDesignation4: "",
+      availability: new Date(),
+      delivery: new Date(),
+      decision_designation_1: "",
+      decision_designation_2: "",
+      decision_designation_3: "",
+      decision_designation_4: "",
     }
   ]);
 
@@ -64,20 +64,20 @@ const FormStep2: React.FC = () => {
     if (!formData) {
       const initialData: Step2Data = {
         amount: 1,
-        status: "Ej inventerad",
-        marketplace: "Ej publicerad",
+        prod_status: "Ej inventerad",
+        market_status: "Ej publicerad",
         place1: "",
         place2: "",
         place3: "",
         place4: "",
-        dismantability: "Ej Demonterbar",
+        disassembly: "Ej Demonterbar",
         accessibility: "Ej Åtkomlig",
-        dateAcces: new Date(),
-        dateFirstPosDelivery: new Date(),
-        decisionDesignation1: "",
-        decisionDesignation2: "",
-        decisionDesignation3: "",
-        decisionDesignation4: "",
+        availability: new Date(),
+        delivery: new Date(),
+        decision_designation_1: "",
+        decision_designation_2: "",
+        decision_designation_3: "",
+        decision_designation_4: "",
       };
       setFormData((prevData) => ({
         ...prevData,
@@ -131,20 +131,20 @@ const FormStep2: React.FC = () => {
       const { data, error } = await supabase.from("products").insert(
         formSections.map(section => ({
           amount: section.amount,
-          status: section.status,
-          marketplace: section.marketplace,
+          prod_status: section.prod_status,
+          market_status: section.market_status,
           place1: section.place1,
           place2: section.place2,
           place3: section.place3,
           place4: section.place4,
-          dismantability: section.dismantability,
+          disassembly: section.disassembly,
           accessibility: section.accessibility,
-          dateAcces: section.dateAcces,
-          dateFirstPosDelivery: section.dateFirstPosDelivery,
-          decisionDesignation1: section.decisionDesignation1,
-          decisionDesignation2: section.decisionDesignation2,
-          decisionDesignation3: section.decisionDesignation3,
-          decisionDesignation4: section.decisionDesignation4,
+          availability: section.availability,
+          delivery: section.delivery,
+          decision_designation_1: section.decision_designation_1,
+          decision_designation_2: section.decision_designation_2,
+          decision_designation_3: section.decision_designation_3,
+          decision_designation_4: section.decision_designation_4,
         }))
       );
   
@@ -162,20 +162,20 @@ const FormStep2: React.FC = () => {
       ...prevSections,
       {
         amount: 1,
-        status: "Ej inventerad",
-        marketplace: "Ej publicerad",
+        prod_status: "Ej inventerad",
+        market_status: "Ej publicerad",
         place1: "",
         place2: "",
         place3: "",
         place4: "",
-        dismantability: "Ej Demonterbar",
+        disassembly: "Ej Demonterbar",
         accessibility: "Ej Åtkomlig",
-        dateAcces: new Date(),
-        dateFirstPosDelivery: new Date(),
-        decisionDesignation1: "",
-        decisionDesignation2: "",
-        decisionDesignation3: "",
-        decisionDesignation4: "",
+        availability: new Date(),
+        delivery: new Date(),
+        decision_designation_1: "",
+        decision_designation_2: "",
+        decision_designation_3: "",
+        decision_designation_4: "",
       }
     ]);
   };
@@ -256,8 +256,8 @@ const FormStep2: React.FC = () => {
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold">Status</label>
                 <select
-                  name="status"
-                  value={formSections[index].status || "Ej inventerad"}
+                  name="prod_status"
+                  value={formSections[index].prod_status || "Ej inventerad"}
                   onChange={(e) => handleInputChange(index, e)}
                 >
                   <option value="Inventerad">Inventerad</option>
@@ -267,8 +267,8 @@ const FormStep2: React.FC = () => {
               <div className="flex flex-col gap-2">
                 <label className="text-[14px] font-semibold">Marknadsplatsen</label>
                 <select
-                  name="marketplace"
-                  value={formSections[index].marketplace || "Ej publicerad"}
+                  name="market_status"
+                  value={formSections[index].market_status || "Ej publicerad"}
                   onChange={(e) => handleInputChange(index, e)}
                 >
                   <option value="Ej publicerad">Ej publicerad</option>
@@ -343,8 +343,8 @@ const FormStep2: React.FC = () => {
               <div className="flex flex-col gap-2">
                   <label className='text-[14px] font-semibold'>Demonterbarhet</label>
                   <select
-                    name="dismantability"
-                    value={formSections[index].dismantability || "Ej Demonterbar"}
+                    name="disassembly"
+                    value={formSections[index].disassembly || "Ej Demonterbar"}
                     onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Demonterbar">Demonterbar</option>
@@ -385,9 +385,9 @@ const FormStep2: React.FC = () => {
                 <Textfield                
                   title="Beslutsbenämning"
                   size="small"
-                  name="decisionDesignation1"
+                  name="decision_designation_1"
                   placeholder='Ange'
-                  value={formSections[index].decisionDesignation1 || ""}
+                  value={formSections[index].decision_designation_1 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -397,9 +397,9 @@ const FormStep2: React.FC = () => {
                 <Textfield                
                   title="Beslutsbenämning"
                   size="small"
-                  name="decisionDesignation2"
+                  name="decision_designation_2"
                   placeholder='Ange'
-                  value={formSections[index].decisionDesignation2 || ""}
+                  value={formSections[index].decision_designation_2 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -407,9 +407,9 @@ const FormStep2: React.FC = () => {
                 <Textfield                
                   title="Beslutsbenämning"
                   size="small"
-                  name="decisionDesignation3"
+                  name="decision_designation_3"
                   placeholder='Ange'
-                  value={formSections[index].decisionDesignation3 || ""}
+                  value={formSections[index].decision_designation_3 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
@@ -417,9 +417,9 @@ const FormStep2: React.FC = () => {
                 <Textfield                
                   title="Beslutsbenämning"
                   size="small"
-                  name="decisionDesignation4"
+                  name="decision_designation_4"
                   placeholder='Ange'
-                  value={formSections[index].decisionDesignation4 || ""}
+                  value={formSections[index].decision_designation_4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 /><img src="/info.svg" alt="info icon" className='absolute top-0 left-[80%] cursor-pointer select-none  w-6 ' />
               </div>
