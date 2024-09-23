@@ -8,9 +8,8 @@ import {
 } from "@/components/products/ProgressSteps";
 //import { useUser } from "@/context/userContext";
 import { FC, useState } from "react";
-import Form from "@/components/Form";
-import FormStepThree from "@/components/FormStepThree";
 import { Tooltip } from "@/components/Tooltip";
+import Form from "@/components/Form";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -58,9 +57,8 @@ const Home: FC = () => {
       <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
       <Input type="checkbox" />
-      <Form name="hello" product_id="cd3805a6-609a-40ff-80c5-b30913941423" />
+      <Form />
       <Tooltip info="This is the tooltip info" />
-      <FormStepThree />
     </div>
   );
 };
