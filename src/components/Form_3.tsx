@@ -1,24 +1,45 @@
-import { FC } from "react";
+import { FC, ChangeEvent, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@/components/Typography";
 import Textfield from "@/components/Textfield";
 import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
+import { FormContext } from "@/context/formContext";
 import Button from "@/components/Buttons";
 
 type FormStepThreeProps = {};
-const navigate = useNavigate();
-const handleInputChange = () => {};
-const handleButtonClick = () => {};
-const handleNext = () => {
-  navigate(`/form-02`);
-};
 
-const handlePrevious = () => {
-  navigate(`/form-04`);
-};
+const Form_3: FC<FormStepThreeProps> = ({}) => {
+  const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
+  const navigate = useNavigate();
 
-const FormStepThree: FC<FormStepThreeProps> = ({}) => {
+  const handleButtonClick = () => {};
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
+  const handleNext = () => {
+    navigate(`/form-04`);
+  };
+
+  const handlePrevious = () => {
+    navigate(`/form-03`);
+  };
+
+  console.log("FormData step three:;", formData);
+
   return (
     <>
       <div className=" py-28 px-28 flex flex-col justify-center">
@@ -28,15 +49,15 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
             <Textfield
               title="Material"
               size="medium"
-              name="name"
-              value="Material"
+              name="material"
+              value={formData.material}
               onChange={handleInputChange}
             />
             <Textfield
               title="Färg/finish"
               size="medium"
-              name="name"
-              value="Färg/finish"
+              name="colorFinish"
+              value={formData.colorFinish}
               onChange={handleInputChange}
             />
           </div>
@@ -52,43 +73,43 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
             <Textfield
               title="Bredd"
               size="xSmall"
-              name="name"
-              value="0"
+              name="width"
+              value={formData.width}
               onChange={handleInputChange}
             />
             <Textfield
               title="Längd"
               size="xSmall"
-              name="name"
-              value="0"
+              name="length"
+              value={formData.length}
               onChange={handleInputChange}
             />
             <Textfield
               title="Höjd"
               size="xSmall"
-              name="name"
-              value="0"
+              name="height"
+              value={formData.height}
               onChange={handleInputChange}
             />
             <Textfield
               title="Djup"
               size="xSmall"
-              name="name"
-              value="0"
+              name="depth"
+              value={formData.depth}
               onChange={handleInputChange}
             />
             <Textfield
               title="Diameter"
               size="xSmall"
-              name="name"
-              value="0"
+              name="diameter"
+              value={formData.diameter}
               onChange={handleInputChange}
             />
             <Textfield
               title="Tjocklek"
               size="xSmall"
-              name="name"
-              value="0"
+              name="thickness"
+              value={formData.thickness}
               onChange={handleInputChange}
             />
           </div>
@@ -105,8 +126,8 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
               <Textfield
                 title="Vikt"
                 size="xSmall"
-                name="vikt"
-                value="0"
+                name="weight"
+                value={formData.weight}
                 onChange={handleInputChange}
               />
             </div>
@@ -118,42 +139,46 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
             <Textfield
               title="Sitthöjd min (cm)"
               size="small"
-              name="name"
-              value="0"
+              name="avgHeightMin"
+              value={formData.avgHeightMin}
               onChange={handleInputChange}
             />
             <Textfield
               title="Sitthöjd max (cm)"
               size="small"
-              name="name"
-              value="0"
+              name="avgHeightMax"
+              value={formData.avgHeightMax}
               onChange={handleInputChange}
             />
             <Textfield
               title="Ryggstöd(cm)"
               size="small"
-              name="name"
-              value="0"
+              name="backSupport"
+              value={formData.backSupport}
               onChange={handleInputChange}
             />
           </div>
-          <div className="flex flex-col gap-5">
+
+          {/* <div className="flex flex-col gap-5">
             <div className="flex gap-5">
               {" "}
               <Dropdown
                 title="Glastyp"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
+                onChange={handleSelectChange}
               />
               <Dropdown
                 title="Glasmodell"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
+                onChange={handleSelectChange}
               />
               <Dropdown
                 title="Glastjocklek (mm)"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
+                onChange={handleSelectChange}
               />
             </div>
             <div className="flex gap-5">
@@ -162,19 +187,23 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
                 title="Hängning"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
+                value={formData.}
+                onChange={handleSelectChange}
               />
               <Dropdown
                 title="Modulmått"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
-              />
-              <Dropdown
+                onChange={handleSelectChange}
+              /> */}
+          {/* <Dropdown
                 title="Ljudreduktion (dB)"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
+                onChange={handleSelectChange}
               />
-            </div>
-            <div className="flex gap-5">
+            </div> */}
+          {/* <div className="flex gap-5">
               {" "}
               <Dropdown
                 title="Brandklass"
@@ -203,7 +232,8 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
                 size="medium"
               />
             </div>
-          </div>
+          </div> */}
+
           <div>
             <p>Det finns inga specifika egenskaper för vald produkttyp.</p>
           </div>
@@ -216,9 +246,9 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
         </Button>
 
         <div className="flex gap-2">
-          <Button onClick={handleSave} size="medium" variant="white">
+          {/* <Button onClick={handleSave} size="medium" variant="white">
             Spara utkast
-          </Button>
+          </Button> */}
 
           <Button onClick={handleNext} size="medium" variant="blue">
             Nästa &gt;
@@ -229,4 +259,4 @@ const FormStepThree: FC<FormStepThreeProps> = ({}) => {
   );
 };
 
-export default FormStepThree;
+export default Form_3;

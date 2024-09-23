@@ -18,7 +18,7 @@ const StepOneSchema = z.object({
 
 type StepOneData = z.infer<typeof StepOneSchema>;
 
-const Form: React.FC = () => {
+const Form_1: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
   const navigate = useNavigate();
   console.log("FormData;", formData);
@@ -159,4 +159,4 @@ const Form: React.FC = () => {
   );
 };
 
-export default Form;
+export default Form_1;

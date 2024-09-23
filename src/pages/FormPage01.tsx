@@ -1,4 +1,4 @@
-import Form from "@/components/Form";
+import Form_1 from "@/components/Form_1";
 import FormStep2 from "@/components/Form_2";
 import { FC } from "react";
 

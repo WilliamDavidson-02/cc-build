@@ -1,4 +1,4 @@
-import FormStepThree from "@/components/FormStepThree";
+import Form_3 from "@/components/Form_3";
 import { FC } from "react";
 
 type FormStepThreeProps = {};
@@ -6,7 +6,7 @@ type FormStepThreeProps = {};
 const FormPage03: FC<FormStepThreeProps> = ({}) => {
   return (
     <div>
-      <FormStepThree />
+      <Form_3 />
     </div>
   );
 };
