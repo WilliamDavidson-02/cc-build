@@ -1,12 +1,14 @@
 import { FC } from "react";
+import { cn } from "@/lib/utils";
 
 type TextfieldProps = {
-  title: string;
+  title?: string;
   size: "xSmall" | "small" | "medium" | "large";
   name: string;
   value: string | number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  className?: string;
 };
 
 const Textfield: FC<TextfieldProps> = ({
@@ -16,6 +18,7 @@ const Textfield: FC<TextfieldProps> = ({
   value,
   placeholder,
   onChange,
+  className,
 }) => {
   const sizeClasses = {
     xSmall: "w-20",
@@ -25,7 +28,7 @@ const Textfield: FC<TextfieldProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={cn("flex flex-col gap-1", className)}>
       <label>{title}</label>
       <input
         type="text"
