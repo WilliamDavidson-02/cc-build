@@ -6,6 +6,7 @@ import { useEventListener, useOnClickOutside } from "usehooks-ts";
 type DatePickerProps = {
   selected: Date | undefined;
   setSelected: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  //setSelected: (date: Date | undefined) => void;
 };
 
 const DatePicker: FC<DatePickerProps> = ({ selected, setSelected }) => {
