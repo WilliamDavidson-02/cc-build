@@ -1,4 +1,11 @@
-import React, { FC, useState, createContext, ReactNode, useContext, useRef } from 'react';
+import React, {
+  FC,
+  useState,
+  createContext,
+  ReactNode,
+  useContext,
+  useRef,
+} from "react";
 
 export interface FormContextType {
   formData: FormData;
@@ -9,89 +16,83 @@ export interface FormContextType {
 }
 //we need to rename all the fields to their actual names they have in teh db
 type FormData = {
+  project_id: string;
+  name: string;
+  productcategory1: string;
+  productcategory2: string;
+  productcategory3: string;
+  product_id: string;
+  visual_condition: string;
+  working_condition: string;
+  prodImg: Array<string>;
+  prodFiles: Array<string>;
 
-      project: string;
-      productname: string;
-      productcategori1: string;
-      productcategori2: string;
-      productcategori3: string;
-      estState: string;
-      funcState: string;
-      prodImg: Array<string>;
-      prodFiles: Array<string>;
-      ownId: number;
+  amount: number;
+  status: string;
+  marketplace: string;
+  place1: string;
+  place2: string;
+  place3: string;
+  place4: string;
+  dismantability: string;
+  accessibility: string;
+  dateAcces: Date;
+  dateFirstPosDelivery: Date;
+  decisionDesignation1: string;
+  decisionDesignation2: string;
+  decisionDesignation3: string;
+  decisionDesignation4: string;
 
+  material: string;
+  colorFinish: string;
+  unitOfMeasure: string;
+  width: number;
+  height: number;
+  depth: number;
+  diameter: number;
+  thickness: number;
+  weightUnit: string;
+  weight: number;
+  avgHeightMin: number;
+  avgHeightMax: number;
+  backSupport: number;
 
+  manufactor: string;
+  articelNumber: string;
+  manufactorYear: number;
+  boughtYear: number;
+  gtin: boolean;
+  rsk: boolean;
+  bsab: boolean;
+  enr: boolean;
+  bk04: boolean;
 
-      amount: number;
-      status: string;
-      marketplace: string;
-      place1: string;
-      place2: string;
-      place3: string;
-      place4: string;
-      dismantability: string;
-      accessibility:  string;
-      dateAcces: Date;
-      dateFirstPosDelivery:   Date;
-      decisionDesignation1: string;
-      decisionDesignation2: string;
-      decisionDesignation3:  string;
-      decisionDesignation4: string;
-        
-
-      material: string;
-      colorFinish: string;
-      unitOfMeasure: string;
-      width: number;
-      height: number;
-      depth: number;
-      diameter: number;
-      thickness: number;
-      weightUnit: string;
-      weight: number;
-      avgHeightMin: number;
-      avgHeightMax: number;
-      backSupport: number;
-
-      manufactor: string;
-      articelNumber: string;
-      manufactorYear: number;
-      boughtYear: number;
-      gtin: boolean;
-      rsk: boolean;
-      bsab: boolean;
-      enr: boolean;
-      bk04: boolean;
-
-      priceNew: number;
-      buyerPrice: boolean;
-      externPrice: number;
-      internPrice: number;
-      picUpOnSite: boolean;
-      sendWithFreight: boolean;
-      address: string;
-      postalCode: number;
-      locality: string;
-      comment: string;
-
+  priceNew: number;
+  buyerPrice: boolean;
+  externPrice: number;
+  internPrice: number;
+  picUpOnSite: boolean;
+  sendWithFreight: boolean;
+  address: string;
+  postalCode: number;
+  locality: string;
+  comment: string;
 };
-
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>({
-    project: "",
-    productname: "",
-    productcategori1: "",
-    productcategori2: "",
-    productcategori3: "",
-    estState: "",
-    funcState: "",
+    project_id: "",
+    name: "",
+    productcategory1: "",
+    productcategory2: "",
+    productcategory3: "",
+    product_id: "",
+    visual_condition: "",
+    working_condition: "",
     prodImg: [],
     prodFiles: [],
-    ownId: 0,
 
     amount: 1,
     status: "Ej inventerad",
@@ -156,7 +157,9 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }; */
 
   return (
-    <FormContext.Provider value={{ formData, setFormData, errors, setErrors, saveForm }}>
+    <FormContext.Provider
+      value={{ formData, setFormData, errors, setErrors, saveForm }}
+    >
       {children}
     </FormContext.Provider>
   );
@@ -165,7 +168,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 const useFormContext = () => {
   const context = useContext(FormContext);
   if (context === undefined) {
-    throw new Error('useFormContext must be used within a FormProvider');
+    throw new Error("useFormContext must be used within a FormProvider");
   }
   return context;
 };
