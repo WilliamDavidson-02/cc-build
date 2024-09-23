@@ -16,134 +16,168 @@ export interface FormContextType {
 }
 //we need to rename all the fields to their actual names they have in teh db
 type FormData = {
-  project_id: string;
-  name: string;
-  productcategory1: string;
-  productcategory2: string;
-  productcategory3: string;
-  product_id: string;
-  visual_condition: string;
-  working_condition: string;
-  prodImg: Array<string>;
-  prodFiles: Array<string>;
 
-  amount: number;
-  status: string;
-  marketplace: string;
-  place1: string;
-  place2: string;
-  place3: string;
-  place4: string;
-  dismantability: string;
-  accessibility: string;
-  dateAcces: Date;
-  dateFirstPosDelivery: Date;
-  decisionDesignation1: string;
-  decisionDesignation2: string;
-  decisionDesignation3: string;
-  decisionDesignation4: string;
+      project_id: string;
+      project: string;
+      product_id: string;
+      name: string;
+      product_category_1: string;
+      product_category_2: string;
+      product_category_3: string;
+      visual_condition: string;
+      working_condition: string;
+      image: Array<string>;
+      product_files: Array<string>;
+      ownId: number;
 
-  material: string;
-  colorFinish: string;
-  unitOfMeasure: string;
-  width: number;
-  length: number;
-  height: number;
-  depth: number;
-  diameter: number;
-  thickness: number;
-  weightUnit: string;
-  weight: number;
-  avgHeightMin: number;
-  avgHeightMax: number;
-  backSupport: number;
 
-  manufactor: string;
-  articelNumber: string;
-  manufactorYear: number;
-  boughtYear: number;
-  gtin: boolean;
-  rsk: boolean;
-  bsab: boolean;
-  enr: boolean;
-  bk04: boolean;
 
-  priceNew: number;
-  buyerPrice: boolean;
-  externPrice: number;
-  internPrice: number;
-  picUpOnSite: boolean;
-  sendWithFreight: boolean;
-  address: string;
-  postalCode: number;
-  locality: string;
-  comment: string;
+      amount: number;
+      prod_status: string;
+      market_status: string;
+      place1: string;
+      place2: string;
+      place3: string;
+      place4: string;
+      disassembly: string;
+      accessibility:  string;
+      availability: Date;
+      delivery:   Date;
+      decision_designation_1: string;
+      decision_designation_2: string;
+      decision_designation_3:  string;
+      decision_designation_4: string;
+        
+
+      material: string;
+      color_finish: string;
+      unit_of_measure: string;
+      width: number;
+      height: number;
+      depth: number;
+      diameter: number;
+      thickness: number;
+      weight_unit: string;
+      weight: number;
+      avg_height_min: number;
+      avg_height_max: number;
+      lumbal_support: number;
+
+      //glass properties
+      glass_type: string;
+      glass_model: string;
+      glass_thickness: number;
+      hanging: string;
+      module_size: string;
+      sound_reduction: number;
+      fire_resistance_class: number;
+      burglary_resistance_class: number;
+      environmental_profile: string;
+      frame_depth: number;
+
+      manufactor: string;
+      articel_number: string;
+      manufactor_year: number;
+      bought_year: number;
+      gtin: number;
+      rsk: number;
+      bsab: string;
+      enr: number;
+      bk04: string;
+
+      price_new: number;
+      buyer_price: boolean;
+      extern_price: number;
+      intern_price: number;
+      pick_up_on_site: boolean;
+      send_with_freight: boolean;
+      address: string;
+      postal_code: number;
+      locality: string;
+      comment: string;
+
+
 };
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>({
+
     project_id: "",
-    name: "",
-    productcategory1: "",
-    productcategory2: "",
-    productcategory3: "",
+    project: "",
     product_id: "",
+    name: "",
+    product_category_1: "",
+    product_category_2: "",
+    product_category_3: "",    
     visual_condition: "",
     working_condition: "",
-    prodImg: [],
-    prodFiles: [],
+    image: [],
+    product_files: [],
+    ownId: 0,
+
 
     amount: 1,
-    status: "Ej inventerad",
-    marketplace: "Ej publicerad",
+    prod_status: "Ej inventerad",
+    market_status: "Ej publicerad",
     place1: "",
     place2: "",
     place3: "",
     place4: "",
-    dismantability: "Ej Demonterbar",
+    disassembly: "Ej Demonterbar",
     accessibility: "Ej Åtkomlig",
-    dateAcces: new Date(),
-    dateFirstPosDelivery: new Date(),
-    decisionDesignation1: "",
-    decisionDesignation2: "",
-    decisionDesignation3: "",
-    decisionDesignation4: "",
+    availability: new Date(),
+    delivery: new Date(),
+    decision_designation_1: "",
+    decision_designation_2: "",
+    decision_designation_3: "",
+    decision_designation_4: "",
 
     material: "",
-    colorFinish: "",
-    unitOfMeasure: "",
+    color_finish: "",
+    unit_of_measure: "",
     width: 0,
     length: 0,
     height: 0,
     depth: 0,
     diameter: 0,
     thickness: 0,
-    weightUnit: "",
+    weight_unit: "",
     weight: 0,
-    avgHeightMin: 0,
-    avgHeightMax: 0,
-    backSupport: 0,
+    avg_height_min: 0,
+    avg_height_max: 0,
+    lumbal_support: 0,
+
+    glass_type: "",
+    glass_model: "",
+    glass_thickness: 0,
+    hanging: "",
+    module_size: "",
+    sound_reduction: 0,
+    fire_resistance_class: 0,
+    burglary_resistance_class: 0,
+    environmental_profile: "",
+    frame_depth: 0,
 
     manufactor: "",
-    articelNumber: "",
-    manufactorYear: 0,
-    boughtYear: 0,
-    gtin: false,
-    rsk: false,
-    bsab: false,
-    enr: false,
-    bk04: false,
+    articel_number: "",
+    manufactor_year: 0,
+    bought_year: 0,
+    gtin: 0,
+    rsk: 0,
+    bsab: "",
+    enr: 0,
+    bk04: "",
 
-    priceNew: 0,
-    buyerPrice: false,
-    externPrice: 0,
-    internPrice: 0,
-    picUpOnSite: false,
-    sendWithFreight: false,
+    price_new: 0,
+    buyer_price: false,
+    extern_price: 0,
+    intern_price: 0,
+    pick_up_on_site: false,
+    send_with_freight: false,
     address: "",
-    postalCode: 0,
+    postal_code: 0,
     locality: "",
     comment: "",
   });
@@ -151,13 +185,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
   const saveForm = useRef(() => {});
 
-  /* const handleSetFormData = (data: FormData) => {
-    setFormData(prevData => ({
-      ...prevData,
-      ...data,
-    }));
-  }; */
-
+  
   return (
     <FormContext.Provider
       value={{ formData, setFormData, errors, setErrors, saveForm }}
