@@ -24,8 +24,8 @@ type FormData = {
   product_id: string;
   visual_condition: string;
   working_condition: string;
-  prodImg: Array<string>;
-  prodFiles: Array<string>;
+  prodImg: File[];
+  prodFiles: File[];
 
   amount: number;
   status: string;

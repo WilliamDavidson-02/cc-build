@@ -14,6 +14,7 @@ export default {
         missing: "#EFDA6CB2",
         incomplete: "#FF7F29B2",
         mercury: "#E2E2E2",
+        albaster: "#F9F9F9",
       },
     },
   },

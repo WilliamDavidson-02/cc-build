@@ -1,13 +1,18 @@
-import { FC } from "react";
-import Summary from "@/components/Summary";
+import FileUpload from "@/components/Upload";
+import { FC, useState } from "react";
 
 type TestProps = {};
 
 const Test: FC<TestProps> = ({}) => {
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
   return (
-    <div>
-      <Summary />
-    </div>
+    <FileUpload
+      title="ksopekfop"
+      uploadedFiles={uploadedFiles}
+      setUploadedFiles={(files) => setUploadedFiles(files)}
+      className="max-w-[400px] mx-auto"
+    />
   );
 };
 

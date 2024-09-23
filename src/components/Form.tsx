@@ -39,6 +39,13 @@ const Form: React.FC = () => {
     }));
   };
 
+  const handleSetFiles = (files: File[], prop: "prodImg" | "prodFiles") => {
+    setFormData((prev) => ({
+      ...prev,
+      [prop]: files,
+    }));
+  };
+
   return (
     <div className=" py-28 px-28 flex flex-col justify-center">
       <Typography variant="h3">Generell information </Typography>
@@ -117,8 +124,16 @@ const Form: React.FC = () => {
             </div>
 
             <div className="flex gap-6">
-              <FileUpload title="Produktbilder" />
-              <FileUpload title="Filer" />
+              <FileUpload
+                title="Produktbilder"
+                uploadedFiles={formData.prodImg}
+                setUploadedFiles={(files) => handleSetFiles(files, "prodImg")}
+              />
+              <FileUpload
+                title="Filer"
+                uploadedFiles={formData.prodFiles}
+                setUploadedFiles={(files) => handleSetFiles(files, "prodFiles")}
+              />
               <div className="flex flex-col justify-end">
                 <Textfield
                   title="Eget ID"
