@@ -9,6 +9,11 @@ import AuthenticationRoutes from "./components/protectedRoutes/AuthenticationRou
 import Navbar from "./components/Navigation/Navbar";
 import Footer from "./components/Footer";
 import Test from "./pages/Test";
+import FormPage01 from "@/pages/FormPage01";
+import FormPage02 from "@/pages/FormPage01";
+import FormPage03 from "@/pages/FormPage03";
+import FormPage04 from "@/pages/FormPage04";
+import FormPage05 from "@/pages/FormPage05";
 
 const AppContent: FC = () => {
   const location = useLocation();
@@ -24,6 +29,11 @@ const AppContent: FC = () => {
             <Route element={<AuthenticationRoutes />}>
               <Route path="/sign-in" element={<Signin />} />
               <Route path="/sign-up" element={<Signup />} />
+              {/* <Route path="/form-01" element={<FormPage01 />} /> */}
+              <Route path="/form-02" element={<FormPage02 />} />
+              <Route path="/form-03" element={<FormPage03 />} />
+              <Route path="/form-04" element={<FormPage04 />} />
+              <Route path="/form-05" element={<FormPage05 />} />
             </Route>
           </Routes>
         </FormProvider>

@@ -10,6 +10,7 @@ import {
 import { FC, useState } from "react";
 import { Tooltip } from "@/components/Tooltip";
 import Form from "@/components/Form";
+import FormStep2 from "@/components/Form_2";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",

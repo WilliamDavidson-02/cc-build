@@ -1,5 +1,6 @@
-import { ChangeEvent, FC, useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
 import Button from "@/components/Buttons";
 import Dropdown from "@/components/Dropdown";
@@ -12,14 +13,15 @@ const StepOneSchema = z.object({
   name: z.string().max(255).min(2, "Name must be at least 2 characters"),
   product_id: z.string(),
   visual_condition: z.number(),
-  wokring_condition: z.number(),
+  working_condition: z.number(),
 });
 
 type StepOneData = z.infer<typeof StepOneSchema>;
 
 const Form: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
-  console.log(formData);
+  const navigate = useNavigate();
+  console.log("FormData;", formData);
 
   const handleButtonClick = () => {};
 
@@ -39,6 +41,11 @@ const Form: React.FC = () => {
     }));
   };
 
+  const goToFormStepTwo = () => {
+    navigate("/form-02");
+  };
+
+  console.log("FormData in render:", formData);
   return (
     <div className=" py-28 px-28 flex flex-col justify-center">
       <Typography variant="h3">Generell information </Typography>
@@ -75,15 +82,15 @@ const Form: React.FC = () => {
                 title="Produktkategori"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
-                name=" productcategory1"
+                name="productcategory1"
                 value={formData.productcategory1}
                 onChange={handleSelectChange}
               />
               <Dropdown
                 title="Produktkategori"
-                options={["1", "2", "3", "4", "5"]}
+                options={["Stol", "Badrum"]}
                 size="medium"
-                name=" productcategory2"
+                name="productcategory2"
                 value={formData.productcategory2}
                 onChange={handleSelectChange}
               />
@@ -91,7 +98,7 @@ const Form: React.FC = () => {
                 title="Produktkategori"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
-                name=" productcategory3"
+                name="productcategory3"
                 value={formData.productcategory3}
                 onChange={handleSelectChange}
               />
@@ -141,8 +148,8 @@ const Form: React.FC = () => {
               <Button size="medium" variant="white" onClick={handleButtonClick}>
                 Spara utkast
               </Button>
-              <Button size="medium" variant="blue" onClick={handleButtonClick}>
-                Nästa
+              <Button size="medium" variant="blue" onClick={goToFormStepTwo}>
+                Nästa &gt;
               </Button>
             </div>
           </section>

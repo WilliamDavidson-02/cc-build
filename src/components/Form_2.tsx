@@ -225,11 +225,11 @@ const FormStep2: React.FC = () => {
 
   const handleNext = () => {
     handleSave();
-    navigate(`/form3`);
+    navigate(`/form-03`);
   };
 
   const handlePrevious = () => {
-    navigate(`/form`);
+    navigate(`/form-02`);
   };
 
   //checkboxstates
