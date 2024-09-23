@@ -26,22 +26,22 @@ const ChevronRight: FC<ChevronRightProps> = ({ ...props }) => {
           y="-0.36792"
           width="24"
           height="24"
-          fill="#D9D9D9"
+          fill="currentColor"
         />
       </mask>
       <g mask="url(#mask0_172_1200)">
         <path
           d="M13.4394 11.6367L6.70703 4.89513L7.97008 3.63208L15.9655 11.6367L7.97008 19.6321L6.70703 18.369L13.4394 11.6367Z"
-          fill="#151515"
+          fill="currentColor"
         />
         <path
           d="M13.4394 11.6367L6.70703 4.89513L7.97008 3.63208L15.9655 11.6367L7.97008 19.6321L6.70703 18.369L13.4394 11.6367Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
         <path
           d="M13.4394 11.6367L6.70703 4.89513L7.97008 3.63208L15.9655 11.6367L7.97008 19.6321L6.70703 18.369L13.4394 11.6367Z"
-          fill="black"
+          fill="currentColor"
           fillOpacity="0.2"
         />
       </g>

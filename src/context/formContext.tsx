@@ -1,4 +1,11 @@
-import React, { FC, useState, createContext, ReactNode, useContext, useRef } from 'react';
+import React, {
+  FC,
+  useState,
+  createContext,
+  ReactNode,
+  useContext,
+  useRef,
+} from "react";
 
 export interface FormContextType {
   formData: FormData;
@@ -10,7 +17,9 @@ export interface FormContextType {
 //we need to rename all the fields to their actual names they have in teh db
 type FormData = {
 
+      project_id: string;
       project: string;
+      product_id: string;
       name: string;
       product_category_1: string;
       product_category_2: string;
@@ -87,14 +96,17 @@ type FormData = {
       locality: string;
       comment: string;
 
-};
 
+};
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [formData, setFormData] = useState<FormData>({
+
+    project_id: "",
     project: "",
+    product_id: "",
     name: "",
     product_category_1: "",
     product_category_2: "",
@@ -104,6 +116,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
     image: [],
     product_files: [],
     ownId: 0,
+
 
     amount: 1,
     prod_status: "Ej inventerad",
@@ -125,6 +138,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
     color_finish: "",
     unit_of_measure: "",
     width: 0,
+    length: 0,
     height: 0,
     depth: 0,
     diameter: 0,
@@ -173,7 +187,9 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   
   return (
-    <FormContext.Provider value={{ formData, setFormData, errors, setErrors, saveForm }}>
+    <FormContext.Provider
+      value={{ formData, setFormData, errors, setErrors, saveForm }}
+    >
       {children}
     </FormContext.Provider>
   );
@@ -182,7 +198,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 const useFormContext = () => {
   const context = useContext(FormContext);
   if (context === undefined) {
-    throw new Error('useFormContext must be used within a FormProvider');
+    throw new Error("useFormContext must be used within a FormProvider");
   }
   return context;
 };

@@ -8,9 +8,8 @@ import {
 } from "@/components/products/ProgressSteps";
 //import { useUser } from "@/context/userContext";
 import { FC, useState } from "react";
-import Form from "@/components/Form";
-import FormStepThree from "@/components/FormStepThree";
 import { Tooltip } from "@/components/Tooltip";
+import Form_1 from "@/components/Form_1";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -22,7 +21,7 @@ const defaultSteps: { title: string; status: Status }[] = [
   },
   {
     title: "Egenskaper",
-    status: "error",
+    status: "pending",
   },
   {
     title: "Produktinformation",
@@ -58,9 +57,8 @@ const Home: FC = () => {
       <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
       <Input type="checkbox" />
-      <Form name="hello" product_id="cd3805a6-609a-40ff-80c5-b30913941423" />
+      <Form_1 />
       <Tooltip info="This is the tooltip info" />
-      <FormStepThree />
     </div>
   );
 };
