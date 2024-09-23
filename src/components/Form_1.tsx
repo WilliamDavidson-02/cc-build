@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
@@ -7,13 +7,19 @@ import Dropdown from "@/components/Dropdown";
 import FileUpload from "@/components/Upload";
 import { FormContext } from "@/context/formContext";
 import Typography from "@/components/Typography";
+import { supabase } from "@/lib/sbClient";
 
 const StepOneSchema = z.object({
-  project_id: z.string(),
+  project: z.string(),
   name: z.string().max(255).min(2, "Name must be at least 2 characters"),
-  product_id: z.string(),
+  product_category_1: z.string(),
+  product_category_2: z.string(),
+  product_category_3: z.string(),
   visual_condition: z.number(),
   working_condition: z.number(),
+  image: z.string().array(),
+  product_files: z.string().array(),
+  product_id: z.string(),
 });
 
 type StepOneData = z.infer<typeof StepOneSchema>;
@@ -21,13 +27,51 @@ type StepOneData = z.infer<typeof StepOneSchema>;
 const Form_1: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
   const navigate = useNavigate();
-  console.log("FormData;", formData);
+
+  const [formSection, setFormSection] = useState<StepOneData>({
+    project: "",
+    name: "",
+    product_category_1: "",
+    product_category_2: "",
+    product_category_3: "",
+    visual_condition: 0,
+    working_condition: 0,
+    image: [],
+    product_files: [],
+    product_id: "",
+  });
 
   const handleButtonClick = () => {};
 
+  const handleSave = async () => {
+    try {
+      const { data, error } = await supabase.from("products").insert([
+        {
+          project_id: "105e83a3-1f8b-492a-8b7b-74c001a98e2d",
+          // project: "",
+          name: formSection.name,
+          // product_category_1: "",
+          // product_category_2: "",
+          // product_category_3: "",
+          visual_condition: formSection.visual_condition,
+          working_condition: formSection.working_condition,
+          // image: [],
+          // product_files: [],
+          // product_id: "",
+        },
+      ]);
+
+      if (error) throw error;
+
+      console.log("Data inserted successfully:", data);
+    } catch (error) {
+      console.log("Error inserting data", error);
+    }
+  };
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormSection((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -35,7 +79,7 @@ const Form_1: React.FC = () => {
 
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormSection((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -52,7 +96,7 @@ const Form_1: React.FC = () => {
     navigate("/form-02");
   };
 
-  console.log("FormData in render:", formData);
+  console.log("FormSection in render:", formSection);
 
   return (
     <div className=" py-28 px-28 flex flex-col justify-center">
@@ -64,8 +108,8 @@ const Form_1: React.FC = () => {
               <Textfield
                 title="Projekt"
                 size="medium"
-                name="project_id"
-                value={formData.project_id}
+                name="project"
+                value={formSection.project}
                 onChange={handleInputChange}
               />
 
@@ -75,7 +119,7 @@ const Form_1: React.FC = () => {
                     title="Produktnamn"
                     size="medium"
                     name="name"
-                    value={formData.name}
+                    value={formSection.name}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -88,26 +132,26 @@ const Form_1: React.FC = () => {
             <div className="flex gap-6 flex-wrap">
               <Dropdown
                 title="Produktkategori"
-                options={["1", "2", "3", "4", "5"]}
+                options={["Inreding & möbler", "Dörrar", "WC & badrum"]}
                 size="medium"
-                name="productcategory1"
-                value={formData.product_category_1}
+                name="product_category_1"
+                value={formSection.product_category_1}
                 onChange={handleSelectChange}
               />
               <Dropdown
                 title="Produktkategori"
-                options={["Stol", "Badrum"]}
+                options={["Stol", "Altandörr", "Tvättställ"]}
                 size="medium"
-                name="productcategory2"
-                value={formData.product_category_2}
+                name="product_category_2"
+                value={formSection.product_category_2}
                 onChange={handleSelectChange}
               />
               <Dropdown
                 title="Produktkategori"
-                options={["1", "2", "3", "4", "5"]}
+                options={["Skrivbordsstol", "Pardörr", "Rostfritt"]}
                 size="medium"
-                name="productcategory3"
-                value={formData.product_category_3}
+                name="product_category_3"
+                value={formSection.product_category_3}
                 onChange={handleSelectChange}
               />
             </div>
@@ -115,18 +159,30 @@ const Form_1: React.FC = () => {
             <div className="flex gap-6 flex-wrap">
               <Dropdown
                 title="Estetiskt skick"
-                options={["1", "2", "3", "4", "5"]}
+                options={[
+                  { label: "1 - Skada går ej att åtgärda", value: 1 },
+                  { label: "2 - Skada är svår att åtgärda", value: 2 },
+                  { label: "3 - Skada går att åtgärda av proffs", value: 3 },
+                  { label: "4 - Skada går att åtgärda av lekman", value: 4 },
+                  { label: "5 - Inga skador", value: 5 },
+                ]}
                 size="medium"
                 name="visual_condition"
-                value={formData.visual_condition}
+                value={formSection.visual_condition}
                 onChange={handleSelectChange}
               />
               <Dropdown
                 title="Funktionellt skick"
-                options={["1", "2", "3", "4", "5"]}
+                options={[
+                  { label: "1 - Funktion går ej att åtgärda", value: 1 },
+                  { label: "2 - Funktion är svår att åtgärda", value: 2 },
+                  { label: "3 - Funktion går att åtgärda av proffs", value: 3 },
+                  { label: "4 - Funktion går att åtgärda av lekman", value: 4 },
+                  { label: "5 - Inga brister", value: 5 },
+                ]}
                 size="medium"
                 name="working_condition"
-                value={formData.working_condition}
+                value={formSection.working_condition}
                 onChange={handleSelectChange}
               />
             </div>
@@ -149,7 +205,7 @@ const Form_1: React.FC = () => {
                   title="Eget ID"
                   size="medium"
                   name="product_id"
-                  value={formData.product_id}
+                  value={formSection.product_id}
                   onChange={handleInputChange}
                 />
               </div>
@@ -163,7 +219,7 @@ const Form_1: React.FC = () => {
               </Button>
             </div>
             <div className=" flex gap-2 flex-wrap">
-              <Button size="medium" variant="white" onClick={handleButtonClick}>
+              <Button size="medium" variant="white" onClick={handleSave}>
                 Spara utkast
               </Button>
               <Button size="medium" variant="blue" onClick={goToFormStepTwo}>
