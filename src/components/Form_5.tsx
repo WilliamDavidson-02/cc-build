@@ -115,13 +115,10 @@ const Form_5: React.FC = () => {
     }));
   };
 
-  const handleNext = () => {
-    handleSave();
-    navigate(`/form-05`);
-  };
+  
 
   const handlePrevious = () => {
-    navigate(`/form5`);
+    navigate(`/form_4`);
   };
 
   return(
@@ -250,6 +247,7 @@ const Form_5: React.FC = () => {
           </Typography>
         </div>
 
+{/*fetch the contact person from the database!! */}
         <Textfield
           title="Kontaktperson"
           name="contact_person"
