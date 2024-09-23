@@ -41,11 +41,19 @@ const Form_1: React.FC = () => {
     }));
   };
 
+  const handleSetFiles = (files: File[], prop: "image" | "product_files") => {
+    setFormData((prev) => ({
+      ...prev,
+      [prop]: files,
+    }));
+  };
+
   const goToFormStepTwo = () => {
     navigate("/form-02");
   };
 
   console.log("FormData in render:", formData);
+
   return (
     <div className=" py-28 px-28 flex flex-col justify-center">
       <Typography variant="h3">Generell information </Typography>
@@ -83,7 +91,7 @@ const Form_1: React.FC = () => {
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
                 name="productcategory1"
-                value={formData.productcategory1}
+                value={formData.product_category_1}
                 onChange={handleSelectChange}
               />
               <Dropdown
@@ -91,7 +99,7 @@ const Form_1: React.FC = () => {
                 options={["Stol", "Badrum"]}
                 size="medium"
                 name="productcategory2"
-                value={formData.productcategory2}
+                value={formData.product_category_2}
                 onChange={handleSelectChange}
               />
               <Dropdown
@@ -99,7 +107,7 @@ const Form_1: React.FC = () => {
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
                 name="productcategory3"
-                value={formData.productcategory3}
+                value={formData.product_category_3}
                 onChange={handleSelectChange}
               />
             </div>
@@ -124,8 +132,18 @@ const Form_1: React.FC = () => {
             </div>
 
             <div className="flex gap-6">
-              <FileUpload title="Produktbilder" />
-              <FileUpload title="Filer" />
+              <FileUpload
+                title="Produktbilder"
+                uploadedFiles={formData.image}
+                setUploadedFiles={(files) => handleSetFiles(files, "image")}
+              />
+              <FileUpload
+                title="Filer"
+                uploadedFiles={formData.product_files}
+                setUploadedFiles={(files) =>
+                  handleSetFiles(files, "product_files")
+                }
+              />
               <div className="flex flex-col justify-end">
                 <Textfield
                   title="Eget ID"

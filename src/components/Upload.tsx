@@ -1,135 +1,149 @@
-import React, { useState, useRef, DragEvent } from "react";
+import React, { useState, DragEvent } from "react";
 import { cn } from "@/lib/utils";
-import { z } from "zod";
 import upload from "/upload.svg";
 import Typography from "./Typography";
+import FilePreview from "./FilePreview";
+import { v4 as uuid } from "uuid";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const uploadSchema = z.object({
-  title: z.string(),
-  onFilesSelected: z
-    .function()
-    .args(z.array(z.instanceof(File)))
-    .optional(),
-  className: z.string().optional(),
-  acceptedFileTypes: z.array(z.string()).optional(),
-});
+const fileTypes = [
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/svg+xml",
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "text/plain",
+  "text/csv",
+  "application/zip",
+  "application/x-rar-compressed",
+  "application/json",
+  "application/xml",
+  "application/rtf",
+  "application/octet-stream",
+] as const;
 
-type FileUploadProps = z.infer<typeof uploadSchema>;
+type AcceptedFileTypes = (typeof fileTypes)[number];
+
+type FileUploadProps = {
+  title: string;
+  uploadedFiles: File[];
+  setUploadedFiles: (files: File[]) => void;
+  className?: string;
+  acceptedFileTypes?: AcceptedFileTypes[];
+};
 
 const FileUpload: React.FC<FileUploadProps> = ({
   title,
-  onFilesSelected,
   className,
-  acceptedFileTypes = ["image/jpeg", "image/png", "image/gif", "image/svg+xml"],
+  uploadedFiles,
+  setUploadedFiles,
+  acceptedFileTypes = fileTypes,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const acceptAttribute = acceptedFileTypes.join(",");
 
   const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation();
     setIsDragging(true);
   };
 
   const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
+
+    // Check if the related target is a child of the drop area
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    const dropArea = e.currentTarget;
+
+    // If the related target is outside the drop area, set isDragging to false
+    if (!dropArea.contains(relatedTarget)) {
+      setIsDragging(false);
+    }
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation();
   };
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation();
     setIsDragging(false);
 
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFiles(Array.from(e.dataTransfer.files));
-    }
+    const { files } = e.dataTransfer;
+
+    if (files && files.length) handleFiles(Array.from(files));
   };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      handleFiles(Array.from(e.target.files));
-    }
+    const { files } = e.target;
+
+    if (files && files.length) handleFiles(Array.from(files));
   };
 
   const handleFiles = (files: File[]) => {
-    const validFiles = files.filter(
-      (file) =>
-        acceptedFileTypes.includes(file.type) ||
-        acceptedFileTypes.some((type) =>
-          file.name.endsWith(type.replace("image/", "."))
-        )
-    );
+    const acceptedFiles = files
+      .filter((file) =>
+        acceptedFileTypes.includes(file.type as AcceptedFileTypes)
+      )
+      .map((file) => {
+        return new File([file], uuid() + "_" + file.name, { type: file.type });
+      });
 
-    if (onFilesSelected) {
-      onFilesSelected(validFiles);
-    }
+    const allFiles = [...uploadedFiles, ...acceptedFiles];
+    setUploadedFiles(allFiles);
   };
 
-  const handleClick = () => {
-    fileInputRef.current?.click();
+  const handleRemoveFile = (file: File) => {
+    setUploadedFiles(uploadedFiles.filter((f) => f.name !== file.name));
   };
-  /* To use the FileUpload component we need supply a handlerfunction, and the size is dependent on the parents size:
 
-    const handleFilesSelected = (files: File[]) => {
-        // Handle the selected files here
-        console.log('Selected files:', files);
-      };
-
-
-    <div className="flex flex-col gap-4">
-      <Upload 
-        title="Produktbilder" 
-        onFilesSelected={handleFilesSelected}
-        acceptedFileTypes={['image/jpeg', 'image/png', 'image/svg+xml']}
-      />
-
-      <Upload 
-        title="ProduktFiler" 
-        onFilesSelected={handleFilesSelected}
-        acceptedFileTypes={['application/pdf', 'application/txt', 'application/zip']}
-      />
-    </div>
-*/
   return (
-    <div className={cn("w-full", className)}>
-      <label>
-        <Typography variant="h5" className="mb-0 font-semibold text-[14px]">
+    <div className={cn("w-full flex flex-col gap-3", className)}>
+      <label className="flex flex-col gap-2">
+        <Typography size="sm" className="font-semibold">
           {title}
         </Typography>
+        <div
+          className={cn(
+            "flex items-center px-4 gap-2 h-[5.5rem] bg-albaster rounded-[0.2rem] border border-mercury",
+            {
+              "border-blue-500": isDragging,
+            }
+          )}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          <input
+            type="file"
+            className="hidden"
+            multiple
+            accept={acceptAttribute}
+            onChange={handleFileInput}
+          />
+          <img src={upload} alt="upload" className="h-6 w-6 text-black" />
+          <Typography
+            className="text-abbey text-center w-full font-medium"
+            size="sm"
+          >
+            Dra och släpp bilder här eller bläddra
+          </Typography>
+        </div>
       </label>
-      <div
-        className={cn(
-          "flex flex-row justify-between items-center bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-md py-10 px-7 text-center cursor-pointer",
-          isDragging ? "border-blue-500 bg-blue-50" : "border-[#E2E2E2]"
-        )}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-        onClick={handleClick}
-      >
-        <input
-          type="file"
-          ref={fileInputRef}
-          className="hidden"
-          multiple
-          accept={acceptAttribute}
-          onChange={handleFileInput}
-        />
-        <img src={upload} alt="upload" className="h-8 w-8 text-black" />
-        <p className="mt-1 text-sm text-black ml-4">
-          Dra och släpp bilder här eller bläddra
-        </p>
+      <div className="grid grid-cols-4 gap-3">
+        {uploadedFiles.map((file) => (
+          <FilePreview
+            key={file.name}
+            file={file}
+            removeFile={handleRemoveFile}
+          />
+        ))}
       </div>
     </div>
   );
