@@ -1,5 +1,6 @@
-import { ChangeEvent, FC, useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
 import Button from "@/components/Buttons";
 import Dropdown from "@/components/Dropdown";
@@ -12,14 +13,15 @@ const StepOneSchema = z.object({
   name: z.string().max(255).min(2, "Name must be at least 2 characters"),
   product_id: z.string(),
   visual_condition: z.number(),
-  wokring_condition: z.number(),
+  working_condition: z.number(),
 });
 
 type StepOneData = z.infer<typeof StepOneSchema>;
 
-const Form: React.FC = () => {
+const Form_1: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
-  console.log(formData);
+  const navigate = useNavigate();
+  console.log("FormData;", formData);
 
   const handleButtonClick = () => {};
 
@@ -39,12 +41,18 @@ const Form: React.FC = () => {
     }));
   };
 
-  const handleSetFiles = (files: File[], prop: "prodImg" | "prodFiles") => {
+  const handleSetFiles = (files: File[], prop: "image" | "product_files") => {
     setFormData((prev) => ({
       ...prev,
       [prop]: files,
     }));
   };
+
+  const goToFormStepTwo = () => {
+    navigate("/form-02");
+  };
+
+  console.log("FormData in render:", formData);
 
   return (
     <div className=" py-28 px-28 flex flex-col justify-center">
@@ -82,24 +90,24 @@ const Form: React.FC = () => {
                 title="Produktkategori"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
-                name=" productcategory1"
-                value={formData.productcategory1}
+                name="productcategory1"
+                value={formData.product_category_1}
+                onChange={handleSelectChange}
+              />
+              <Dropdown
+                title="Produktkategori"
+                options={["Stol", "Badrum"]}
+                size="medium"
+                name="productcategory2"
+                value={formData.product_category_2}
                 onChange={handleSelectChange}
               />
               <Dropdown
                 title="Produktkategori"
                 options={["1", "2", "3", "4", "5"]}
                 size="medium"
-                name=" productcategory2"
-                value={formData.productcategory2}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Produktkategori"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name=" productcategory3"
-                value={formData.productcategory3}
+                name="productcategory3"
+                value={formData.product_category_3}
                 onChange={handleSelectChange}
               />
             </div>
@@ -126,13 +134,15 @@ const Form: React.FC = () => {
             <div className="flex gap-6">
               <FileUpload
                 title="Produktbilder"
-                uploadedFiles={formData.prodImg}
-                setUploadedFiles={(files) => handleSetFiles(files, "prodImg")}
+                uploadedFiles={formData.image}
+                setUploadedFiles={(files) => handleSetFiles(files, "image")}
               />
               <FileUpload
                 title="Filer"
-                uploadedFiles={formData.prodFiles}
-                setUploadedFiles={(files) => handleSetFiles(files, "prodFiles")}
+                uploadedFiles={formData.product_files}
+                setUploadedFiles={(files) =>
+                  handleSetFiles(files, "product_files")
+                }
               />
               <div className="flex flex-col justify-end">
                 <Textfield
@@ -156,8 +166,8 @@ const Form: React.FC = () => {
               <Button size="medium" variant="white" onClick={handleButtonClick}>
                 Spara utkast
               </Button>
-              <Button size="medium" variant="blue" onClick={handleButtonClick}>
-                Nästa
+              <Button size="medium" variant="blue" onClick={goToFormStepTwo}>
+                Nästa &gt;
               </Button>
             </div>
           </section>
@@ -167,4 +177,4 @@ const Form: React.FC = () => {
   );
 };
 
-export default Form;
+export default Form_1;

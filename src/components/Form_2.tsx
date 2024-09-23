@@ -12,8 +12,8 @@ import Info from "./icons/Info";
 
 const Step2Schema = z.object({
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
-  status: z.string().optional(),
-  marketplace: z.string().optional(),
+  prod_status: z.string().optional(),
+  market_status: z.string().optional(),
   place1: z
     .string()
     .min(2, "Plats måste vara minst 2 tecken")
@@ -34,26 +34,26 @@ const Step2Schema = z.object({
     .min(2, "Plats måste vara minst 2 tecken")
     .optional()
     .or(z.literal("")),
-  dismantability: z.string().optional(),
+  disassembly: z.string().optional(),
   accessibility: z.string().optional(),
-  dateAcces: z.date().optional(),
-  dateFirstPosDelivery: z.date().optional(),
-  decisionDesignation1: z
+  availability: z.date().optional(),
+  delivery: z.date().optional(),
+  decision_designation_1: z
     .string()
     .min(2, "Beslutsbenämning måste vara minst 2 tecken")
     .optional()
     .or(z.literal("")),
-  decisionDesignation2: z
+  decision_designation_2: z
     .string()
     .min(2, "Beslutsbenämning måste vara minst 2 tecken")
     .optional()
     .or(z.literal("")),
-  decisionDesignation3: z
+  decision_designation_3: z
     .string()
     .min(2, "Beslutsbenämning måste vara minst 2 tecken")
     .optional()
     .or(z.literal("")),
-  decisionDesignation4: z
+  decision_designation_4: z
     .string()
     .min(2, "Beslutsbenämning måste vara minst 2 tecken")
     .optional()
@@ -63,26 +63,26 @@ const Step2Schema = z.object({
 type Step2Data = z.infer<typeof Step2Schema>;
 
 //do I have to type it with the generic type <Step2Data>?
-const FormStep2: React.FC = () => {
+const Form_2: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
   const [formSections, setFormSections] = useState<Step2Data[]>([
     {
       amount: 1,
-      status: "Ej inventerad",
-      marketplace: "Ej publicerad",
+      prod_status: "Ej inventerad",
+      market_status: "Ej publicerad",
       place1: "",
       place2: "",
       place3: "",
       place4: "",
-      dismantability: "Ej Demonterbar",
+      disassembly: "Ej Demonterbar",
       accessibility: "Ej Åtkomlig",
-      dateAcces: new Date(),
-      dateFirstPosDelivery: new Date(),
-      decisionDesignation1: "",
-      decisionDesignation2: "",
-      decisionDesignation3: "",
-      decisionDesignation4: "",
+      availability: new Date(),
+      delivery: new Date(),
+      decision_designation_1: "",
+      decision_designation_2: "",
+      decision_designation_3: "",
+      decision_designation_4: "",
     },
   ]);
 
@@ -90,20 +90,20 @@ const FormStep2: React.FC = () => {
     if (!formData) {
       const initialData: Step2Data = {
         amount: 1,
-        status: "Ej inventerad",
-        marketplace: "Ej publicerad",
+        prod_status: "Ej inventerad",
+        market_status: "Ej publicerad",
         place1: "",
         place2: "",
         place3: "",
         place4: "",
-        dismantability: "Ej Demonterbar",
+        disassembly: "Ej Demonterbar",
         accessibility: "Ej Åtkomlig",
-        dateAcces: new Date(),
-        dateFirstPosDelivery: new Date(),
-        decisionDesignation1: "",
-        decisionDesignation2: "",
-        decisionDesignation3: "",
-        decisionDesignation4: "",
+        availability: new Date(),
+        delivery: new Date(),
+        decision_designation_1: "",
+        decision_designation_2: "",
+        decision_designation_3: "",
+        decision_designation_4: "",
       };
       setFormData((prevData) => ({
         ...prevData,
@@ -161,20 +161,20 @@ const FormStep2: React.FC = () => {
       const { data, error } = await supabase.from("products").insert(
         formSections.map((section) => ({
           amount: section.amount,
-          status: section.status,
-          marketplace: section.marketplace,
+          prod_status: section.prod_status,
+          market_status: section.market_status,
           place1: section.place1,
           place2: section.place2,
           place3: section.place3,
           place4: section.place4,
-          dismantability: section.dismantability,
+          disassembly: section.disassembly,
           accessibility: section.accessibility,
-          dateAcces: section.dateAcces,
-          dateFirstPosDelivery: section.dateFirstPosDelivery,
-          decisionDesignation1: section.decisionDesignation1,
-          decisionDesignation2: section.decisionDesignation2,
-          decisionDesignation3: section.decisionDesignation3,
-          decisionDesignation4: section.decisionDesignation4,
+          availability: section.availability,
+          delivery: section.delivery,
+          decision_designation_1: section.decision_designation_1,
+          decision_designation_2: section.decision_designation_2,
+          decision_designation_3: section.decision_designation_3,
+          decision_designation_4: section.decision_designation_4,
         }))
       );
 
@@ -192,20 +192,20 @@ const FormStep2: React.FC = () => {
       ...prevSections,
       {
         amount: 1,
-        status: "Ej inventerad",
-        marketplace: "Ej publicerad",
+        prod_status: "Ej inventerad",
+        market_status: "Ej publicerad",
         place1: "",
         place2: "",
         place3: "",
         place4: "",
-        dismantability: "Ej Demonterbar",
+        disassembly: "Ej Demonterbar",
         accessibility: "Ej Åtkomlig",
-        dateAcces: new Date(),
-        dateFirstPosDelivery: new Date(),
-        decisionDesignation1: "",
-        decisionDesignation2: "",
-        decisionDesignation3: "",
-        decisionDesignation4: "",
+        availability: new Date(),
+        delivery: new Date(),
+        decision_designation_1: "",
+        decision_designation_2: "",
+        decision_designation_3: "",
+        decision_designation_4: "",
       },
     ]);
   };
@@ -225,11 +225,11 @@ const FormStep2: React.FC = () => {
 
   const handleNext = () => {
     handleSave();
-    navigate(`/form3`);
+    navigate(`/form-03`);
   };
 
   const handlePrevious = () => {
-    navigate(`/form`);
+    navigate(`/form-02`);
   };
 
   //checkboxstates
@@ -309,8 +309,124 @@ const FormStep2: React.FC = () => {
                 <div className="flex flex-col gap-2">
                   <label className="text-[14px] font-semibold">Status</label>
                   <select
-                    name="status"
-                    value={formSections[index].status || "Ej inventerad"}
+                    name="prod_status"
+                    value={formSections[index].prod_status || "Ej inventerad"}
+                    onChange={(e) => handleInputChange(index, e)}
+                  >
+                    <option value="Inventerad">Inventerad</option>
+                    <option value="Ej inventerad">Ej inventerad</option>
+                  </select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[14px] font-semibold">
+                    Marknadsplatsen
+                  </label>
+                  <select
+                    name="market_status"
+                    value={formSections[index].market_status || "Ej publicerad"}
+                    onChange={(e) => handleInputChange(index, e)}
+                  >
+                    <option value="Ej publicerad">Ej publicerad</option>
+                    <option value="Publicerad">Publicerad</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex gap-6">
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place1"
+                    placeholder="Ange plats"
+                    value={formSections[index].place1 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[20%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place2"
+                    placeholder="Ange plats"
+                    value={formSections[index].place2 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[20%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place3"
+                    placeholder="Ange plats"
+                    value={formSections[index].place3 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[20%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place4"
+                    placeholder="Ange plats"
+                    value={formSections[index].place4 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[20%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+              </div>
+            </section>
+          </form>
+
+          <div
+            className="flex flex-row gap-6 justify-center items-center py-2 px-8 cursor-pointer w-full"
+            onClick={() => toggleExpand(index)}
+          >
+            <p className="cursor-pointer font-medium text-[16px] text-[#15151]">
+              {expandedForms[index] ? "Dölj" : "Se mer"}
+            </p>
+            {expandedForms[index] ? (
+              <img src="/up.svg" alt="up arrow" className="w-6 h-6" />
+            ) : (
+              <img src="/down.svg" alt="down arrow" className="w-6 h-6" />
+            )}
+          </div>
+          <form key={index} className="flex flex-col">
+            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
+              <div className="flex gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[14px] font-semibold">Antal</label>
+                  <input
+                    type="number"
+                    name="amount"
+                    value={formSections[index].amount || 1}
+                    onChange={(e) => handleInputChange(index, e)}
+                    placeholder="Antal (st)"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[14px] font-semibold">Status</label>
+                  <select
+                    name="disassembly"
+                    value={formSections[index].disassembly || "Ej Demonterbar"}
                     onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Inventerad">Inventerad</option>
@@ -323,7 +439,7 @@ const FormStep2: React.FC = () => {
                   </label>
                   <select
                     name="marketplace"
-                    value={formSections[index].marketplace || "Ej publicerad"}
+                    value={formSections[index].market_status || "Ej publicerad"}
                     onChange={(e) => handleInputChange(index, e)}
                   >
                     <option value="Ej publicerad">Ej publicerad</option>
@@ -385,143 +501,71 @@ const FormStep2: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="flex gap-6">
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Beslutsbenämning"
+                    size="small"
+                    name="decision_designation_1"
+                    placeholder="Ange"
+                    value={formSections[index].decision_designation_1 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[80%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Beslutsbenämning"
+                    size="small"
+                    name="decision_designation_2"
+                    placeholder="Ange"
+                    value={formSections[index].decision_designation_2 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[80%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Beslutsbenämning"
+                    size="small"
+                    name="decision_designation_3"
+                    placeholder="Ange"
+                    value={formSections[index].decision_designation_3 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[80%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Beslutsbenämning"
+                    size="small"
+                    name="decision_designation_4"
+                    placeholder="Ange"
+                    value={formSections[index].decision_designation_4 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <img
+                    src="/info.svg"
+                    alt="info icon"
+                    className="absolute top-0 left-[80%] cursor-pointer select-none  w-6 "
+                  />
+                </div>
+              </div>
             </section>
-
-            <div
-              className="flex flex-row gap-6 justify-center items-center py-2 px-8 cursor-pointer w-full"
-              onClick={() => toggleExpand(index)}
-            >
-              <p className="cursor-pointer font-medium text-[16px] text-[#15151]">
-                {expandedForms[index] ? "Dölj" : "Se mer"}
-              </p>
-              {expandedForms[index] ? (
-                <img src="/up.svg" alt="up arrow" className="w-6 h-6" />
-              ) : (
-                <img src="/down.svg" alt="down arrow" className="w-6 h-6" />
-              )}
-            </div>
-            {/*section that is initially hidden under the expandable " se mer"*/}
-            {expandedForms[index] && (
-              <>
-                <section className="flex flex-col gap-6 px-4 py-2 mb-12">
-                  <div className="flex gap-6">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-[14px] font-semibold">
-                        Demonterbarhet
-                      </label>
-                      <select
-                        name="dismantability"
-                        value={
-                          formSections[index].dismantability || "Ej Demonterbar"
-                        }
-                        onChange={(e) => handleInputChange(index, e)}
-                      >
-                        <option value="Demonterbar">Demonterbar</option>
-                        <option value="Ej Demonterbar">Ej Demonterbar</option>
-                      </select>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-[14px] font-semibold">
-                        Åtkomlighet
-                      </label>
-                      <select
-                        name="accessibility"
-                        value={
-                          formSections[index].accessibility || "Ej Åtkomlig"
-                        }
-                        onChange={(e) => handleInputChange(index, e)}
-                      >
-                        <option value="Åtkomlig">Åtkomlig</option>
-                        <option value="Ej Åtkomlig">Ej Åtkomlig</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex gap-6">
-                    <div className="flex flex-col gap-2 min-w-[162px]">
-                      <Typography
-                        variant="p"
-                        size="sm"
-                        className="text-[14px] font-semibold"
-                      >
-                        Datum tillgänglig
-                      </Typography>
-                      <DatePicker
-                        selected={new Date()}
-                        setSelected={() => {}}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2 min-w-[162px]">
-                      <Typography
-                        variant="p"
-                        size="sm"
-                        className="text-[14px] font-semibold"
-                      >
-                        Datum första möjliga leverans
-                      </Typography>
-                      <DatePicker
-                        selected={new Date()}
-                        setSelected={() => {}}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex gap-6">
-                    <div className="relative flex flex-col gap-2">
-                      <div className="flex">
-                        <Textfield
-                          title="Beslutsbenämning"
-                          size="small"
-                          name="decisionDesignation1"
-                          placeholder="Ange"
-                          value={formSections[index].decisionDesignation1 || ""}
-                          onChange={(e) => handleInputChange(index, e)}
-                        />
-                        <Info className="postition absolute right-0" />
-                      </div>
-                    </div>
-
-                    <div className="relative flex flex-col gap-2">
-                      <div className="flex">
-                        <Textfield
-                          title="Beslutsbenämning"
-                          size="small"
-                          name="decisionDesignation2"
-                          placeholder="Ange"
-                          value={formSections[index].decisionDesignation2 || ""}
-                          onChange={(e) => handleInputChange(index, e)}
-                        />
-                        <Info className="postition absolute right-0" />
-                      </div>
-                    </div>
-                    <div className="relative flex flex-col gap-2">
-                      <div className="flex">
-                        <Textfield
-                          title="Beslutsbenämning"
-                          size="small"
-                          name="decisionDesignation3"
-                          placeholder="Ange"
-                          value={formSections[index].decisionDesignation3 || ""}
-                          onChange={(e) => handleInputChange(index, e)}
-                        />
-                        <Info className="postition absolute right-0" />
-                      </div>
-                    </div>
-                    <div className="relative flex flex-col gap-2">
-                      <div className="flex">
-                        <Textfield
-                          title="Beslutsbenämning"
-                          size="small"
-                          name="decisionDesignation4"
-                          placeholder="Ange"
-                          value={formSections[index].decisionDesignation4 || ""}
-                          onChange={(e) => handleInputChange(index, e)}
-                        />
-                        <Info className="postition absolute right-0" />
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </>
-            )}
           </form>
         </div>
       ))}
@@ -553,4 +597,4 @@ const FormStep2: React.FC = () => {
   );
 };
 
-export default FormStep2;
+export default Form_2;

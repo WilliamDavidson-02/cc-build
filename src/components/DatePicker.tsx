@@ -29,7 +29,7 @@ const DatePicker: FC<DatePickerProps> = ({ selected, setSelected }) => {
         {selected ? format(selected, "yy.MM.dd") : "Välj ett datum"}
       </div>
       {show && (
-        <div className="absolute top-full mt-2" ref={ref}>
+        <div className="absolute top-full mt-2 z-[99]" ref={ref}>
           <Calendar selected={selected} onSelect={setSelected} mode="single" />
         </div>
       )}
