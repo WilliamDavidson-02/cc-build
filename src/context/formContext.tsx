@@ -18,7 +18,7 @@ type FormData = {
       visual_condition: string;
       working_condition: string;
       image: Array<string>;
-      prodFiles: Array<string>;
+      product_files: Array<string>;
       ownId: number;
 
 
@@ -34,44 +34,56 @@ type FormData = {
       accessibility:  string;
       availability: Date;
       delivery:   Date;
-      decisionDesignation1: string;
-      decisionDesignation2: string;
-      decisionDesignation3:  string;
-      decisionDesignation4: string;
+      decision_designation_1: string;
+      decision_designation_2: string;
+      decision_designation_3:  string;
+      decision_designation_4: string;
         
 
       material: string;
-      colorFinish: string;
-      unitOfMeasure: string;
+      color_finish: string;
+      unit_of_measure: string;
       width: number;
       height: number;
       depth: number;
       diameter: number;
       thickness: number;
-      weightUnit: string;
+      weight_unit: string;
       weight: number;
-      avgHeightMin: number;
-      avgHeightMax: number;
-      backSupport: number;
+      avg_height_min: number;
+      avg_height_max: number;
+      lumbal_support: number;
+
+      //glass properties
+      glass_type: string;
+      glass_model: string;
+      glass_thickness: number;
+      hanging: string;
+      module_size: string;
+      sound_reduction: number;
+      fire_resistance_class: number;
+      burglary_resistance_class: number;
+      environmental_profile: string;
+      frame_depth: number;
 
       manufactor: string;
-      articelNumber: string;
-      manufactorYear: number;
-      boughtYear: number;
-      gtin: boolean;
-      rsk: boolean;
-      bsab: boolean;
-      enr: boolean;
-      bk04: boolean;
+      articel_number: string;
+      manufactor_year: number;
+      bought_year: number;
+      gtin: number;
+      rsk: number;
+      bsab: string;
+      enr: number;
+      bk04: string;
 
-      priceNew: number;
-      buyerPrice: boolean;
-      externPrice: number;
-      internPrice: number;
-      picUpOnSite: boolean;
-      sendWithFreight: boolean;
+      price_new: number;
+      buyer_price: boolean;
+      extern_price: number;
+      intern_price: number;
+      pick_up_on_site: boolean;
+      send_with_freight: boolean;
       address: string;
-      postalCode: number;
+      postal_code: number;
       locality: string;
       comment: string;
 
