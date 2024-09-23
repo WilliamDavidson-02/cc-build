@@ -64,12 +64,12 @@ const Form_4: React.FC = () => {
     }));
   };
 
-  const toggleFeature = (feature: keyof Step4Data) => {
+  /* const toggleFeature = (feature: keyof Step4Data) => {
     setFormSection((prevSection) => ({
       ...prevSection,
       [feature]: !prevSection[feature],
     }));
-  };
+  }; */
 
   const handleSave = async () => {
     const result = Step4Schema.safeParse(formSection);
@@ -216,6 +216,14 @@ const Form_4: React.FC = () => {
             </div>
           ))}
         </section>
+
+        {errors && (
+            <div className="text-red-500">
+              {Object.entries(errors).map(([key, value]) => (
+                <p key={key}>{value.join(', ')}</p>
+              ))}
+            </div>
+          )}
       </div>
 
       <section className="w-full flex justify-between my-12">
