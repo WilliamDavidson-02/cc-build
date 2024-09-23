@@ -63,7 +63,7 @@ const Step2Schema = z.object({
 type Step2Data = z.infer<typeof Step2Schema>;
 
 //do I have to type it with the generic type <Step2Data>?
-const FormStep2: React.FC = () => {
+const Form_2: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
   const [formSections, setFormSections] = useState<Step2Data[]>([
@@ -553,4 +553,4 @@ const FormStep2: React.FC = () => {
   );
 };
 
-export default FormStep2;
+export default Form_2;

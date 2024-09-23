@@ -47,6 +47,7 @@ type FormData = {
   colorFinish: string;
   unitOfMeasure: string;
   width: number;
+  length: number;
   height: number;
   depth: number;
   diameter: number;
@@ -114,6 +115,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
     colorFinish: "",
     unitOfMeasure: "",
     width: 0,
+    length: 0,
     height: 0,
     depth: 0,
     diameter: 0,
