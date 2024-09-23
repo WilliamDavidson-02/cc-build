@@ -9,14 +9,14 @@ import Textfield from "./Textfield";
 
 const Step4Schema = z.object({
   manufactor: z.string().optional(),
-  articelNumber: z.string().optional(),
-  manufactorYear: z.number().optional(),
-  boughtYear: z.number().optional(),
-  gtin: z.boolean().optional(),
-  rsk: z.boolean().optional(),
-  bsab: z.boolean().optional(),
-  enr: z.boolean().optional(),
-  bk04: z.boolean().optional(),
+  articel_number: z.string().optional(),
+  manufactor_year: z.number().optional(),
+  bought_year: z.number().optional(),
+  gtin: z.number().optional(),
+  rsk: z.number().optional(),
+  bsab: z.string().optional(),
+  enr: z.number().optional(),
+  bk04: z.string().optional(),
 });
 type Step4Data = z.infer<typeof Step4Schema>;
 
@@ -25,28 +25,28 @@ const Form_4: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const [formSection, setFormSection] = useState<Step4Data>({
     manufactor: "",
-    articelNumber: "",
-    manufactorYear: undefined,
-    boughtYear: undefined,
-    gtin: false,
-    rsk: false,
-    bsab: false,
-    enr: false,
-    bk04: false,
+    articel_number: "",
+    manufactor_year: undefined,
+    bought_year: undefined,
+    gtin: 0,
+    rsk: 0,
+    bsab: "",
+    enr: 0,
+    bk04: "",
   });
 
   useEffect(() => {
     if (!formData) {
       const initialData: Step4Data = {
         manufactor: "",
-        articelNumber: "",
-        manufactorYear: 0,
-        boughtYear: 0,
-        gtin: false,
-        rsk: false,
-        bsab: false,
-        enr: false,
-        bk04: false,
+        articel_number: "",
+        manufactor_year: 0,
+        bought_year: 0,
+        gtin: 0,
+        rsk: 0,
+        bsab: "",
+        enr: 0,
+        bk04: "",
       };
       setFormData((prevData) => ({
         ...prevData,
@@ -96,9 +96,9 @@ const Form_4: React.FC = () => {
       const { data, error } = await supabase.from("products").insert([
         {
           manufactor: formSection.manufactor,
-          articelNumber: formSection.articelNumber,
-          manufactorYear: formSection.manufactorYear,
-          boughtYear: formSection.boughtYear,
+          articel_number: formSection.articel_number,
+          manufactor_year: formSection.manufactor_year,
+          bought_year: formSection.bought_year,
           gtin: formSection.gtin,
           rsk: formSection.rsk,
           bsab: formSection.bsab,
@@ -113,6 +113,22 @@ const Form_4: React.FC = () => {
     } catch (error) {
       console.error("Error inserting data:", error);
     }
+  };
+
+  const [visibleFields, setVisibleFields] = useState({
+    gtin: false,
+    rsk: false,
+    bsab: false,
+    enr: false,
+    bk04: false,
+  });
+
+
+  const toggleField = (field: keyof typeof visibleFields) => {
+    setVisibleFields((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
   };
 
   const handleNext = () => {
@@ -138,119 +154,67 @@ const Form_4: React.FC = () => {
 
       <div className="flex flex-row gap-10 w-full justify-center">
         <section className="flex flex-col gap-6 px-4 py-5 w-1/2 shadow-lg">
-          <div className="flex flex-col gap-4 w-full">
-            <Textfield
-              title="Tillverkare/Leverantör"
-              name="manufactor"
-              size="large"
-              placeholder="ange tillverkare eller leverantör"
-              value={formSection.manufactor || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 w-full">
-            <Textfield
-              title="Artikelnummer"
-              name="articelNumber"
-              size="large"
-              placeholder="ange tillverkare/leverantörens artikelnummer"
-              value={formSection.articelNumber || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 w-full">
-            <Textfield
-              title="Tillverkningsår"
-              name="manufactorYear"
-              size="large"
-              placeholder="ange uppskattat  tillverkningsår"
-              value={formSection.manufactorYear || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 w-full">
-            <Textfield
-              title="Inköpsår"
-              name="boughtYear"
-              size="large"
-              placeholder="ange uppskattat inköpsår"
-              value={formSection.boughtYear || ""}
-              onChange={handleInputChange}
-            />
-          </div>
+          <Textfield
+            title="Tillverkare/Leverantör"
+            name="manufactor"
+            size="large"
+            placeholder="ange tillverkare eller leverantör"
+            value={formSection.manufactor || ""}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Artikelnummer"
+            name="articel_number"
+            size="large"
+            placeholder="ange tillverkare/leverantörens artikelnummer"
+            value={formSection.articel_number || ""}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Tillverkningsår"
+            name="manufactor_year"
+            size="large"
+            placeholder="ange uppskattat tillverkningsår"
+            value={formSection.manufactor_year || ""}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Inköpsår"
+            name="bought_year"
+            size="large"
+            placeholder="ange uppskattat inköpsår"
+            value={formSection.bought_year || ""}
+            onChange={handleInputChange}
+          />
         </section>
 
         <section className="flex flex-col gap-6 justify-center px-4 py-5 w-1/2">
-          <div className="flex gap-4 w-full  items-center">
-            <Button
-              size="medium"
-              variant="blue"
-              className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]"
-              onClick={() => toggleFeature("gtin")}
-            >
-              <span className="text-[24px]">+</span> GTIN
-            </Button>
-            <Typography variant="p" size="md" className="text-inter">
-              Ange GTIN om GTIN finns/är känt
-            </Typography>
-          </div>
-          <div className="flex gap-4 w-full items-center">
-            <Button
-              size="medium"
-              variant="blue"
-              className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]"
-              onClick={() => toggleFeature("rsk")}
-            >
-              <span className="text-[24px]">+</span> RSK
-            </Button>
-            <Typography variant="p" size="md" className="text-inter">
-              Relevant för elektronik och VVS
-            </Typography>
-          </div>
-          <div className="flex gap-4 w-full items-center">
-            <Button
-              size="medium"
-              variant="blue"
-              className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]"
-              onClick={() => toggleFeature("bsab")}
-            >
-              <span className="text-[24px]">+</span> BSAB
-            </Button>
-            <Typography variant="p" size="md" className="text-inter">
-              Ange BSAB-kod om känt/relevant. Används för att underlätta
-              klassificering och sökning.
-            </Typography>
-          </div>
-          <div className="flex gap-4 w-full items-center">
-            <Button
-              size="medium"
-              variant="blue"
-              className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]"
-              onClick={() => toggleFeature("enr")}
-            >
-              <span className="text-[24px]">+</span> E-NR
-            </Button>
-            <Typography variant="p" size="md" className="text-inter">
-              Relevant för elektronik och VVS
-            </Typography>
-          </div>
-          <div className="flex gap-4 w-full items-center">
-            <Button
-              size="medium"
-              variant="blue"
-              className="min-w-[142px] max-w-[142px] min-h-[56px]  max-h-[56px]"
-              onClick={() => toggleFeature("bk04")}
-            >
-              <span className="text-[24px]">+</span> BK-04
-            </Button>
-            <Typography variant="p" size="md" className="text-inter">
-              Ange BK04-kod om känt/relevant. Används för att underlätta
-              klassificering och sökning.
-            </Typography>
-          </div>
+          {["gtin", "rsk", "bsab", "enr", "bk04"].map((field) => (
+            <div key={field} className="flex gap-4 w-full items-center">
+              <Button
+                size="medium"
+                variant="blue"
+                className="min-w-[142px] max-w-[142px] min-h-[56px] max-h-[56px]"
+                onClick={() => toggleField(field as keyof typeof visibleFields)}
+              >
+                <span className="text-[24px]">{visibleFields[field as keyof typeof visibleFields] ? "-" : "+"}</span> {field.toUpperCase()}
+              </Button>
+              {visibleFields[field as keyof typeof visibleFields] ? (
+                <Textfield
+                  name={field}
+                  size="large"
+                  placeholder={`Ange ${field.toUpperCase()}`}
+                  value={formSection[field as keyof Step4Data] || ""}
+                  onChange={handleInputChange}  
+                  className="w-full"                
+                />
+              ) : (
+                <Typography variant="p" size="md" className="text-inter">
+                  {getFieldDescription(field)}
+                </Typography>
+              )}
+            </div>
+          ))}
         </section>
       </div>
 
@@ -271,6 +235,22 @@ const Form_4: React.FC = () => {
       </section>
     </main>
   );
+};
+
+const getFieldDescription = (field: string) => {
+  switch (field) {
+    case "gtin":
+      return "Ange GTIN om GTIN finns/är känt";
+    case "rsk":
+    case "enr":
+      return "Relevant för elektronik och VVS";
+    case "bsab":
+      return "Ange BSAB-kod om känt/relevant. Används för att underlätta klassificering och sökning.";
+    case "bk04":
+      return "Ange BK04-kod om känt/relevant. Används för att underlätta klassificering och sökning.";
+    default:
+      return "";
+  }
 };
 
 export default Form_4;
