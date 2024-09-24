@@ -314,6 +314,7 @@ const Form_2: React.FC = () => {
                   value={formSections[index].amount || 1}
                   onChange={(e) => handleInputChange(index, e)}
                   placeholder="Antal (st)"
+                  className="bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -322,9 +323,23 @@ const Form_2: React.FC = () => {
                   name="prod_status"
                   value={formSections[index].prod_status || "Ej inventerad"}
                   onChange={(e) => handleInputChange(index, e)}
+                  className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                 >
+                  <option value="" disabled>Välj</option>
                   <option value="Inventerad">Inventerad</option>
-                  <option value="Ej inventerad">Ej inventerad</option>
+                  <option value="Inventerad - i byggnad">Inventerad - i byggnad</option>
+                  <option value="Inventerad - i lager/förråd">Inventerad - i lager/förråd</option>
+                  <option value="Mängdad">Mängdad</option>
+                  <option value="Mängdad - i byggnad">Mängdad - i byggnad</option>
+                  <option value="Mängdad - i lager/förråd">Mängdad - i lager/förråd</option>
+                  <option value="På rekonditionering">På rekonditionering</option>
+                  <option value="I lager">I lager</option>
+                  <option value="Bevarad (slutstatus)">Bevarad (slutstatus)</option>
+                  <option value="Återbrukad i projekt (slutstatus)">Återbrukad i projekt (slutstatus)</option>
+                  <option value="Återbrukad inom organisationen (slutstatus)">Återbrukad inom organisationen (slutstatus)</option>
+                  <option value="Återbrukad externt av annan aktör (slutstatus)">Återbrukad externt av annan aktör (slutstatus)</option>
+
+                  <option value="Avfallshanterad (slutstatus)">Avfallshanterad (slutstatus)</option>
                 </select>
               </div>
               <div className="flex flex-col gap-2">
@@ -333,9 +348,16 @@ const Form_2: React.FC = () => {
                   name="market_status"
                   value={formSections[index].market_status || "Ej publicerad"}
                   onChange={(e) => handleInputChange(index, e)}
+                  className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                 >
+                  <option value="" disabled>Välj</option>
                   <option value="Ej publicerad">Ej publicerad</option>
-                  <option value="Publicerad">Publicerad</option>
+                  <option value="Publicerad internt">Publicerad som intern annons</option>
+                  <option value="Publicerad externt">Publicerad som extern annons</option>
+                  <option value="Reserverad">Reserverad</option>
+                  <option value="Såld">Såld</option>
+                  <option value="Avpublicerad">Avpublicerad</option>
+                  <option value="Automatiskt avpublicerad">Automatiskt avpublicerad</option>
                 </select>
               </div>
             </div>
@@ -417,9 +439,13 @@ const Form_2: React.FC = () => {
                     name="disassembly"
                     value={formSections[index].disassembly || "Ej Demonterbar"}
                     onChange={(e) => handleInputChange(index, e)}
+                    className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                   >
-                    <option value="Demonterbar">Demonterbar</option>
-                    <option value="Ej Demonterbar">Ej Demonterbar</option>
+                    <option value="" disabled>Välj</option>
+                    <option value="Enkel att demontera/demontering krävs ej">Enkel att demontera/demontering krävs ej</option>
+                    <option value="Demonterbar men specialverktyg kan behövas">Demonterbar men specialverktyg kan behövas</option>
+                    <option value="Begränsad demonterbarhet">Begränsad demonterbarhet</option>
+
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -428,9 +454,12 @@ const Form_2: React.FC = () => {
                     name="accessibility"
                     value={formSections[index].accessibility || "Ej Åtkomlig"}
                     onChange={(e) => handleInputChange(index, e)}
+                    className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                   >
-                    <option value="Åtkomlig">Åtkomlig</option>
-                    <option value="Ej Åtkomlig">Ej Åtkomlig</option>
+                    <option value="" disabled>Välj</option>
+                    <option value="Lätt åtkomlig">Lätt åtkomlig</option>
+                    <option value="Åtkomlig men planering och specialverktyg kan behövas">Åtkomlig men planering och specialverktyg kan behövas</option>
+                    <option value="Begränsad åtkomlighet">Begränsad åtkomlighet</option>
                   </select>
                 </div>              
               </div>
