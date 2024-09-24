@@ -132,7 +132,6 @@ const Form_4: React.FC = () => {
     bk04: false,
   });
 
-
   const toggleField = (field: keyof typeof visibleFields) => {
     setVisibleFields((prev) => ({
       ...prev,
@@ -206,7 +205,12 @@ const Form_4: React.FC = () => {
                 className="min-w-[142px] max-w-[142px] min-h-[56px] max-h-[56px]"
                 onClick={() => toggleField(field as keyof typeof visibleFields)}
               >
-                <span className="text-[24px]">{visibleFields[field as keyof typeof visibleFields] ? "-" : "+"}</span> {field.toUpperCase()}
+                <span className="text-[24px]">
+                  {visibleFields[field as keyof typeof visibleFields]
+                    ? "-"
+                    : "+"}
+                </span>{" "}
+                {field.toUpperCase()}
               </Button>
               {visibleFields[field as keyof typeof visibleFields] ? (
                 <Textfield
@@ -214,8 +218,8 @@ const Form_4: React.FC = () => {
                   size="large"
                   placeholder={`Ange ${field.toUpperCase()}`}
                   value={formSection[field as keyof Step4Data] || ""}
-                  onChange={handleInputChange}  
-                  className="w-full"                
+                  onChange={handleInputChange}
+                  className="w-full"
                 />
               ) : (
                 <Typography variant="p" size="md" className="text-inter">
@@ -227,12 +231,12 @@ const Form_4: React.FC = () => {
         </section>
 
         {errors && (
-            <div className="text-red-500">
-              {Object.entries(errors).map(([key, value]) => (
-                <p key={key}>{value.join(', ')}</p>
-              ))}
-            </div>
-          )}
+          <div className="text-red-500">
+            {Object.entries(errors).map(([key, value]) => (
+              <p key={key}>{value.join(", ")}</p>
+            ))}
+          </div>
+        )}
       </div>
 
       <section className="w-full flex justify-between my-12">

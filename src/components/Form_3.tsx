@@ -40,7 +40,7 @@ const StepThreeSchema = z.object({
 type StepThreeData = z.infer<typeof StepThreeSchema>;
 
 const Form_3: React.FC = () => {
-  const { formData, setformData, errors, setErrors } = useContext(FormContext)!;
+  const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<StepThreeData>({
     material: "",
@@ -94,8 +94,18 @@ const Form_3: React.FC = () => {
     }));
   };
 
+  // const handleNext = () => {
+  //   handleSave();
+  //   navigate(`/form-04`);
+  // };
+
   const handleNext = () => {
-    navigate(`/form-04`);
+    setFormData((prev) => ({
+      ...prev,
+      ...formSection,
+    }));
+    handleSave();
+    navigate("/form-04");
   };
 
   const handlePrevious = () => {
@@ -115,7 +125,7 @@ const Form_3: React.FC = () => {
       weight_unit,
     } = formSection;
 
-    // Hardcoded prodect id. Needs to be fetched from formcontext in the future
+    // Hardcoded prodect id. Needs to be fetched from formContext in the future
     const properties = [
       {
         name: "unit of measure",
@@ -187,6 +197,7 @@ const Form_3: React.FC = () => {
   };
 
   console.log("FormSection:", formSection);
+  console.log("FormData", formData);
 
   return (
     <>
