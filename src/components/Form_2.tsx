@@ -71,7 +71,8 @@ const Form_2: React.FC = () => {
   
   const [formSections, setFormSections] = useState<Step2Data[]>([
     {
-      product_id: "f4f1c148-f896-45ae-886e-c86b2b944442", //we need to get the product id from step one
+      //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442", //we need to get the product id from step one
+      product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",
       amount: 1,
       prod_status: "Ej inventerad",
       market_status: "Ej publicerad",
@@ -93,7 +94,8 @@ const Form_2: React.FC = () => {
   useEffect(() => {
     if (!formData) {
       const initialData: Step2Data = {
-        product_id: "f4f1c148-f896-45ae-886e-c86b2b944442",//we need to get the product id from step one
+        //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442",//we need to get the product id from step one
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
@@ -207,7 +209,8 @@ const Form_2: React.FC = () => {
     setFormSections((prevSections) => [
       ...prevSections,
       {
-        product_id: "f4f1c148-f896-45ae-886e-c86b2b944442",//we need to get the product id from step one
+        //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442",//we need to get the product id from step one
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
@@ -246,7 +249,7 @@ const Form_2: React.FC = () => {
   };
 
   const handlePrevious = () => {
-    navigate(`/form-02`);
+    navigate(`/form-01`);
   };
 
   //checkboxstates

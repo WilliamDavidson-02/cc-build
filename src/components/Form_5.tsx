@@ -8,6 +8,10 @@ import Textfield from "./Textfield";
 import Button from "./Buttons";
 import Info from "./icons/Info";
 import { TablesInsert } from "@/lib/database.types";
+import { useUser } from "@/context/userContext";
+import { UserProfile } from "./Navigation/Navbar";
+
+
 
 const step5Schema = z.object({
   product_id: z.string(),
@@ -29,8 +33,51 @@ type Step5Data = z.infer<typeof step5Schema>
 const Form_5: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
+  const {user} = useUser();
+  const [fullName, setFullName] = useState<string | null>(null);
+  const fetchUserNamesById = async (userId: string): Promise<UserProfile | null> => {
+    if (!userId) {
+        console.error("User ID is undefined");
+        return null; 
+    }
+
+    const { data, error } = await supabase
+        .from('profile') 
+        .select('first_name, last_name')
+        .eq('id', userId) 
+        .single(); 
+
+    if (error) {
+        console.error("Error fetching user names:", error);
+        return null; 
+    }
+
+    return data; 
+};
+
+  
+useEffect(() => {
+  const fetchAndSetUserNames = async () => {
+      const userId = user?.id; 
+
+      if (userId) {
+          const userData = await fetchUserNamesById(userId);
+          if (userData) {
+              
+              const name = `${userData.first_name} ${userData.last_name}`;
+              setFullName(name); 
+          }
+      } else {
+          console.error("User ID not available after sign in.");
+      }
+  };
+
+  fetchAndSetUserNames();
+}, [user]); 
+
+
   const [formSection, setFormSection] = useState<Step5Data>({
-    product_id: "f2f1c148-f896-45ae-886e-c86b2b938442", //we need the id from the previous formstep
+    product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14", //we need the id from the previous formstep
     price_new: 0,
     buyer_price: false,
     extern_price: 0,
@@ -41,13 +88,13 @@ const Form_5: React.FC = () => {
     postal_code: "",
     locality: "",
     comment: "",
-    contact_person: "Marie Kalmnäs",
+    contact_person: user?.id || "",
   });
   
   useEffect(() => {
     if (!formData) {
       const initialData: Step5Data = {
-        product_id: "f2f1c148-f896-45ae-886e-c86b2b938442", //we need the id from the previous formstep
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14", //we need the id from the previous formstep
         price_new: 0,
         buyer_price: false,
         extern_price: 0,
@@ -58,7 +105,7 @@ const Form_5: React.FC = () => {
         postal_code: "",
         locality: "",
         comment: "",
-        contact_person: "Marie Kalmnäs",
+        contact_person: user?.id || "",
       };
       setFormData((prevData) => ({
         ...prevData,
@@ -67,14 +114,29 @@ const Form_5: React.FC = () => {
     }
     }, [formData, setFormData]);
   
+   
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-  
+      const { name, value, type } = e.target;
+    
+      // Convert number input fields from string to number
+      const processedValue = type === 'number' ? parseFloat(value) || 0 : value;
+    
       setFormSection((prevSection) => ({
         ...prevSection,
-        [name]: value,
+        [name]: processedValue,
       }));
     };
+
+    
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, checked } = e.target;
+
+      setFormSection((prevSection) => ({
+        ...prevSection,
+        [name]: checked,
+      }));
+    }
 
   const handleSave = async () => {
     const result = step5Schema.safeParse(formSection);
@@ -111,7 +173,7 @@ const Form_5: React.FC = () => {
           postal_code: formSection.postal_code,
           locality: formSection.locality,
           comment: formSection.comment,
-          contact_person: formSection.contact_person,
+          contact_person: user?.id || "",
 
         };
       
@@ -141,6 +203,8 @@ const Form_5: React.FC = () => {
     navigate(`/form_4`);
   };
 
+  
+
   return(
  <main className="mt-16 px-52 flex flex-col items-center justify-center w-full">
    
@@ -157,10 +221,11 @@ const Form_5: React.FC = () => {
 
       <section className="flex flex-col gap-6 py-6 px-4 w-full">
         <div className="flex justify-between items-center " >
-          <div className="flex gap-6">
+          <div className="flex gap-6">           
             <Textfield
               title="Nypris / st"
               name="price_new"
+              type="number"
               size="large"
               placeholder="nypris"
               value={formSection.price_new || ""}
@@ -171,7 +236,11 @@ const Form_5: React.FC = () => {
             </div>
 
             <div className="flex gap-2 items-center">
-              <input className="transform scale-125" type="checkbox" name="buyer_price" value="buyer_price" onChange={handleInputChange} />
+              <input 
+              className="transform scale-125" 
+              type="checkbox" name="buyer_price"
+               value="buyer_price" 
+               onChange={handleCheckboxChange} />
               <label htmlFor="buyer_price">Låt köparen föreslå pris</label>
             </div>
 
@@ -187,23 +256,27 @@ const Form_5: React.FC = () => {
         </div>
 
         <div className="flex gap-6 items-end " >
-          <Textfield 
+         <Textfield 
             title="Externpris / st" 
+            type="number"
             name="extern_price" 
             size="large" 
             placeholder="externpris" 
             value={formSection.extern_price || ""} 
             onChange={handleInputChange} 
           />
+          
           <Textfield 
             title="Internt pris / st" 
+            type="number"
             name="intern_price" 
             size="large" 
             placeholder="internt pris" 
             value={formSection.intern_price || ""} 
             onChange={handleInputChange}
           />
-        </div>
+          
+            </div> 
       </section>
 
       <section className="flex flex-col gap-6 py-6  w-full">
@@ -211,11 +284,22 @@ const Form_5: React.FC = () => {
           <div className="flex flex-col gap-6 shadow-lg w-[60%] p-4">
             <div className="flex gap-6 items-center">
               <div className="flex gap-2 items-center font-inter">
-                <input className="transform scale-125" type="checkbox" name="pick_up_on_site" value="pick_up_on_site" onChange={handleInputChange} />
+                <input 
+                  className="transform scale-125" 
+                  type="checkbox" name="pick_up_on_site" 
+                  value="pick_up_on_site" 
+                  onChange={handleCheckboxChange} 
+                />
                 <label htmlFor="pick_up_on_site">Kan hämtas på plats</label>
               </div>
               <div className="flex gap-2 items-center font-inter">
-                <input className="transform scale-125" type="checkbox" name="send_with_freight" value="send_with_freight" onChange={handleInputChange} />
+                <input 
+                className="transform scale-125"
+                 type="checkbox" 
+                 name="send_with_freight" 
+                 value="send_with_freight" 
+                 onChange={handleCheckboxChange} 
+                 />
                 <label htmlFor="send_with_freight">Kan skickas med frakt</label>
               </div>
             </div>
@@ -267,13 +351,14 @@ const Form_5: React.FC = () => {
           </Typography>
         </div>
 
-{/*fetch the contact person from the database!! */}
+        {/*fetch the contact person from the database!! */}
         <Textfield
           title="Kontaktperson"
           name="contact_person"
           size="large"
-          placeholder="ange kontaktperson"
-          value="Marie Kalmnäs"
+          disabled
+          placeholder={fullName || ""}          
+          value={fullName || ""}
           onChange={handleInputChange}
         />
       </section>

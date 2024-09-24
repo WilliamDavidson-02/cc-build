@@ -6,7 +6,7 @@ import {
   Status,
 } from "@/components/products/ProgressSteps";
 import { FC, useState } from "react";
-import Form_4 from "@/components/Form_4";
+
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -47,9 +47,10 @@ const Home: FC = () => {
           />
         ))}
       </ProgressSteps>
-      <Button size="large" variant="blue" className="mt-32" onClick={() => navigate('/form-02')}>
+      <Button size="large" variant="blue" className="mt-32" onClick={() => navigate('/form-01')}>
         Klicka här för att lägga till en produkten
-      </Button>      
+      </Button>   
+      
     </div>
   );
 };

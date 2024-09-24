@@ -9,6 +9,8 @@ type TextfieldProps = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;
+  type?: React.HTMLInputTypeAttribute;
+  disabled?: boolean;
 };
 
 const Textfield: FC<TextfieldProps> = ({
@@ -19,6 +21,8 @@ const Textfield: FC<TextfieldProps> = ({
   placeholder,
   onChange,
   className,
+  type = "text",
+  disabled = false,
 }) => {
   const sizeClasses = {
     xSmall: "w-20",
@@ -31,10 +35,11 @@ const Textfield: FC<TextfieldProps> = ({
     <div className={cn("flex flex-col gap-1", className)}>
       <label>{title}</label>
       <input
-        type="text"
+        type={type}
         name={name}
         value={value}
         placeholder={placeholder}
+        disabled={disabled}
         onChange={onChange}
         className={`bg-slate-100 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
       ></input>

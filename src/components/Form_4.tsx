@@ -26,7 +26,7 @@ const Form_4: React.FC = () => {
   const navigate = useNavigate();
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const [formSection, setFormSection] = useState<Step4Data>({
-    product_id: "f2f1c148-f896-45ae-886e-c86b2b938442",//the id needs to be passed along the steps?
+    product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",//the id needs to be passed along the steps?
     manufactor: "",
     articel_number: "",
     manufactor_year: undefined,
@@ -41,7 +41,7 @@ const Form_4: React.FC = () => {
   useEffect(() => {
     if (!formData) {
       const initialData: Step4Data = {
-        product_id: "f2f1c148-f896-45ae-886e-c86b2b938442",//the id needs to be passed along the steps?
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",//the id needs to be passed along the steps?
         manufactor: "",
         articel_number: "",
         manufactor_year: "",
