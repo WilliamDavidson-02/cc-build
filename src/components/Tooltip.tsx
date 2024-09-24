@@ -2,19 +2,21 @@ import { FC, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import Info from "./icons/Info";
 import Typography from "./Typography";
+import { cn } from '../lib/utils';
 
 type TooltipProps = {
   info: string;
+  className?: string;
 };
 
-export const Tooltip: FC<TooltipProps> = ({ info }) => {
+export const Tooltip: FC<TooltipProps> = ({ info, className }) => {
   const [show, setShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(ref, () => setShow(false));
 
   return (
-    <div className="relative w-fit">
+    <div className={cn("relative w-fit", className)}>
       <div
         ref={ref}
         onClick={() => setShow((prev) => !prev)}
