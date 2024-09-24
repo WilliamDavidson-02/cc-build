@@ -10,7 +10,7 @@ import Typography from "@/components/Typography";
 import { supabase } from "@/lib/sbClient";
 
 const StepOneSchema = z.object({
-  project: z.string(),
+  // project: z.string(),
   name: z.string().max(255).min(2, "Name must be at least 2 characters"),
   product_category_1: z.string(),
   product_category_2: z.string(),
@@ -29,7 +29,7 @@ const Form_1: React.FC = () => {
   const navigate = useNavigate();
 
   const [formSection, setFormSection] = useState<StepOneData>({
-    project: "",
+    // project: "",
     name: "",
     product_category_1: "",
     product_category_2: "",
@@ -42,32 +42,6 @@ const Form_1: React.FC = () => {
   });
 
   const handleButtonClick = () => {};
-
-  const handleSave = async () => {
-    try {
-      const { data, error } = await supabase.from("products").insert([
-        {
-          project_id: "105e83a3-1f8b-492a-8b7b-74c001a98e2d",
-          // project: "",
-          name: formSection.name,
-          // product_category_1: "",
-          // product_category_2: "",
-          // product_category_3: "",
-          visual_condition: formSection.visual_condition,
-          working_condition: formSection.working_condition,
-          // image: [],
-          // product_files: [],
-          // product_id: "",
-        },
-      ]);
-
-      if (error) throw error;
-
-      console.log("Data inserted successfully:", data);
-    } catch (error) {
-      console.log("Error inserting data", error);
-    }
-  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -96,6 +70,63 @@ const Form_1: React.FC = () => {
     navigate("/form-02");
   };
 
+  const handleSave = async () => {
+    // Collect selected categories into an array for fetching their IDs
+    const getSelectedCategories = () => {
+      return [
+        { name: formSection.product_category_1 },
+        { name: formSection.product_category_2 },
+        { name: formSection.product_category_3 },
+      ].filter((category) => category.name);
+    };
+    const selectedCategories = getSelectedCategories();
+    console.log("Selected Categories:", selectedCategories);
+
+    const productData = {
+      project_id: "f2f1c148-f896-45ae-886e-c86b2b938442",
+      name: formSection.name,
+      visual_condition: formSection.visual_condition,
+      working_condition: formSection.working_condition,
+      product_id: formSection.product_id,
+    };
+
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .insert([productData])
+        .select();
+
+      if (error) throw error;
+
+      const productId = data[0]?.id; // Retrieve the product ID
+      console.log("Product ID:", productId);
+
+      const categoryNames = selectedCategories.map((category) => category.name);
+      console.log("Category Names to Fetch:", categoryNames);
+
+      const { data: categories, error: categoriesError } = await supabase
+        .from("category")
+        .select("id, name")
+        .in("name", categoryNames);
+
+      const productCategoryData =
+        categories?.map((category) => ({
+          product_id: productId, // Use the correct product ID
+          category_id: category.id, // Use the category ID fetched from the database
+        })) || [];
+
+      const { error: productCategoryError } = await supabase
+        .from("product_category")
+        .insert(productCategoryData);
+
+      console.log("Data inserted successfully:", data);
+    } catch (error) {
+      console.log("Error inserting data", error);
+    }
+
+    console.log("Product Data to Insert:", productData); // Check product data
+  };
+
   console.log("FormSection in render:", formSection);
 
   return (
@@ -105,13 +136,13 @@ const Form_1: React.FC = () => {
         <form className="flex flex-col gap-6">
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-6 max-w-12">
-              <Textfield
+              {/* <Textfield
                 title="Projekt"
                 size="medium"
                 name="project"
                 value={formSection.project}
                 onChange={handleInputChange}
-              />
+              /> */}
 
               <div className="flex flex-col">
                 <div>
@@ -132,7 +163,7 @@ const Form_1: React.FC = () => {
             <div className="flex gap-6 flex-wrap">
               <Dropdown
                 title="Produktkategori"
-                options={["Inreding & möbler", "Dörrar", "WC & badrum"]}
+                options={["Inredning & möbler", "Dörrar", "WC & badrum"]}
                 size="medium"
                 name="product_category_1"
                 value={formSection.product_category_1}
