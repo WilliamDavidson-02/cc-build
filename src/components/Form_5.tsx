@@ -7,8 +7,10 @@ import Typography from "./Typography";
 import Textfield from "./Textfield";
 import Button from "./Buttons";
 import Info from "./icons/Info";
+import { TablesInsert } from "@/lib/database.types";
 
 const step5Schema = z.object({
+  product_id: z.string(),
   price_new: z.number().optional(),
   buyer_price: z.boolean().optional(),
   extern_price: z.number().optional(),
@@ -16,10 +18,10 @@ const step5Schema = z.object({
   pick_up_on_site: z.boolean().optional(),
   send_with_freight: z.boolean().optional(),
   address: z.string().optional(),
-  postal_code: z.number().optional(),
+  postal_code: z.string().optional(),
   locality: z.string().optional(),
   comment: z.string().optional(),  
-
+  contact_person: z.string().optional(),
 })
 
 type Step5Data = z.infer<typeof step5Schema>
@@ -28,6 +30,7 @@ const Form_5: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<Step5Data>({
+    product_id: "f2f1c148-f896-45ae-886e-c86b2b938442", //we need the id from the previous formstep
     price_new: 0,
     buyer_price: false,
     extern_price: 0,
@@ -35,14 +38,16 @@ const Form_5: React.FC = () => {
     pick_up_on_site: false,
     send_with_freight: false,
     address: "",
-    postal_code: 0,
+    postal_code: "",
     locality: "",
     comment: "",
+    contact_person: "Marie Kalmnäs",
   });
   
   useEffect(() => {
     if (!formData) {
       const initialData: Step5Data = {
+        product_id: "f2f1c148-f896-45ae-886e-c86b2b938442", //we need the id from the previous formstep
         price_new: 0,
         buyer_price: false,
         extern_price: 0,
@@ -50,9 +55,10 @@ const Form_5: React.FC = () => {
         pick_up_on_site: false,
         send_with_freight: false,
         address: "",
-        postal_code: 0,
+        postal_code: "",
         locality: "",
         comment: "",
+        contact_person: "Marie Kalmnäs",
       };
       setFormData((prevData) => ({
         ...prevData,
@@ -92,11 +98,25 @@ const Form_5: React.FC = () => {
     console.log("Form submitted successfully", formSection);
 
     try {
-      const { data, error } = await supabase.from("products").insert([
+     const insertData: TablesInsert<'product_market_place'> = 
         {
-          ...formSection,          
-        },
-      ]);
+          prod_id: formSection.product_id,//the id needs to be passed along the steps? 
+          price_new: formSection.price_new,
+          buyer_price: formSection.buyer_price,
+          extern_price: formSection.extern_price,
+          intern_price: formSection.intern_price,
+          pick_up_on_site: formSection.pick_up_on_site,
+          send_with_freight: formSection.send_with_freight,
+          address: formSection.address,
+          postal_code: formSection.postal_code,
+          locality: formSection.locality,
+          comment: formSection.comment,
+          contact_person: formSection.contact_person,
+
+        };
+      
+      const { data, error } = await supabase.from('product_market_place').insert([insertData]);
+      
 
       if (error) throw error;
 

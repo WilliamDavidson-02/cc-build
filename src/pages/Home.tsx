@@ -1,15 +1,12 @@
-//import Button from "@/components/Buttons";
-import DatePicker from "@/components/DatePicker";
-import Input from "@/components/Input";
+import Button from "@/components/Buttons";
+import { useNavigate } from "react-router-dom";
 import {
   ProgressSteps,
   ProgressStepsCard,
   Status,
 } from "@/components/products/ProgressSteps";
-//import { useUser } from "@/context/userContext";
 import { FC, useState } from "react";
-import { Tooltip } from "@/components/Tooltip";
-import Form_1 from "@/components/Form_1";
+import Form_4 from "@/components/Form_4";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -34,14 +31,10 @@ const defaultSteps: { title: string; status: Status }[] = [
 ];
 
 const Home: FC = () => {
-  const [step, setStep] = useState(3);
-  const [selected, setSelected] = useState<Date>();
-
-  /* const { user, isLoading, signOut } = useUser();
-   */
+  const [step, setStep] = useState(3);  
+  const navigate = useNavigate();
   return (
-    <div>
-      {/*  {!isLoading && user && <Button onClick={signOut}>Logga ut</Button>} */}
+    <div className="flex flex-col justify-center items-center px-48">      
       <ProgressSteps>
         {defaultSteps.map((s, i) => (
           <ProgressStepsCard
@@ -54,11 +47,9 @@ const Home: FC = () => {
           />
         ))}
       </ProgressSteps>
-      <DatePicker selected={selected} setSelected={setSelected} />
-      <Input type="radio" />
-      <Input type="checkbox" />
-      <Form_1 />
-      <Tooltip info="This is the tooltip info" />
+      <Button size="large" variant="blue" className="mt-32" onClick={() => navigate('/form-02')}>
+        Klicka här för att lägga till en produkten
+      </Button>      
     </div>
   );
 };
