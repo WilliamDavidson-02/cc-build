@@ -25,8 +25,8 @@ const defaultFormData = {
   product_category_3: "",
   visual_condition: "",
   working_condition: "",
-  image: [],
-  product_files: [],
+  images: [] as File[],
+  product_files: [] as File[],
   ownId: 0,
 
   amount: 1,
@@ -93,7 +93,7 @@ const defaultFormData = {
   comment: "",
 };
 
-type FormData = typeof defaultFormData;
+export type FormData = typeof defaultFormData;
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
