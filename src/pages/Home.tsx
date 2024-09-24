@@ -1,6 +1,6 @@
 //import Button from "@/components/Buttons";
-import DatePicker from "@/components/DatePicker";
-import Input from "@/components/Input";
+/* import DatePicker from "@/components/DatePicker";
+import Input from "@/components/Input"; */
 import {
   ProgressSteps,
   ProgressStepsCard,
@@ -8,8 +8,8 @@ import {
 } from "@/components/products/ProgressSteps";
 //import { useUser } from "@/context/userContext";
 import { FC, useState } from "react";
-import { Tooltip } from "@/components/Tooltip";
-import Form_1 from "@/components/Form_1";
+/* import { Tooltip } from "@/components/Tooltip"; */
+import Form_2 from "@/components/Form_2";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -35,7 +35,7 @@ const defaultSteps: { title: string; status: Status }[] = [
 
 const Home: FC = () => {
   const [step, setStep] = useState(3);
-  const [selected, setSelected] = useState<Date>();
+  /* const [selected, setSelected] = useState<Date>(); */
 
   /* const { user, isLoading, signOut } = useUser();
    */
@@ -54,11 +54,11 @@ const Home: FC = () => {
           />
         ))}
       </ProgressSteps>
-      <DatePicker selected={selected} setSelected={setSelected} />
+      {/* <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
-      <Input type="checkbox" />
-      <Form_1 />
-      <Tooltip info="This is the tooltip info" />
+      <Input type="checkbox" /> */}
+      <Form_2 />
+      {/* <Tooltip info="This is the tooltip info" /> */}
     </div>
   );
 };
