@@ -41,7 +41,7 @@ const Form_1: React.FC = () => {
     }));
   };
 
-  const handleSetFiles = (files: File[], prop: "image" | "product_files") => {
+  const handleSetFiles = (files: File[], prop: "images" | "product_files") => {
     setFormData((prev) => ({
       ...prev,
       [prop]: files,
@@ -134,8 +134,8 @@ const Form_1: React.FC = () => {
             <div className="flex gap-6">
               <FileUpload
                 title="Produktbilder"
-                uploadedFiles={formData.image}
-                setUploadedFiles={(files) => handleSetFiles(files, "image")}
+                uploadedFiles={formData.images}
+                setUploadedFiles={(files) => handleSetFiles(files, "images")}
               />
               <FileUpload
                 title="Filer"
