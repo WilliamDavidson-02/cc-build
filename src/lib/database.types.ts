@@ -101,15 +101,15 @@ export type Database = {
       }
       product_individual: {
         Row: {
-          accessibility: string | null
           amount: number
-          availability: string | null
+          accessibility: string | null
+          availability: Date | null
           created_at: string
           decision_designation_1: string | null
           decision_designation_2: string | null
           decision_designation_3: string | null
           decision_designation_4: string | null
-          delivery: string | null
+          delivery: Date | null
           disassembly: string | null
           id: number
           market_status: string | null
@@ -123,13 +123,13 @@ export type Database = {
         Insert: {
           accessibility?: string | null
           amount?: number
-          availability?: string | null
+          availability?: Date | null
           created_at?: string
           decision_designation_1?: string | null
           decision_designation_2?: string | null
           decision_designation_3?: string | null
           decision_designation_4?: string | null
-          delivery?: string | null
+          delivery?: Date | null
           disassembly?: string | null
           id?: number
           market_status?: string | null

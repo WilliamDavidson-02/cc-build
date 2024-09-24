@@ -6,16 +6,18 @@ import { supabase } from "@/lib/sbClient";
 import Typography from "./Typography";
 import { z } from "zod";
 import Textfield from "./Textfield";
+//import { TablesInsert } from "@/lib/database.types";
 
 const Step4Schema = z.object({
+  product_id: z.string(),//the id needs to be passed along the steps?
   manufactor: z.string().optional(),
   articel_number: z.string().optional(),
-  manufactor_year: z.number().optional(),
-  bought_year: z.number().optional(),
-  gtin: z.number().optional(),
-  rsk: z.number().optional(),
+  manufactor_year: z.string().optional(),
+  bought_year: z.string().optional(),
+  gtin: z.string().optional(),
+  rsk: z.string().optional(),
   bsab: z.string().optional(),
-  enr: z.number().optional(),
+  enr: z.string().optional(),
   bk04: z.string().optional(),
 });
 type Step4Data = z.infer<typeof Step4Schema>;
@@ -24,28 +26,30 @@ const Form_4: React.FC = () => {
   const navigate = useNavigate();
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const [formSection, setFormSection] = useState<Step4Data>({
+    product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",//the id needs to be passed along the steps?
     manufactor: "",
     articel_number: "",
     manufactor_year: undefined,
     bought_year: undefined,
-    gtin: 0,
-    rsk: 0,
+    gtin: "",
+    rsk: "",
     bsab: "",
-    enr: 0,
+    enr: "",
     bk04: "",
   });
 
   useEffect(() => {
     if (!formData) {
       const initialData: Step4Data = {
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",//the id needs to be passed along the steps?
         manufactor: "",
         articel_number: "",
-        manufactor_year: 0,
-        bought_year: 0,
-        gtin: 0,
-        rsk: 0,
+        manufactor_year: "",
+        bought_year: "",
+        gtin: "",
+        rsk: "",
         bsab: "",
-        enr: 0,
+        enr: "",
         bk04: "",
       };
       setFormData((prevData) => ({
@@ -63,13 +67,7 @@ const Form_4: React.FC = () => {
       [name]: value,
     }));
   };
-
-  /* const toggleFeature = (feature: keyof Step4Data) => {
-    setFormSection((prevSection) => ({
-      ...prevSection,
-      [feature]: !prevSection[feature],
-    }));
-  }; */
+  
 
   const handleSave = async () => {
     const result = Step4Schema.safeParse(formSection);
@@ -93,19 +91,30 @@ const Form_4: React.FC = () => {
     console.log("Form submitted successfully", formSection);
 
     try {
-      const { data, error } = await supabase.from("products").insert([
-        {
-          manufactor: formSection.manufactor,
-          articel_number: formSection.articel_number,
-          manufactor_year: formSection.manufactor_year,
-          bought_year: formSection.bought_year,
-          gtin: formSection.gtin,
-          rsk: formSection.rsk,
-          bsab: formSection.bsab,
-          enr: formSection.enr,
-          bk04: formSection.bk04,
-        },
-      ]);
+     
+    const propertiesToInsert = [
+      { name: 'manufactor', value: formSection.manufactor },
+      { name: 'articel_number', value: formSection.articel_number },
+      { name: 'manufactor_year', value: formSection.manufactor_year },
+      { name: 'bought_year', value: formSection.bought_year },
+      { name: 'gtin', value: formSection.gtin },
+      { name: 'rsk', value: formSection.rsk },
+      { name: 'bsab', value: formSection.bsab },
+      { name: 'enr', value: formSection.enr },
+      { name: 'bk04', value: formSection.bk04 },
+    ];
+
+    
+    const insertData = propertiesToInsert.map(property => ({
+      prod_id: formSection.product_id,  
+      name: property.name,
+      value: property.value,
+    }));
+
+    //insert data 
+    const { data, error } = await supabase
+      .from("product_property")
+      .insert(insertData);  
 
       if (error) throw error;
 
