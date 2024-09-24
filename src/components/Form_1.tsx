@@ -17,8 +17,8 @@ const StepOneSchema = z.object({
   product_category_3: z.string(),
   visual_condition: z.string(),
   working_condition: z.string(),
-  image: z.string().array(),
-  product_files: z.string().array(),
+  image: z.instanceof(File).array(),
+  product_files: z.instanceof(File).array(),
   product_id: z.string(),
 });
 
@@ -34,7 +34,6 @@ const Form_1: React.FC = () => {
   const [isCategory2Enabled, setIsCategory2Enabled] = useState(false);
   const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
   const navigate = useNavigate();
-
   const [formSection, setFormSection] = useState<StepOneData>({
     project: "",
     name: "",
@@ -43,8 +42,8 @@ const Form_1: React.FC = () => {
     product_category_3: "",
     visual_condition: "",
     working_condition: "",
-    image: [],
-    product_files: [],
+    image: [] as File[],
+    product_files: [] as File[],
     product_id: "",
   });
 
@@ -133,7 +132,12 @@ const Form_1: React.FC = () => {
     }));
   };
 
-  const goToFormStepTwo = () => {
+  const handleNext = () => {
+    setFormData((prev) => ({
+      ...prev,
+      ...formSection,
+    }));
+    handleSave();
     navigate("/form-02");
   };
 
@@ -335,7 +339,7 @@ const Form_1: React.FC = () => {
               <Button size="medium" variant="white" onClick={handleSave}>
                 Spara utkast
               </Button>
-              <Button size="medium" variant="blue" onClick={goToFormStepTwo}>
+              <Button size="medium" variant="blue" onClick={handleNext}>
                 Nästa &gt;
               </Button>
             </div>

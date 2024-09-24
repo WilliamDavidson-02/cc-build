@@ -121,7 +121,7 @@ const Signin: FC = () => {
         <Typography className="text-center mt-4" size="sm">
           Har du inget konto?{" "}
           <Link to={"/sign-up"} className="underline">
-            Skap konto
+            Skapa konto
           </Link>
         </Typography>
       </form>

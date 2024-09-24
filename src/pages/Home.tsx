@@ -58,7 +58,6 @@ const Home: FC = () => {
       <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
       <Input type="checkbox" />
-      <Form_3 />
       <Tooltip info="This is the tooltip info" />
     </div>
   );

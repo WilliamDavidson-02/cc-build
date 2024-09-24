@@ -111,6 +111,7 @@ const Form_2: React.FC = () => {
       }));
     }
   }, [formData, setFormData]);
+  console.log("Hugos updated formdata:", formData);
 
   const handleInputChange = (
     index: number,
@@ -298,247 +299,329 @@ const Form_2: React.FC = () => {
       </div>
 
       {formSections.map((section, index) => (
-      <div key={index} className="flex flex-row gap-4 py-6 px-4">
-        <div className='flex h-full items-start pt-8 pr-2'>
-          <Input type="checkbox" checked={checkedStates[index]} onChange={() => handleCheckboxChange(index)} />
-        </div>
-        <form key={index} className="flex flex-col">
-          <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
-            <div className="flex gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-semibold">Antal</label>
-                <input
-                  type="number"
-                  name="amount"
-                  value={formSections[index].amount || 1}
-                  onChange={(e) => handleInputChange(index, e)}
-                  placeholder="Antal (st)"
-                  className="bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-semibold">Status</label>
-                <select
-                  name="prod_status"
-                  value={formSections[index].prod_status || "Ej inventerad"}
-                  onChange={(e) => handleInputChange(index, e)}
-                  className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                >
-                  <option value="" disabled>Välj</option>
-                  <option value="Inventerad">Inventerad</option>
-                  <option value="Inventerad - i byggnad">Inventerad - i byggnad</option>
-                  <option value="Inventerad - i lager/förråd">Inventerad - i lager/förråd</option>
-                  <option value="Mängdad">Mängdad</option>
-                  <option value="Mängdad - i byggnad">Mängdad - i byggnad</option>
-                  <option value="Mängdad - i lager/förråd">Mängdad - i lager/förråd</option>
-                  <option value="På rekonditionering">På rekonditionering</option>
-                  <option value="I lager">I lager</option>
-                  <option value="Bevarad (slutstatus)">Bevarad (slutstatus)</option>
-                  <option value="Återbrukad i projekt (slutstatus)">Återbrukad i projekt (slutstatus)</option>
-                  <option value="Återbrukad inom organisationen (slutstatus)">Återbrukad inom organisationen (slutstatus)</option>
-                  <option value="Återbrukad externt av annan aktör (slutstatus)">Återbrukad externt av annan aktör (slutstatus)</option>
-
-                  <option value="Avfallshanterad (slutstatus)">Avfallshanterad (slutstatus)</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-semibold">Marknadsplatsen</label>
-                <select
-                  name="market_status"
-                  value={formSections[index].market_status || "Ej publicerad"}
-                  onChange={(e) => handleInputChange(index, e)}
-                  className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                >
-                  <option value="" disabled>Välj</option>
-                  <option value="Ej publicerad">Ej publicerad</option>
-                  <option value="Publicerad internt">Publicerad som intern annons</option>
-                  <option value="Publicerad externt">Publicerad som extern annons</option>
-                  <option value="Reserverad">Reserverad</option>
-                  <option value="Såld">Såld</option>
-                  <option value="Avpublicerad">Avpublicerad</option>
-                  <option value="Automatiskt avpublicerad">Automatiskt avpublicerad</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex gap-6">
-              <div className="relative flex flex-col gap-2">
-                <Textfield
-                  title="Plats"
-                  size="small"
-                  name="place1"
-                  placeholder='Ange plats'
-                  value={formSections[index].place1 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield
-                  title="Plats"
-                  size="small"
-                  name="place2"
-                  placeholder='Ange plats'
-                  value={formSections[index].place2 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield
-                  title="Plats"
-                  size="small"
-                  name="place3"
-                  placeholder='Ange plats'
-                  value={formSections[index].place3 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield                
-                  title="Plats"
-                  size="small"
-                  name="place4"
-                  placeholder='Ange plats'
-                  value={formSections[index].place4 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-            </div>
-          </section>
-
-          
-          <div 
-            className='flex flex-row gap-6 justify-center items-center py-2 px-8 cursor-pointer w-full'
-            onClick={() => toggleExpand(index)}            
-          >
-            <p className='cursor-pointer font-medium text-[16px] text-[#15151]'>              
-              {expandedForms[index] ? "Dölj" : "Se mer"} 
-            </p>
-            {expandedForms[index] ? 
-            <img src="/up.svg" alt="up arrow" className='w-6 h-6' /> 
-            : 
-            <img src="/down.svg" alt="down arrow" className='w-6 h-6' />
-            }
-            
+        <div key={index} className="flex flex-row gap-4 py-6 px-4">
+          <div className="flex h-full items-start pt-8 pr-2">
+            <Input
+              type="checkbox"
+              checked={checkedStates[index]}
+              onChange={() => handleCheckboxChange(index)}
+            />
           </div>
-          {/*section that is initially hidden under the expandable " se mer"*/}
-          {expandedForms[index] && (
-            <>
-          <section className="flex flex-col gap-6 px-4 py-2 mb-12">
-            <div className="flex gap-6">
-              <div className="flex flex-col gap-2">
-                  <label className='text-[14px] font-semibold'>Demonterbarhet</label>
+          <form key={index} className="flex flex-col">
+            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
+              <div className="flex gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="text-[14px] font-semibold">Antal</label>
+                  <input
+                    type="number"
+                    name="amount"
+                    value={formSections[index].amount || 1}
+                    onChange={(e) => handleInputChange(index, e)}
+                    placeholder="Antal (st)"
+                    className="bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[14px] font-semibold">Status</label>
                   <select
-                    name="disassembly"
-                    value={formSections[index].disassembly || "Ej Demonterbar"}
+                    name="prod_status"
+                    value={formSections[index].prod_status || "Ej inventerad"}
                     onChange={(e) => handleInputChange(index, e)}
                     className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                   >
-                    <option value="" disabled>Välj</option>
-                    <option value="Enkel att demontera/demontering krävs ej">Enkel att demontera/demontering krävs ej</option>
-                    <option value="Demonterbar men specialverktyg kan behövas">Demonterbar men specialverktyg kan behövas</option>
-                    <option value="Begränsad demonterbarhet">Begränsad demonterbarhet</option>
+                    <option value="" disabled>
+                      Välj
+                    </option>
+                    <option value="Inventerad">Inventerad</option>
+                    <option value="Inventerad - i byggnad">
+                      Inventerad - i byggnad
+                    </option>
+                    <option value="Inventerad - i lager/förråd">
+                      Inventerad - i lager/förråd
+                    </option>
+                    <option value="Mängdad">Mängdad</option>
+                    <option value="Mängdad - i byggnad">
+                      Mängdad - i byggnad
+                    </option>
+                    <option value="Mängdad - i lager/förråd">
+                      Mängdad - i lager/förråd
+                    </option>
+                    <option value="På rekonditionering">
+                      På rekonditionering
+                    </option>
+                    <option value="I lager">I lager</option>
+                    <option value="Bevarad (slutstatus)">
+                      Bevarad (slutstatus)
+                    </option>
+                    <option value="Återbrukad i projekt (slutstatus)">
+                      Återbrukad i projekt (slutstatus)
+                    </option>
+                    <option value="Återbrukad inom organisationen (slutstatus)">
+                      Återbrukad inom organisationen (slutstatus)
+                    </option>
+                    <option value="Återbrukad externt av annan aktör (slutstatus)">
+                      Återbrukad externt av annan aktör (slutstatus)
+                    </option>
 
+                    <option value="Avfallshanterad (slutstatus)">
+                      Avfallshanterad (slutstatus)
+                    </option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className='text-[14px] font-semibold'>Åtkomlighet</label>
+                  <label className="text-[14px] font-semibold">
+                    Marknadsplatsen
+                  </label>
                   <select
-                    name="accessibility"
-                    value={formSections[index].accessibility || "Ej Åtkomlig"}
+                    name="market_status"
+                    value={formSections[index].market_status || "Ej publicerad"}
                     onChange={(e) => handleInputChange(index, e)}
                     className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                   >
-                    <option value="" disabled>Välj</option>
-                    <option value="Lätt åtkomlig">Lätt åtkomlig</option>
-                    <option value="Åtkomlig men planering och specialverktyg kan behövas">Åtkomlig men planering och specialverktyg kan behövas</option>
-                    <option value="Begränsad åtkomlighet">Begränsad åtkomlighet</option>
+                    <option value="" disabled>
+                      Välj
+                    </option>
+                    <option value="Ej publicerad">Ej publicerad</option>
+                    <option value="Publicerad internt">
+                      Publicerad som intern annons
+                    </option>
+                    <option value="Publicerad externt">
+                      Publicerad som extern annons
+                    </option>
+                    <option value="Reserverad">Reserverad</option>
+                    <option value="Såld">Såld</option>
+                    <option value="Avpublicerad">Avpublicerad</option>
+                    <option value="Automatiskt avpublicerad">
+                      Automatiskt avpublicerad
+                    </option>
                   </select>
-                </div>              
+                </div>
               </div>
               <div className="flex gap-6">
-                <div className="flex flex-col gap-2 min-w-[162px]">
-                  <Typography variant="p" size="sm" className='text-[14px] font-semibold'>Datum tillgänglig</Typography>
-                  <DatePicker
-                    selected={section.availability}
-                    setSelected={(date) =>
-                      handleDateChange(index, "availability", date)
-                    }
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place1"
+                    placeholder="Ange plats"
+                    value={formSections[index].place1 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
                   />
+                  <Tooltip
+                    className="postition absolute left-10 cursor-pointer select-none"
+                    info="Ange detaljerad platsbeskrivning angående var produkten finns"
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place2"
+                    placeholder="Ange plats"
+                    value={formSections[index].place2 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <Tooltip
+                    className="postition absolute left-10 cursor-pointer select-none"
+                    info="Ange detaljerad platsbeskrivning angående var produkten finns"
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place3"
+                    placeholder="Ange plats"
+                    value={formSections[index].place3 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <Tooltip
+                    className="postition absolute left-10 cursor-pointer select-none"
+                    info="Ange detaljerad platsbeskrivning angående var produkten finns"
+                  />
+                </div>
+                <div className="relative flex flex-col gap-2">
+                  <Textfield
+                    title="Plats"
+                    size="small"
+                    name="place4"
+                    placeholder="Ange plats"
+                    value={formSections[index].place4 || ""}
+                    onChange={(e) => handleInputChange(index, e)}
+                  />
+                  <Tooltip
+                    className="postition absolute left-10 cursor-pointer select-none"
+                    info="Ange detaljerad platsbeskrivning angående var produkten finns"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <div
+              className="flex flex-row gap-6 justify-center items-center py-2 px-8 cursor-pointer w-full"
+              onClick={() => toggleExpand(index)}
+            >
+              <p className="cursor-pointer font-medium text-[16px] text-[#15151]">
+                {expandedForms[index] ? "Dölj" : "Se mer"}
+              </p>
+              {expandedForms[index] ? (
+                <img src="/up.svg" alt="up arrow" className="w-6 h-6" />
+              ) : (
+                <img src="/down.svg" alt="down arrow" className="w-6 h-6" />
+              )}
+            </div>
+            {/*section that is initially hidden under the expandable " se mer"*/}
+            {expandedForms[index] && (
+              <>
+                <section className="flex flex-col gap-6 px-4 py-2 mb-12">
+                  <div className="flex gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[14px] font-semibold">
+                        Demonterbarhet
+                      </label>
+                      <select
+                        name="disassembly"
+                        value={
+                          formSections[index].disassembly || "Ej Demonterbar"
+                        }
+                        onChange={(e) => handleInputChange(index, e)}
+                        className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                      >
+                        <option value="" disabled>
+                          Välj
+                        </option>
+                        <option value="Enkel att demontera/demontering krävs ej">
+                          Enkel att demontera/demontering krävs ej
+                        </option>
+                        <option value="Demonterbar men specialverktyg kan behövas">
+                          Demonterbar men specialverktyg kan behövas
+                        </option>
+                        <option value="Begränsad demonterbarhet">
+                          Begränsad demonterbarhet
+                        </option>
+                      </select>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[14px] font-semibold">
+                        Åtkomlighet
+                      </label>
+                      <select
+                        name="accessibility"
+                        value={
+                          formSections[index].accessibility || "Ej Åtkomlig"
+                        }
+                        onChange={(e) => handleInputChange(index, e)}
+                        className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                      >
+                        <option value="" disabled>
+                          Välj
+                        </option>
+                        <option value="Lätt åtkomlig">Lätt åtkomlig</option>
+                        <option value="Åtkomlig men planering och specialverktyg kan behövas">
+                          Åtkomlig men planering och specialverktyg kan behövas
+                        </option>
+                        <option value="Begränsad åtkomlighet">
+                          Begränsad åtkomlighet
+                        </option>
+                      </select>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-2 min-w-[162px]">
-                  <Typography variant="p" size="sm" className='text-[14px] font-semibold'>Datum första möjliga leverans</Typography>
-                  <DatePicker
+                  <div className="flex gap-6">
+                    <div className="flex flex-col gap-2 min-w-[162px]">
+                      <Typography
+                        variant="p"
+                        size="sm"
+                        className="text-[14px] font-semibold"
+                      >
+                        Datum tillgänglig
+                      </Typography>
+                      <DatePicker
+                        selected={section.availability}
+                        setSelected={(date) =>
+                          handleDateChange(index, "availability", date)
+                        }
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2 min-w-[162px]">
+                      <Typography
+                        variant="p"
+                        size="sm"
+                        className="text-[14px] font-semibold"
+                      >
+                        Datum första möjliga leverans
+                      </Typography>
+                      <DatePicker
                         selected={section.delivery}
                         setSelected={(date) =>
                           handleDateChange(index, "delivery", date)
                         }
                       />
+                    </div>
                   </div>
-              </div>
-          <div className="flex gap-6">
-            <div className="relative flex flex-col gap-2">
-                <Textfield                
-                  title="Beslutsbenämning"
-                  size="small"
-                  name="decision_designation_1"
-                  placeholder='Ange'
-                  value={formSections[index].decision_designation_1 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
-               
-              </div>
+                  <div className="flex gap-6">
+                    <div className="relative flex flex-col gap-2">
+                      <Textfield
+                        title="Beslutsbenämning"
+                        size="small"
+                        name="decision_designation_1"
+                        placeholder="Ange"
+                        value={formSections[index].decision_designation_1 || ""}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <Tooltip
+                        className="position absolute right-0 cursor-pointer select-none"
+                        info="Ange ytterligare information angående beslutsfattningen"
+                      />
+                    </div>
 
-
-              <div className="relative flex flex-col gap-2">
-                <Textfield                
-                  title="Beslutsbenämning"
-                  size="small"
-                  name="decision_designation_2"
-                  placeholder='Ange'
-                  value={formSections[index].decision_designation_2 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield                
-                  title="Beslutsbenämning"
-                  size="small"
-                  name="decision_designation_3"
-                  placeholder='Ange'
-                  value={formSections[index].decision_designation_3 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield                
-                  title="Beslutsbenämning"
-                  size="small"
-                  name="decision_designation_4"
-                  placeholder='Ange'
-                  value={formSections[index].decision_designation_4 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
-                
-              </div>
-              </div>
-          </section>
-          </>
-          )}
-        </form>
-      </div>
+                    <div className="relative flex flex-col gap-2">
+                      <Textfield
+                        title="Beslutsbenämning"
+                        size="small"
+                        name="decision_designation_2"
+                        placeholder="Ange"
+                        value={formSections[index].decision_designation_2 || ""}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <Tooltip
+                        className="position absolute right-0 cursor-pointer select-none"
+                        info="Ange ytterligare information angående beslutsfattningen"
+                      />
+                    </div>
+                    <div className="relative flex flex-col gap-2">
+                      <Textfield
+                        title="Beslutsbenämning"
+                        size="small"
+                        name="decision_designation_3"
+                        placeholder="Ange"
+                        value={formSections[index].decision_designation_3 || ""}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <Tooltip
+                        className="position absolute right-0 cursor-pointer select-none"
+                        info="Ange ytterligare information angående beslutsfattningen"
+                      />
+                    </div>
+                    <div className="relative flex flex-col gap-2">
+                      <Textfield
+                        title="Beslutsbenämning"
+                        size="small"
+                        name="decision_designation_4"
+                        placeholder="Ange"
+                        value={formSections[index].decision_designation_4 || ""}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <Tooltip
+                        className="position absolute right-0 cursor-pointer select-none"
+                        info="Ange ytterligare information angående beslutsfattningen"
+                      />
+                    </div>
+                  </div>
+                </section>
+              </>
+            )}
+          </form>
+        </div>
       ))}
 
       {errors && (
