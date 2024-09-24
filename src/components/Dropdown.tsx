@@ -1,11 +1,16 @@
 import { FC } from "react";
 
+type DropdownOption = {
+  label: string;
+  value: number;
+};
+
 type DropdownProps = {
   title: string;
   size?: "xSmall" | "small" | "medium" | "large";
   name: string;
-  options: string[];
-  value: string;
+  options: DropdownOption[] | string[];
+  value: string | number;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
@@ -24,20 +29,29 @@ const Dropdown: FC<DropdownProps> = ({
     large: "w-full",
   };
   return (
-    <div className={`flex flex-col gap-1`}>
-      <label htmlFor="pet-select">{title}</label>
+    <div className="flex flex-col gap-1">
+      <label htmlFor={name}>{title}</label>
       <select
         name={name}
         id={name}
-        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300  px-6 py-3 `}
+        className={`${sizeClasses[size]} bg-slate-100 p-2 rounded border border-gray-300 px-6 py-3`}
         value={value}
         onChange={onChange}
       >
-        {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
+        <option value="" disabled>
+          Välj
+        </option>
+        {options.map((option, index) =>
+          typeof option === "string" ? (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ) : (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          )
+        )}
       </select>
     </div>
   );

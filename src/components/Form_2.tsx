@@ -78,8 +78,8 @@ const Form_2: React.FC = () => {
       place4: "",
       disassembly: "Ej Demonterbar",
       accessibility: "Ej Åtkomlig",
-      availability: new Date(),
-      delivery: new Date(),
+      availability: undefined,
+      delivery: undefined,
       decision_designation_1: "",
       decision_designation_2: "",
       decision_designation_3: "",
@@ -99,8 +99,8 @@ const Form_2: React.FC = () => {
         place4: "",
         disassembly: "Ej Demonterbar",
         accessibility: "Ej Åtkomlig",
-        availability: new Date(),
-        delivery: new Date(),
+        availability: undefined,
+        delivery: undefined,
         decision_designation_1: "",
         decision_designation_2: "",
         decision_designation_3: "",
@@ -201,8 +201,8 @@ const Form_2: React.FC = () => {
         place4: "",
         disassembly: "Ej Demonterbar",
         accessibility: "Ej Åtkomlig",
-        availability: new Date(),
-        delivery: new Date(),
+        availability: undefined,
+        delivery: undefined,
         decision_designation_1: "",
         decision_designation_2: "",
         decision_designation_3: "",
@@ -258,40 +258,44 @@ const Form_2: React.FC = () => {
     }));
   };
 
-  
-
-  /* const handleDateChange = (index: number, field: 'availability' | 'delivery') => (date: Date | undefined) => {
-    setFormSections((prevSections) =>
-      prevSections.map((section, i) =>
+  const handleDateChange = (
+    index: number,
+    field: "availability" | "delivery",
+    date: Date | undefined
+  ) => {
+    console.log(date);
+    setFormSections((prev) =>
+      prev.map((section, i) =>
         i === index ? { ...section, [field]: date } : section
       )
     );
-  }; */
-
-  const handleDateChange = (index: number, field: 'availability' | 'delivery') => {
-    return (newDate: Date | undefined) => {
-      setFormSections((prevSections) =>
-        prevSections.map((section, i) =>
-          i === index ? { ...section, [field]: newDate } : section
-        )
-      );
-    };
   };
 
-  console.log(formSections[0].delivery)
   return (
     <main className="mt-16 px-28 flex flex-col">
-
-      <div className='flex justify-start items-center mb-4 '>
-        <Typography variant="h2" size="md" className='text-[#151515] text-[31px] font-bold font-poppins'>Antal/Status/Plats</Typography>
+      <div className="flex justify-start items-center mb-4 ">
+        <Typography
+          variant="h2"
+          size="md"
+          className="text-[#151515] text-[31px] font-bold font-poppins"
+        >
+          Antal/Status/Plats
+        </Typography>
       </div>
 
-
-      <div className='flex flex-row gap-6 pt-8 pb-4 '>
-        <Button size="medium" variant="blue" onClick={handleAdd}>Lägg till ny</Button>
-        <Button size="medium" variant="white" onClick={handleDel}>Radera</Button>
-        <Button size="medium" variant="white" onClick={handleChange}>Ändra</Button>
-        <Button size="medium" variant="white" onClick={handleCom}>Kommentar</Button>
+      <div className="flex flex-row gap-6 pt-8 pb-4 ">
+        <Button size="medium" variant="blue" onClick={handleAdd}>
+          Lägg till ny
+        </Button>
+        <Button size="medium" variant="white" onClick={handleDel}>
+          Radera
+        </Button>
+        <Button size="medium" variant="white" onClick={handleChange}>
+          Ändra
+        </Button>
+        <Button size="medium" variant="white" onClick={handleCom}>
+          Kommentar
+        </Button>
       </div>
 
       {formSections.map((section, index) => (
@@ -380,8 +384,9 @@ const Form_2: React.FC = () => {
                   placeholder='Ange plats'
                   value={formSections[index].place4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />                
+                />
                 <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
+                
               </div>
             </div>
           </section>
@@ -434,15 +439,19 @@ const Form_2: React.FC = () => {
                   <Typography variant="p" size="sm" className='text-[14px] font-semibold'>Datum tillgänglig</Typography>
                   <DatePicker
                     selected={section.availability}
-                    setSelected={handleDateChange(index, 'availability')}
+                    setSelected={(date) =>
+                      handleDateChange(index, "availability", date)
+                    }
                   />
                   </div>
                   <div className="flex flex-col gap-2 min-w-[162px]">
                   <Typography variant="p" size="sm" className='text-[14px] font-semibold'>Datum första möjliga leverans</Typography>
                   <DatePicker
-                    selected={section.delivery}
-                    setSelected={handleDateChange(index, 'delivery')}
-                  />
+                        selected={section.delivery}
+                        setSelected={(date) =>
+                          handleDateChange(index, "delivery", date)
+                        }
+                      />
                   </div>
               </div>
           <div className="flex gap-6">
@@ -454,10 +463,9 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_1 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />                
-                <Tooltip 
-                className="position absolute right-0 cursor-pointer select-none" 
-                info="Ange ytterligare information angående beslutsfattningen" />
+                />
+                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
+               
               </div>
 
 
@@ -469,8 +477,9 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_2 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />               
-               <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
+                />
+                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
+                
               </div>
               <div className="relative flex flex-col gap-2">
                 <Textfield                
@@ -480,8 +489,9 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_3 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />               
-               <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
+                />
+                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
+                
               </div>
               <div className="relative flex flex-col gap-2">
                 <Textfield                
@@ -491,8 +501,9 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />                
+                />
                 <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
+                
               </div>
               </div>
           </section>
@@ -502,51 +513,31 @@ const Form_2: React.FC = () => {
       </div>
       ))}
 
-     
-         
-          {errors && (
-            <div className="text-red-500">
-              {Object.entries(errors).map(([key, value]) => (
-                <p key={key}>{value.join(', ')}</p>
-              ))}
-            </div>
-          )}
+      {errors && (
+        <div className="text-red-500">
+          {Object.entries(errors).map(([key, value]) => (
+            <p key={key}>{value.join(", ")}</p>
+          ))}
+        </div>
+      )}
 
+      <section className="w-full flex justify-between mb-12">
+        <Button onClick={handlePrevious} size="medium" variant="white">
+          &lt; Föregående
+        </Button>
 
-          <section className="w-full flex justify-between mb-12">
-            <Button
-              onClick={handlePrevious}              
-              size="medium"
-              variant="white"
-            >
-              &lt; Föregående
-            </Button>
+        <div className="flex gap-2">
+          <Button onClick={handleSave} size="medium" variant="white">
+            Spara utkast
+          </Button>
 
-
-            <div className='flex gap-2'>
-              <Button
-                onClick={handleSave}
-                size="medium"
-                variant="white"
-              >
-                Spara utkast
-              </Button>
-              
-              <Button
-                onClick={handleNext}
-                size="medium"
-                variant="blue"
-              >
-                Nästa &gt;
-              </Button>
-            
-            </div>
-          </section>
-
-        
+          <Button onClick={handleNext} size="medium" variant="blue">
+            Nästa &gt;
+          </Button>
+        </div>
+      </section>
     </main>
   );
 };
- 
 
 export default Form_2;
