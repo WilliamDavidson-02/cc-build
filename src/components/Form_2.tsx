@@ -9,6 +9,7 @@ import DatePicker from "./DatePicker";
 import Typography from "./Typography";
 import Input from "./Input";
 import Info from "./icons/Info";
+import { Tooltip } from "./Tooltip";
 
 const Step2Schema = z.object({
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
@@ -344,7 +345,7 @@ const Form_2: React.FC = () => {
                   value={formSections[index].place1 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 />
-                <Info className="postition absolute left-10" />
+                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
                 
               </div>
               <div className="relative flex flex-col gap-2">
@@ -356,7 +357,7 @@ const Form_2: React.FC = () => {
                   value={formSections[index].place2 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 />
-                <Info className="postition absolute left-10" />
+                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
                 
               </div>
               <div className="relative flex flex-col gap-2">
@@ -368,7 +369,7 @@ const Form_2: React.FC = () => {
                   value={formSections[index].place3 || ""}
                   onChange={(e) => handleInputChange(index, e)}
                 />
-                <Info className="postition absolute left-10" />
+                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
                 
               </div>
               <div className="relative flex flex-col gap-2">
@@ -379,9 +380,8 @@ const Form_2: React.FC = () => {
                   placeholder='Ange plats'
                   value={formSections[index].place4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />
-                <Info className="postition absolute left-10" />
-                
+                />                
+                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
               </div>
             </div>
           </section>
@@ -454,9 +454,10 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_1 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />
-                <Info className="position absolute right-0 cursor-pointer select-none" />
-               
+                />                
+                <Tooltip 
+                className="position absolute right-0 cursor-pointer select-none" 
+                info="Ange ytterligare information angående beslutsfattningen" />
               </div>
 
 
@@ -468,9 +469,8 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_2 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />
-                <Info className="position absolute right-0 cursor-pointer select-none" />
-                
+                />               
+               <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
               </div>
               <div className="relative flex flex-col gap-2">
                 <Textfield                
@@ -480,9 +480,8 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_3 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />
-                <Info className="position absolute right-0 cursor-pointer select-none" />
-                
+                />               
+               <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
               </div>
               <div className="relative flex flex-col gap-2">
                 <Textfield                
@@ -492,9 +491,8 @@ const Form_2: React.FC = () => {
                   placeholder='Ange'
                   value={formSections[index].decision_designation_4 || ""}
                   onChange={(e) => handleInputChange(index, e)}
-                />
-                <Info className="position absolute right-0 cursor-pointer select-none" />
-                
+                />                
+                <Tooltip className="position absolute right-0 cursor-pointer select-none" info="Ange ytterligare information angående beslutsfattningen" />
               </div>
               </div>
           </section>
