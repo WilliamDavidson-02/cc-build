@@ -8,7 +8,6 @@ import Textfield from "./Textfield";
 import DatePicker from "./DatePicker";
 import Typography from "./Typography";
 import Input from "./Input";
-import Info from "./icons/Info";
 import { Tooltip } from "./Tooltip";
 
 const Step2Schema = z.object({
