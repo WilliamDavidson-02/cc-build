@@ -73,12 +73,12 @@ const defaultFormData = {
 
   manufactor: "",
   articel_number: "",
-  manufactor_year: 0,
-  bought_year: 0,
-  gtin: 0,
-  rsk: 0,
+  manufactor_year: "",
+  bought_year: "",
+  gtin: "",
+  rsk: "",
   bsab: "",
-  enr: 0,
+  enr: "",
   bk04: "",
 
   price_new: 0,
@@ -88,9 +88,10 @@ const defaultFormData = {
   pick_up_on_site: false,
   send_with_freight: false,
   address: "",
-  postal_code: 0,
+  postal_code: "",
   locality: "",
   comment: "",
+  contact_person: "",
 };
 
 export type FormData = typeof defaultFormData;

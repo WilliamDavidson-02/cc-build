@@ -9,8 +9,10 @@ import DatePicker from "./DatePicker";
 import Typography from "./Typography";
 import Input from "./Input";
 import { Tooltip } from "./Tooltip";
+import { TablesInsert } from "@/lib/database.types";
 
 const Step2Schema = z.object({
+  product_id: z.string(),
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
   prod_status: z.string().optional(),
   market_status: z.string().optional(),
@@ -66,8 +68,11 @@ type Step2Data = z.infer<typeof Step2Schema>;
 const Form_2: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
+  
   const [formSections, setFormSections] = useState<Step2Data[]>([
     {
+      //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442", //we need to get the product id from step one
+      product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",
       amount: 1,
       prod_status: "Ej inventerad",
       market_status: "Ej publicerad",
@@ -89,6 +94,8 @@ const Form_2: React.FC = () => {
   useEffect(() => {
     if (!formData) {
       const initialData: Step2Data = {
+        //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442",//we need to get the product id from step one
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
@@ -130,6 +137,14 @@ const Form_2: React.FC = () => {
   };
 
   const handleSave = async () => {
+    // Check if user is authenticated
+    const { data: session, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session) {
+        console.error('User not authenticated:', sessionError);
+        return; 
+    }
+
+
     const results = formSections.map((section) =>
       Step2Schema.safeParse(section)
     );
@@ -157,28 +172,31 @@ const Form_2: React.FC = () => {
     setErrors({});
     console.log("All forms submitted successfully", formSections);
 
-    try {
-      const { data, error } = await supabase.from("products").insert(
-        formSections.map((section) => ({
-          amount: section.amount,
-          prod_status: section.prod_status,
-          market_status: section.market_status,
-          place1: section.place1,
-          place2: section.place2,
-          place3: section.place3,
-          place4: section.place4,
-          disassembly: section.disassembly,
-          accessibility: section.accessibility,
-          availability: section.availability,
-          delivery: section.delivery,
-          decision_designation_1: section.decision_designation_1,
-          decision_designation_2: section.decision_designation_2,
-          decision_designation_3: section.decision_designation_3,
-          decision_designation_4: section.decision_designation_4,
-        }))
-      );
+    try {     
+      // Prepare data for insertion
+      const insertData: TablesInsert<'product_individual'>[] = formSections.map((section) => ({
+        accessibility: section.accessibility ?? null,
+        amount: section.amount ?? null, 
+        availability: section.availability ?? null,
+        decision_designation_1: section.decision_designation_1 ?? null,
+        decision_designation_2: section.decision_designation_2 ?? null,
+        decision_designation_3: section.decision_designation_3 ?? null,
+        decision_designation_4: section.decision_designation_4 ?? null,
+        delivery: section.delivery ?? null,
+        disassembly: section.disassembly ?? null,
+        market_status: section.market_status ?? null, 
+        place1: section.place1 ?? null,
+        place2: section.place2 ?? null,
+        place3: section.place3 ?? null,
+        place4: section.place4 ?? null,
+        prod_id: section.product_id ?? null, //we need to get the product id from step one
+        prod_status: section.prod_status ?? null, 
+    }));
 
-      if (error) throw error;
+    // Insert into the 'product_individual' table
+    const { data, error } = await supabase.from("product_individual").insert(insertData);
+
+    if (error) throw error;
 
       console.log("Data inserted successfully:", data);
     } catch (error) {
@@ -191,6 +209,8 @@ const Form_2: React.FC = () => {
     setFormSections((prevSections) => [
       ...prevSections,
       {
+        //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442",//we need to get the product id from step one
+        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
@@ -229,7 +249,7 @@ const Form_2: React.FC = () => {
   };
 
   const handlePrevious = () => {
-    navigate(`/form-02`);
+    navigate(`/form-01`);
   };
 
   //checkboxstates
@@ -269,7 +289,7 @@ const Form_2: React.FC = () => {
       )
     );
   };
-
+  
   return (
     <main className="mt-16 px-28 flex flex-col">
       <div className="flex justify-start items-center mb-4 ">
@@ -303,6 +323,7 @@ const Form_2: React.FC = () => {
           <Input type="checkbox" checked={checkedStates[index]} onChange={() => handleCheckboxChange(index)} />
         </div>
         <form key={index} className="flex flex-col">
+         
           <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
             <div className="flex gap-6">
               <div className="flex flex-col gap-2">

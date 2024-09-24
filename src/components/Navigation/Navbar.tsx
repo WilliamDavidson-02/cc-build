@@ -1,18 +1,67 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { pageLinks } from './Navlinks';
 import { useUser } from "@/context/userContext";
+import { supabase } from "@/lib/sbClient";
 import Button from '../Buttons';
 
 interface NavbarProps {
   currentPath: string;
 }
+export interface UserProfile {
+  first_name?: string | null;
+  last_name?: string | null;
+}
 
 const Navbar: FC<NavbarProps> = ({ currentPath }) => {
   const [language, setLanguage] = useState('sv');
   const { user, isLoading, signOut } = useUser();
-  const fullname = user?.user_metadata.first_name + ' ' + user?.user_metadata.last_name;
+  const [fullName, setFullName] = useState<string | null>(null);
+ 
+  const fetchUserNamesById = async (userId: string): Promise<UserProfile | null> => {
+    if (!userId) {
+        console.error("User ID is undefined");
+        return null; 
+    }
+
+    const { data, error } = await supabase
+        .from('profile') 
+        .select('first_name, last_name')
+        .eq('id', userId) 
+        .single(); 
+
+    if (error) {
+        console.error("Error fetching user names:", error);
+        return null; 
+    }
+
+    return data; 
+};
+
   
+useEffect(() => {
+  const fetchAndSetUserNames = async () => {
+      const userId = user?.id; 
+
+      if (userId) {
+          const userData = await fetchUserNamesById(userId);
+          if (userData) {
+              
+              const name = `${userData.first_name} ${userData.last_name}`;
+              setFullName(name); 
+          }
+      } else {
+          console.error("User ID not available after sign in.");
+      }
+  };
+
+  fetchAndSetUserNames();
+}, [user]); 
+  
+console.log(user?.id);
+
+  
+
   const navigate = useNavigate();
 
   const handleToSignIn = () => {
@@ -48,7 +97,7 @@ const Navbar: FC<NavbarProps> = ({ currentPath }) => {
               </div>
               <div className="relative group">
                 <span className="bg-seaShell text-gray-900 px-4 py-2 rounded-lg cursor-pointer flex flex-wrap">
-                  {fullname} 
+                  {fullName} 
                   <span className="ml-1">▼</span>
                 </span>                
               </div>
