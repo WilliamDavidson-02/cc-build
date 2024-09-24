@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
@@ -10,13 +10,13 @@ import Typography from "@/components/Typography";
 import { supabase } from "@/lib/sbClient";
 
 const StepOneSchema = z.object({
-  // project: z.string(),
+  project: z.string(),
   name: z.string().max(255).min(2, "Name must be at least 2 characters"),
   product_category_1: z.string(),
   product_category_2: z.string(),
   product_category_3: z.string(),
-  visual_condition: z.number(),
-  working_condition: z.number(),
+  visual_condition: z.string(),
+  working_condition: z.string(),
   image: z.string().array(),
   product_files: z.string().array(),
   product_id: z.string(),
@@ -26,20 +26,54 @@ type StepOneData = z.infer<typeof StepOneSchema>;
 
 const Form_1: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
+  const [projects, setProjects] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [filteredCategories1, setFilteredCategories1] = useState<any[]>([]);
+  const [filteredCategories2, setFilteredCategories2] = useState<any[]>([]);
+  const [filteredCategories3, setFilteredCategories3] = useState<any[]>([]);
+  const [isCategory2Enabled, setIsCategory2Enabled] = useState(false);
+  const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
   const navigate = useNavigate();
 
   const [formSection, setFormSection] = useState<StepOneData>({
-    // project: "",
+    project: "",
     name: "",
     product_category_1: "",
     product_category_2: "",
     product_category_3: "",
-    visual_condition: 0,
-    working_condition: 0,
+    visual_condition: "",
+    working_condition: "",
     image: [],
     product_files: [],
     product_id: "",
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: categoryData, error: categoryError } = await supabase
+        .from("category")
+        .select("*");
+
+      if (categoryError) {
+        console.error("Error fetching categories", categoryError);
+      } else {
+        setCategories(categoryData);
+        setFilteredCategories1(categoryData.filter((cat) => !cat.parent_id));
+      }
+
+      const { data: projectData, error: projectError } = await supabase
+        .from("projects")
+        .select("*");
+
+      if (projectError) {
+        console.log("Error fetching projects", projectError);
+      } else {
+        setProjects(projectData);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleButtonClick = () => {};
 
@@ -57,6 +91,41 @@ const Form_1: React.FC = () => {
       ...prevData,
       [name]: value,
     }));
+
+    if (name === "product_category_1") {
+      setIsCategory2Enabled(true);
+      setFilteredCategories2(
+        categories.filter((cat) => cat.parent_id === value)
+      );
+      setIsCategory3Enabled(false);
+      setFilteredCategories3([]);
+      setFormSection((prevData) => ({
+        ...prevData,
+        product_category_2: "",
+        product_category_3: "",
+      }));
+    } else if (name === "product_category_2") {
+      setIsCategory3Enabled(true);
+      setFilteredCategories3(
+        categories.filter((cat) => cat.parent_id === value)
+      );
+      setFormSection((prevData) => ({
+        ...prevData,
+        product_category_3: "",
+      }));
+    }
+  };
+
+  const handleProjectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedProject = projects.find(
+      (project) => project.id === e.target.value
+    );
+    if (selectedProject) {
+      setFormSection((prevData) => ({
+        ...prevData,
+        project: selectedProject.id,
+      }));
+    }
   };
 
   const handleSetFiles = (files: File[], prop: "images" | "product_files") => {
@@ -71,7 +140,6 @@ const Form_1: React.FC = () => {
   };
 
   const handleSave = async () => {
-    // Collect selected categories into an array for fetching their IDs
     const getSelectedCategories = () => {
       return [
         { name: formSection.product_category_1 },
@@ -80,10 +148,9 @@ const Form_1: React.FC = () => {
       ].filter((category) => category.name);
     };
     const selectedCategories = getSelectedCategories();
-    console.log("Selected Categories:", selectedCategories);
 
     const productData = {
-      project_id: "f2f1c148-f896-45ae-886e-c86b2b938442",
+      project_id: formSection.project,
       name: formSection.name,
       visual_condition: formSection.visual_condition,
       working_condition: formSection.working_condition,
@@ -98,7 +165,7 @@ const Form_1: React.FC = () => {
 
       if (error) throw error;
 
-      const productId = data[0]?.id; // Retrieve the product ID
+      const productId = data[0]?.id;
       console.log("Product ID:", productId);
 
       const categoryNames = selectedCategories.map((category) => category.name);
@@ -111,8 +178,8 @@ const Form_1: React.FC = () => {
 
       const productCategoryData =
         categories?.map((category) => ({
-          product_id: productId, // Use the correct product ID
-          category_id: category.id, // Use the category ID fetched from the database
+          product_id: productId,
+          category_id: category.id,
         })) || [];
 
       const { error: productCategoryError } = await supabase
@@ -123,11 +190,27 @@ const Form_1: React.FC = () => {
     } catch (error) {
       console.log("Error inserting data", error);
     }
-
-    console.log("Product Data to Insert:", productData); // Check product data
   };
 
-  console.log("FormSection in render:", formSection);
+  const categoryOptions1 = filteredCategories1.map((cat) => ({
+    label: cat.name,
+    value: cat.id,
+  }));
+
+  const categoryOptions2 = filteredCategories2.map((cat) => ({
+    label: cat.name,
+    value: cat.id,
+  }));
+
+  const categoryOptions3 = filteredCategories3.map((cat) => ({
+    label: cat.name,
+    value: cat.id,
+  }));
+
+  const projectOptions = projects.map((project) => ({
+    label: project.name,
+    value: project.id,
+  }));
 
   return (
     <div className=" py-28 px-28 flex flex-col justify-center">
@@ -136,13 +219,14 @@ const Form_1: React.FC = () => {
         <form className="flex flex-col gap-6">
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-6 max-w-12">
-              {/* <Textfield
+              <Dropdown
                 title="Projekt"
+                options={projectOptions}
                 size="medium"
                 name="project"
                 value={formSection.project}
-                onChange={handleInputChange}
-              /> */}
+                onChange={handleProjectChange}
+              />
 
               <div className="flex flex-col">
                 <div>
@@ -162,28 +246,30 @@ const Form_1: React.FC = () => {
             </div>
             <div className="flex gap-6 flex-wrap">
               <Dropdown
-                title="Produktkategori"
-                options={["Inredning & möbler", "Dörrar", "WC & badrum"]}
+                title="Produktkategori 1"
+                options={categoryOptions1}
                 size="medium"
                 name="product_category_1"
                 value={formSection.product_category_1}
                 onChange={handleSelectChange}
               />
               <Dropdown
-                title="Produktkategori"
-                options={["Stol", "Altandörr", "Tvättställ"]}
+                title="Produktkategori 2"
+                options={categoryOptions2}
                 size="medium"
                 name="product_category_2"
                 value={formSection.product_category_2}
                 onChange={handleSelectChange}
+                disabled={!isCategory2Enabled}
               />
               <Dropdown
-                title="Produktkategori"
-                options={["Skrivbordsstol", "Pardörr", "Rostfritt"]}
+                title="Produktkategori 3"
+                options={categoryOptions3}
                 size="medium"
                 name="product_category_3"
                 value={formSection.product_category_3}
                 onChange={handleSelectChange}
+                disabled={!isCategory3Enabled}
               />
             </div>
 
