@@ -75,8 +75,6 @@ const Form_1: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleButtonClick = () => {};
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormSection((prevData) => ({
@@ -166,10 +164,8 @@ const Form_1: React.FC = () => {
       if (error) throw error;
 
       const productId = data[0]?.id;
-      console.log("Product ID:", productId);
 
       const categoryNames = selectedCategories.map((category) => category.name);
-      console.log("Category Names to Fetch:", categoryNames);
 
       const { data: categories, error: categoriesError } = await supabase
         .from("category")
@@ -330,11 +326,11 @@ const Form_1: React.FC = () => {
           </div>
 
           <section className="flex justify-between flex-wrap gap-6">
-            <div>
+            {/* <div>
               <Button size="medium" variant="white" onClick={handleButtonClick}>
                 Föregående
               </Button>
-            </div>
+            </div> */}
             <div className=" flex gap-2 flex-wrap">
               <Button size="medium" variant="white" onClick={handleSave}>
                 Spara utkast

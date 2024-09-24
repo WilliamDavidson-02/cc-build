@@ -10,6 +10,7 @@ import {
 import { FC, useState } from "react";
 import { Tooltip } from "@/components/Tooltip";
 import Form_1 from "@/components/Form_1";
+import Form_3 from "@/components/Form_3";
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -57,7 +58,7 @@ const Home: FC = () => {
       <DatePicker selected={selected} setSelected={setSelected} />
       <Input type="radio" />
       <Input type="checkbox" />
-      <Form_1 />
+      <Form_3 />
       <Tooltip info="This is the tooltip info" />
     </div>
   );
