@@ -7,7 +7,6 @@ import Typography from "./Typography";
 import Textfield from "./Textfield";
 import Button from "./Buttons";
 import Info from "./icons/Info";
-import { TablesInsert } from "@/lib/database.types";
 import { useUser } from "@/context/userContext";
 import { UserProfile } from "./Navigation/Navbar";
 
@@ -29,7 +28,7 @@ const step5Schema = z.object({
 type Step5Data = z.infer<typeof step5Schema>;
 
 const Form_5: React.FC = () => {
-  const { formData, setFormData, errors, setErrors } = useFormContext();
+  const { formData, setFormData, saveForm, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
   const { user } = useUser();
   const [fullName, setFullName] = useState<string | null>(null);
@@ -153,32 +152,10 @@ const Form_5: React.FC = () => {
     setErrors({});
     console.log("Form submitted successfully", formSection);
 
-    try {
-      const insertData: TablesInsert<"product_market_place"> = {
-        prod_id: formSection.product_id, //the id needs to be passed along the steps?
-        price_new: formSection.price_new,
-        buyer_price: formSection.buyer_price,
-        extern_price: formSection.extern_price,
-        intern_price: formSection.intern_price,
-        pick_up_on_site: formSection.pick_up_on_site,
-        send_with_freight: formSection.send_with_freight,
-        address: formSection.address,
-        postal_code: formSection.postal_code,
-        locality: formSection.locality,
-        comment: formSection.comment,
-        contact_person: user?.id || "",
-      };
-
-      const { data, error } = await supabase
-        .from("product_market_place")
-        .insert([insertData]);
-
-      if (error) throw error;
-
-      console.log("Data inserted successfully:", data);
-    } catch (error) {
-      console.error("Error inserting data:", error);
-    }
+    const updatedForm = {...formData, ...formSection }
+    
+    setFormData(updatedForm);
+    saveForm(updatedForm);
   };
 
   //a function that generates a random price
@@ -193,7 +170,7 @@ const Form_5: React.FC = () => {
   const handlePrevious = () => {
     navigate(`/form_4`);
   };
-
+console.log(formData)
   return (
     <main className="mt-16 px-52 flex flex-col items-center justify-center w-full">
       <form className="flex flex-col gap-10 w-full">

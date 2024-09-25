@@ -2,7 +2,7 @@ import { FC } from "react";
 
 type DropdownOption = {
   label: string;
-  value: number;
+  value: string | number;
 };
 
 type DropdownProps = {

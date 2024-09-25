@@ -1,15 +1,14 @@
 import Button from "./Buttons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormContext } from "@/context/formContext";
-import { supabase } from "@/lib/sbClient";
+
 import Typography from "./Typography";
 import { z } from "zod";
 import Textfield from "./Textfield";
 //import { TablesInsert } from "@/lib/database.types";
 
-const Step4Schema = z.object({
-  product_id: z.string(),//the id needs to be passed along the steps?
+const Step4Schema = z.object({  
   manufactor: z.string().optional(),
   articel_number: z.string().optional(),
   manufactor_year: z.string().optional(),
@@ -24,9 +23,8 @@ type Step4Data = z.infer<typeof Step4Schema>;
 
 const Form_4: React.FC = () => {
   const navigate = useNavigate();
-  const { formData, setFormData, errors, setErrors } = useFormContext();
-  const [formSection, setFormSection] = useState<Step4Data>({
-    product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",//the id needs to be passed along the steps?
+  const { formData, setFormData, saveForm, errors, setErrors } = useFormContext();
+  const [formSection, setFormSection] = useState<Step4Data>({    
     manufactor: "",
     articel_number: "",
     manufactor_year: undefined,
@@ -37,27 +35,7 @@ const Form_4: React.FC = () => {
     enr: "",
     bk04: "",
   });
-
-  useEffect(() => {
-    if (!formData) {
-      const initialData: Step4Data = {
-        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14",//the id needs to be passed along the steps?
-        manufactor: "",
-        articel_number: "",
-        manufactor_year: "",
-        bought_year: "",
-        gtin: "",
-        rsk: "",
-        bsab: "",
-        enr: "",
-        bk04: "",
-      };
-      setFormData((prevData) => ({
-        ...prevData,
-        ...initialData,
-      }));
-    }
-  }, [formData, setFormData]);
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -89,39 +67,14 @@ const Form_4: React.FC = () => {
 
     setErrors({});
     console.log("Form submitted successfully", formSection);
+    
 
-    try {
-     
-    const propertiesToInsert = [
-      { name: 'manufactor', value: formSection.manufactor },
-      { name: 'articel_number', value: formSection.articel_number },
-      { name: 'manufactor_year', value: formSection.manufactor_year },
-      { name: 'bought_year', value: formSection.bought_year },
-      { name: 'gtin', value: formSection.gtin },
-      { name: 'rsk', value: formSection.rsk },
-      { name: 'bsab', value: formSection.bsab },
-      { name: 'enr', value: formSection.enr },
-      { name: 'bk04', value: formSection.bk04 },
-    ];
+    const updatedForm = {...formData, ...formSection }
+    
+    setFormData(updatedForm);
+    saveForm(updatedForm);
 
     
-    const insertData = propertiesToInsert.map(property => ({
-      prod_id: formSection.product_id,  
-      name: property.name,
-      value: property.value,
-    }));
-
-    //insert data 
-    const { data, error } = await supabase
-      .from("product_property")
-      .insert(insertData);  
-
-      if (error) throw error;
-
-      console.log("Data inserted successfully:", data);
-    } catch (error) {
-      console.error("Error inserting data:", error);
-    }
   };
 
   const [visibleFields, setVisibleFields] = useState({
@@ -140,14 +93,18 @@ const Form_4: React.FC = () => {
   };
 
   const handleNext = () => {
-    handleSave();
+    setFormData((prevData) => ({
+      ...prevData,
+      ...formSection,
+    }));
+   /*  handleSave(); */
     navigate(`/form-05`);
   };
 
   const handlePrevious = () => {
     navigate(`/form-03`);
   };
-
+console.log(formData, 'step 4')
   return (
     <main className="mt-16 px-48 flex flex-col items-center justify-center w-full">
       <div className="flex justify-start items-center mb-10 w-full">
