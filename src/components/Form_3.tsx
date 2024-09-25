@@ -5,42 +5,40 @@ import Textfield from "@/components/Textfield";
 import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
 import { FormContext } from "@/context/formContext";
-import { supabase } from "@/lib/sbClient";
+
 import Button from "@/components/Buttons";
-import { z } from "zod";
 
-const StepThreeSchema = z.object({
-  material: z.string().optional(),
-  color_finish: z.string().optional(),
-  unit_of_measure: z.string().optional(),
-  width: z.number().optional(),
-  length: z.number().optional(),
-  height: z.number().optional(),
-  depth: z.number().optional(),
-  diameter: z.number().optional(),
-  thickness: z.number().optional(),
-  weight_unit: z.string().optional(),
-  weight: z.number().optional(),
-  avg_height_min: z.number().optional(),
-  avg_height_max: z.number().optional(),
-  lumbal_support: z.number().optional(),
 
-  glass_type: z.string().optional(),
-  glass_model: z.string().optional(),
-  glass_thickness: z.number().optional(),
-  hanging: z.string().optional(),
-  module_size: z.string().optional(),
-  sound_reduction: z.number().optional(),
-  fire_resistance_class: z.number().optional(),
-  burglary_resistance_class: z.number().optional(),
-  environmental_profile: z.string().optional(),
-  frame_depth: z.number().optional(),
-});
+interface StepThreeData {
+  material?: string;
+  color_finish?: string;
+  unit_of_measure?: string;
+  width?: number;
+  length?: number;
+  height?: number;
+  depth?: number;
+  diameter?: number;
+  thickness?: number;
+  weight_unit?: string;
+  weight?: number;
+  avg_height_min?: number;
+  avg_height_max?: number;
+  lumbal_support?: number;
 
-type StepThreeData = z.infer<typeof StepThreeSchema>;
+  glass_type?: string;
+  glass_model?: string;
+  glass_thickness?: number;
+  hanging?: string;
+  module_size?: string;
+  sound_reduction?: number;
+  fire_resistance_class?: number;
+  burglary_resistance_class?: number;
+  environmental_profile?: string;
+  frame_depth?: number;
+}
 
 const Form_3: React.FC = () => {
-  const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
+  const { formData, setFormData, saveForm } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<StepThreeData>({
     material: "",
@@ -68,7 +66,7 @@ const Form_3: React.FC = () => {
     environmental_profile: "",
     frame_depth: 0,
   });
-  console.log("formData from formContext", formData);
+  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -100,11 +98,16 @@ const Form_3: React.FC = () => {
   // };
 
   const handleNext = () => {
-    setFormData((prev) => ({
-      ...prev,
-      ...formSection,
-    }));
-    handleSave();
+    setFormData((prev) => {
+      const newData = {
+        ...prev,
+        ...formSection,
+      };
+
+      console.log(newData);
+      return newData;
+    });
+    
     navigate("/form-04");
   };
 
@@ -113,91 +116,15 @@ const Form_3: React.FC = () => {
   };
 
   const handleSave = async () => {
-    const {
-      unit_of_measure,
-      width,
-      length,
-      height,
-      depth,
-      diameter,
-      thickness,
-      weight,
-      weight_unit,
-    } = formSection;
+    const updatedForm = {...formData, ...formSection }
+    
+    setFormData(updatedForm);
+    saveForm(updatedForm);
 
-    // Hardcoded prodect id. Needs to be fetched from formContext in the future
-    const properties = [
-      {
-        name: "unit of measure",
-        value: unit_of_measure?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "width",
-        value: width?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "length",
-        value: length?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "height",
-        value: height?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "depth",
-        value: depth?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "diameter",
-        value: diameter?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "thickness",
-        value: thickness?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "weight",
-        value: weight?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-      {
-        name: "weight_unit",
-        value: weight_unit?.toString(),
-        prod_id: "c3503f87-a629-47f7-8091-2cbe5523b179",
-      },
-    ];
-
-    const validProperties = properties.filter(
-      (property) =>
-        property.value !== "0" &&
-        property.value !== "" &&
-        property.value !== null
-    );
-
-    try {
-      const { data, error } = await supabase
-        .from("product_property")
-        .insert(validProperties);
-
-      if (error) {
-        console.error("Error inserting product properties:", error);
-      } else {
-        console.log("Inserted product properties:", data);
-      }
-    } catch (error) {
-      console.error("Unexpected error:", error);
-    }
   };
 
-  console.log("FormSection:", formSection);
-  console.log("FormData", formData);
+  /* console.log("FormSection:", formSection);
+  console.log("FormData", formData); */
 
   return (
     <>

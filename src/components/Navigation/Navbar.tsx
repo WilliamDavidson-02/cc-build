@@ -57,10 +57,7 @@ useEffect(() => {
 
   fetchAndSetUserNames();
 }, [user]); 
-  
-console.log(user?.id);
-
-  
+    
 
   const navigate = useNavigate();
 

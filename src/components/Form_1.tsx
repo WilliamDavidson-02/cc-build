@@ -1,5 +1,5 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { z } from "zod";
+
 import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
 import Button from "@/components/Buttons";
@@ -8,31 +8,37 @@ import FileUpload from "@/components/Upload";
 import { FormContext } from "@/context/formContext";
 import Typography from "@/components/Typography";
 import { supabase } from "@/lib/sbClient";
+import { v4 as uuid } from "uuid"
+import { useUser } from "@/context/userContext";
+import { Database } from "@/lib/database.types";
 
-const StepOneSchema = z.object({
-  project: z.string(),
-  name: z.string().max(255).min(2, "Name must be at least 2 characters"),
-  product_category_1: z.string(),
-  product_category_2: z.string(),
-  product_category_3: z.string(),
-  visual_condition: z.string(),
-  working_condition: z.string(),
-  image: z.instanceof(File).array(),
-  product_files: z.instanceof(File).array(),
-  product_id: z.string(),
-});
+interface StepOneData {
+  project: string;
+  name: string; // The length constraints (min and max) are not enforceable in a plain type
+  product_category_1: string;
+  product_category_2: string;
+  product_category_3: string;
+  visual_condition: string;
+  working_condition: string;
+  image: File[]; // Since it's an array of `File`, we represent it as `File[]`
+  product_files: File[]; // Same for `product_files`
+  product_id: string;
+  ownId: string;
+}
 
-type StepOneData = z.infer<typeof StepOneSchema>;
+type Project = Database["public"]["Tables"]["projects"]["Row"]
+type Category = Database["public"]["Tables"]["category"]["Row"]
 
 const Form_1: React.FC = () => {
-  const { formData, setFormData, errors, setErrors } = useContext(FormContext)!;
-  const [projects, setProjects] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [filteredCategories1, setFilteredCategories1] = useState<any[]>([]);
-  const [filteredCategories2, setFilteredCategories2] = useState<any[]>([]);
-  const [filteredCategories3, setFilteredCategories3] = useState<any[]>([]);
+  const { formData, setFormData, saveForm } = useContext(FormContext)!;
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [filteredCategories1, setFilteredCategories1] = useState<Category[]>([]);
+  const [filteredCategories2, setFilteredCategories2] = useState<Category[]>([]);
+  const [filteredCategories3, setFilteredCategories3] = useState<Category[]>([]);
   const [isCategory2Enabled, setIsCategory2Enabled] = useState(false);
   const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
+  const {user} = useUser();
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<StepOneData>({
     project: "",
@@ -44,7 +50,8 @@ const Form_1: React.FC = () => {
     working_condition: "",
     image: [] as File[],
     product_files: [] as File[],
-    product_id: "",
+    product_id: uuid(),
+    ownId: "",
   });
 
   useEffect(() => {
@@ -62,7 +69,8 @@ const Form_1: React.FC = () => {
 
       const { data: projectData, error: projectError } = await supabase
         .from("projects")
-        .select("*");
+        .select("*")
+        .eq("user_id", user?.id?? "");
 
       if (projectError) {
         console.log("Error fetching projects", projectError);
@@ -137,79 +145,37 @@ const Form_1: React.FC = () => {
       ...prev,
       ...formSection,
     }));
-    handleSave();
+    
     navigate("/form-02");
   };
 
   const handleSave = async () => {
-    const getSelectedCategories = () => {
-      return [
-        { name: formSection.product_category_1 },
-        { name: formSection.product_category_2 },
-        { name: formSection.product_category_3 },
-      ].filter((category) => category.name);
-    };
-    const selectedCategories = getSelectedCategories();
+    const updatedForm = {...formData, ...formSection }
+    
+    setFormData(updatedForm);
+    saveForm(updatedForm);
 
-    const productData = {
-      project_id: formSection.project,
-      name: formSection.name,
-      visual_condition: formSection.visual_condition,
-      working_condition: formSection.working_condition,
-      product_id: formSection.product_id,
-    };
-
-    try {
-      const { data, error } = await supabase
-        .from("products")
-        .insert([productData])
-        .select();
-
-      if (error) throw error;
-
-      const productId = data[0]?.id;
-
-      const categoryNames = selectedCategories.map((category) => category.name);
-
-      const { data: categories, error: categoriesError } = await supabase
-        .from("category")
-        .select("id, name")
-        .in("name", categoryNames);
-
-      const productCategoryData =
-        categories?.map((category) => ({
-          product_id: productId,
-          category_id: category.id,
-        })) || [];
-
-      const { error: productCategoryError } = await supabase
-        .from("product_category")
-        .insert(productCategoryData);
-
-      console.log("Data inserted successfully:", data);
-    } catch (error) {
-      console.log("Error inserting data", error);
-    }
+   
   };
-
+  
   const categoryOptions1 = filteredCategories1.map((cat) => ({
-    label: cat.name,
-    value: cat.id,
+    label: cat.name?? "",
+    value: cat.id?? "",
   }));
 
   const categoryOptions2 = filteredCategories2.map((cat) => ({
-    label: cat.name,
-    value: cat.id,
+    label: cat.name?? "",
+    value: cat.id?? "",
   }));
 
   const categoryOptions3 = filteredCategories3.map((cat) => ({
-    label: cat.name,
-    value: cat.id,
+    label: cat.name?? "",
+    value: cat.id?? "",
   }));
 
   const projectOptions = projects.map((project) => ({
-    label: project.name,
-    value: project.id,
+    label: project.name?? "",
+    value: project.id?? "",
   }));
 
   return (
@@ -321,8 +287,8 @@ const Form_1: React.FC = () => {
                 <Textfield
                   title="Eget ID"
                   size="medium"
-                  name="product_id"
-                  value={formSection.product_id}
+                  name="ownId"
+                  value={formSection.ownId}
                   onChange={handleInputChange}
                 />
               </div>
