@@ -68,7 +68,7 @@ type Step2Data = z.infer<typeof Step2Schema>;
 const Form_2: React.FC = () => {
   const { formData, setFormData, errors, setErrors } = useFormContext();
   const navigate = useNavigate();
-  
+
   const [formSections, setFormSections] = useState<Step2Data[]>([
     {
       //product_id: "f4f1c148-f896-45ae-886e-c86b2b944442", //we need to get the product id from step one
@@ -118,7 +118,6 @@ const Form_2: React.FC = () => {
       }));
     }
   }, [formData, setFormData]);
-  console.log("Hugos updated formdata:", formData);
 
   const handleInputChange = (
     index: number,
@@ -139,12 +138,12 @@ const Form_2: React.FC = () => {
 
   const handleSave = async () => {
     // Check if user is authenticated
-    const { data: session, error: sessionError } = await supabase.auth.getSession();
+    const { data: session, error: sessionError } =
+      await supabase.auth.getSession();
     if (sessionError || !session) {
-        console.error('User not authenticated:', sessionError);
-        return; 
+      console.error("User not authenticated:", sessionError);
+      return;
     }
-
 
     const results = formSections.map((section) =>
       Step2Schema.safeParse(section)
@@ -173,31 +172,35 @@ const Form_2: React.FC = () => {
     setErrors({});
     console.log("All forms submitted successfully", formSections);
 
-    try {     
+    try {
       // Prepare data for insertion
-      const insertData: TablesInsert<'product_individual'>[] = formSections.map((section) => ({
-        accessibility: section.accessibility ?? null,
-        amount: section.amount ?? null, 
-        availability: section.availability ?? null,
-        decision_designation_1: section.decision_designation_1 ?? null,
-        decision_designation_2: section.decision_designation_2 ?? null,
-        decision_designation_3: section.decision_designation_3 ?? null,
-        decision_designation_4: section.decision_designation_4 ?? null,
-        delivery: section.delivery ?? null,
-        disassembly: section.disassembly ?? null,
-        market_status: section.market_status ?? null, 
-        place1: section.place1 ?? null,
-        place2: section.place2 ?? null,
-        place3: section.place3 ?? null,
-        place4: section.place4 ?? null,
-        prod_id: section.product_id ?? null, //we need to get the product id from step one
-        prod_status: section.prod_status ?? null, 
-    }));
+      const insertData: TablesInsert<"product_individual">[] = formSections.map(
+        (section) => ({
+          accessibility: section.accessibility ?? null,
+          amount: section.amount ?? null,
+          availability: section.availability ?? null,
+          decision_designation_1: section.decision_designation_1 ?? null,
+          decision_designation_2: section.decision_designation_2 ?? null,
+          decision_designation_3: section.decision_designation_3 ?? null,
+          decision_designation_4: section.decision_designation_4 ?? null,
+          delivery: section.delivery ?? null,
+          disassembly: section.disassembly ?? null,
+          market_status: section.market_status ?? null,
+          place1: section.place1 ?? null,
+          place2: section.place2 ?? null,
+          place3: section.place3 ?? null,
+          place4: section.place4 ?? null,
+          prod_id: section.product_id ?? null, //we need to get the product id from step one
+          prod_status: section.prod_status ?? null,
+        })
+      );
 
-    // Insert into the 'product_individual' table
-    const { data, error } = await supabase.from("product_individual").insert(insertData);
+      // Insert into the 'product_individual' table
+      const { data, error } = await supabase
+        .from("product_individual")
+        .insert(insertData);
 
-    if (error) throw error;
+      if (error) throw error;
 
       console.log("Data inserted successfully:", data);
     } catch (error) {
@@ -290,7 +293,7 @@ const Form_2: React.FC = () => {
       )
     );
   };
-  
+
   return (
     <main className="mt-16 px-28 flex flex-col">
       <div className="flex justify-start items-center mb-4 ">
@@ -319,135 +322,13 @@ const Form_2: React.FC = () => {
       </div>
 
       {formSections.map((section, index) => (
-      <div key={index} className="flex flex-row gap-4 py-6 px-4">
-        <div className='flex h-full items-start pt-8 pr-2'>
-          <Input type="checkbox" checked={checkedStates[index]} onChange={() => handleCheckboxChange(index)} />
-        </div>
-        <form key={index} className="flex flex-col">
-         
-          <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
-            <div className="flex gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-semibold">Antal</label>
-                <input
-                  type="number"
-                  name="amount"
-                  value={formSections[index].amount || 1}
-                  onChange={(e) => handleInputChange(index, e)}
-                  placeholder="Antal (st)"
-                  className="bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-semibold">Status</label>
-                <select
-                  name="prod_status"
-                  value={formSections[index].prod_status || "Ej inventerad"}
-                  onChange={(e) => handleInputChange(index, e)}
-                  className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                >
-                  <option value="" disabled>Välj</option>
-                  <option value="Inventerad">Inventerad</option>
-                  <option value="Inventerad - i byggnad">Inventerad - i byggnad</option>
-                  <option value="Inventerad - i lager/förråd">Inventerad - i lager/förråd</option>
-                  <option value="Mängdad">Mängdad</option>
-                  <option value="Mängdad - i byggnad">Mängdad - i byggnad</option>
-                  <option value="Mängdad - i lager/förråd">Mängdad - i lager/förråd</option>
-                  <option value="På rekonditionering">På rekonditionering</option>
-                  <option value="I lager">I lager</option>
-                  <option value="Bevarad (slutstatus)">Bevarad (slutstatus)</option>
-                  <option value="Återbrukad i projekt (slutstatus)">Återbrukad i projekt (slutstatus)</option>
-                  <option value="Återbrukad inom organisationen (slutstatus)">Återbrukad inom organisationen (slutstatus)</option>
-                  <option value="Återbrukad externt av annan aktör (slutstatus)">Återbrukad externt av annan aktör (slutstatus)</option>
-
-                  <option value="Avfallshanterad (slutstatus)">Avfallshanterad (slutstatus)</option>
-                </select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label className="text-[14px] font-semibold">Marknadsplatsen</label>
-                <select
-                  name="market_status"
-                  value={formSections[index].market_status || "Ej publicerad"}
-                  onChange={(e) => handleInputChange(index, e)}
-                  className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                >
-                  <option value="" disabled>Välj</option>
-                  <option value="Ej publicerad">Ej publicerad</option>
-                  <option value="Publicerad internt">Publicerad som intern annons</option>
-                  <option value="Publicerad externt">Publicerad som extern annons</option>
-                  <option value="Reserverad">Reserverad</option>
-                  <option value="Såld">Såld</option>
-                  <option value="Avpublicerad">Avpublicerad</option>
-                  <option value="Automatiskt avpublicerad">Automatiskt avpublicerad</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex gap-6">
-              <div className="relative flex flex-col gap-2">
-                <Textfield
-                  title="Plats"
-                  size="small"
-                  name="place1"
-                  placeholder='Ange plats'
-                  value={formSections[index].place1 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield
-                  title="Plats"
-                  size="small"
-                  name="place2"
-                  placeholder='Ange plats'
-                  value={formSections[index].place2 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield
-                  title="Plats"
-                  size="small"
-                  name="place3"
-                  placeholder='Ange plats'
-                  value={formSections[index].place3 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-              <div className="relative flex flex-col gap-2">
-                <Textfield                
-                  title="Plats"
-                  size="small"
-                  name="place4"
-                  placeholder='Ange plats'
-                  value={formSections[index].place4 || ""}
-                  onChange={(e) => handleInputChange(index, e)}
-                />
-                <Tooltip className="postition absolute left-10 cursor-pointer select-none" info="Ange detaljerad platsbeskrivning angående var produkten finns" />
-                
-              </div>
-            </div>
-          </section>
-
-          
-          <div 
-            className='flex flex-row gap-6 justify-center items-center py-2 px-8 cursor-pointer w-full'
-            onClick={() => toggleExpand(index)}            
-          >
-            <p className='cursor-pointer font-medium text-[16px] text-[#15151]'>              
-              {expandedForms[index] ? "Dölj" : "Se mer"} 
-            </p>
-            {expandedForms[index] ? 
-            <img src="/up.svg" alt="up arrow" className='w-6 h-6' /> 
-            : 
-            <img src="/down.svg" alt="down arrow" className='w-6 h-6' />
-            }
-            
+        <div key={index} className="flex flex-row gap-4 py-6 px-4">
+          <div className="flex h-full items-start pt-8 pr-2">
+            <Input
+              type="checkbox"
+              checked={checkedStates[index]}
+              onChange={() => handleCheckboxChange(index)}
+            />
           </div>
           <form key={index} className="flex flex-col">
             <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
