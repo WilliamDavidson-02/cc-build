@@ -1,15 +1,13 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useState, FocusEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@/components/Typography";
 import Textfield from "@/components/Textfield";
 import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
 import { FormContext } from "@/context/formContext";
-
 import Button from "@/components/Buttons";
 
-
-interface StepThreeData {
+export interface StepThreeData {
   material?: string;
   color_finish?: string;
   unit_of_measure?: string;
@@ -37,7 +35,12 @@ interface StepThreeData {
   frame_depth?: number;
 }
 
-const Form_3: React.FC = () => {
+type Form3Props = {
+  isEdit?: boolean;
+  handleUpdate?: (values: StepThreeData) => Promise<void>;
+};
+
+const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   const { formData, setFormData, saveForm } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<StepThreeData>({
@@ -66,7 +69,6 @@ const Form_3: React.FC = () => {
     environmental_profile: formData?.environmental_profile ?? "",
     frame_depth: formData?.frame_depth ?? 0,
   });
-  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -92,10 +94,23 @@ const Form_3: React.FC = () => {
     }));
   };
 
-  // const handleNext = () => {
-  //   handleSave();
-  //   navigate(`/form-04`);
-  // };
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setFormSection((prevData) => ({
+      ...prevData,
+      [name]: "",
+    }));
+  };
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (value === "") {
+      setFormSection((prevData) => ({
+        ...prevData,
+        [name]: 0,
+      }));
+    }
+  };
 
   const handleNext = () => {
     setFormData((prev) => {
@@ -103,11 +118,9 @@ const Form_3: React.FC = () => {
         ...prev,
         ...formSection,
       };
-
-      console.log(newData);
       return newData;
     });
-    
+
     navigate("/form-04");
   };
 
@@ -116,70 +129,138 @@ const Form_3: React.FC = () => {
   };
 
   const handleSave = async () => {
-    const updatedForm = {...formData, ...formSection }
-    
+    const updatedForm = { ...formData, ...formSection };
+
     setFormData(updatedForm);
     saveForm(updatedForm);
-
   };
-
-  /* console.log("FormSection:", formSection);
-  console.log("FormData", formData); */
 
   return (
     <>
-      <div className=" py-28 px-28 flex flex-col justify-center">
-        <form className="flex flex-col gap-12">
-          <Typography variant="h3">Form</Typography>
-          <div className="flex gap-8">
-            <Textfield
-              title="Material"
-              size="medium"
-              name="material"
-              value={formSection.material ?? ""}
-              onChange={handleInputChange}
-            />
-            <Textfield
-              title="Färg/finish"
-              size="medium"
-              name="color_finish"
-              value={formSection.color_finish ?? ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="flex gap-6">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6">Enhet mått</Typography>
-              <div className="flex align-middle gap-5">
-                <Radiobutton
-                  measurement="mm"
-                  name="unit_of_measure"
-                  value="mm"
-                  checked={formSection.unit_of_measure === "mm"}
-                  onChange={handleRadioChange}
-                />
-                <Radiobutton
-                  measurement="cm"
-                  name="unit_of_measure"
-                  value="cm"
-                  checked={formSection.unit_of_measure === "cm"}
-                  onChange={handleRadioChange}
-                />
-                <Radiobutton
-                  measurement="m"
-                  name="unit_of_measure"
-                  value="m"
-                  checked={formSection.unit_of_measure === "m"}
-                  onChange={handleRadioChange}
-                />
-              </div>
+      <form className="flex flex-col gap-12">
+        <Typography variant="h3">Form</Typography>
+        <div className="flex gap-8">
+          <Textfield
+            title="Material"
+            size="medium"
+            name="material"
+            value={formSection.material ?? ""}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Färg/finish"
+            size="medium"
+            name="color_finish"
+            value={formSection.color_finish ?? ""}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="flex gap-6">
+          <div className="flex flex-col gap-2">
+            <Typography variant="h6">Enhet mått</Typography>
+            <div className="flex align-middle gap-5">
+              <Radiobutton
+                measurement="mm"
+                name="unit_of_measure"
+                value="mm"
+                checked={formSection.unit_of_measure === "mm"}
+                onChange={handleRadioChange}
+              />
+              <Radiobutton
+                measurement="cm"
+                name="unit_of_measure"
+                value="cm"
+                checked={formSection.unit_of_measure === "cm"}
+                onChange={handleRadioChange}
+              />
+              <Radiobutton
+                measurement="m"
+                name="unit_of_measure"
+                value="m"
+                checked={formSection.unit_of_measure === "m"}
+                onChange={handleRadioChange}
+              />
             </div>
+          </div>
+          <Textfield
+            title="Bredd"
+            size="xSmall"
+            name="width"
+            value={formSection.width ?? 0}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Längd"
+            size="xSmall"
+            name="length"
+            value={formSection.length ?? 0}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Höjd"
+            size="xSmall"
+            name="height"
+            value={formSection.height ?? 0}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Djup"
+            size="xSmall"
+            name="depth"
+            value={formSection.depth ?? 0}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Diameter"
+            size="xSmall"
+            name="diameter"
+            value={formSection.diameter ?? 0}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Tjocklek"
+            size="xSmall"
+            name="thickness"
+            value={formSection.thickness ?? 0}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="flex gap-10">
+          <div className="flex flex-col gap-2">
+            <Typography variant="h6">Enhet vikt</Typography>
+            <div className="flex align-middle gap-5">
+              <Radiobutton
+                measurement="g"
+                name="weight_unit"
+                value="g"
+                checked={formSection.weight_unit === "g"}
+                onChange={handleRadioChange}
+              />
+              <Radiobutton
+                measurement="hg"
+                name="weight_unit"
+                value="hg"
+                checked={formSection.weight_unit === "hg"}
+                onChange={handleRadioChange}
+              />
+              <Radiobutton
+                measurement="kg"
+                name="weight_unit"
+                value="kg"
+                checked={formSection.weight_unit === "kg"}
+                onChange={handleRadioChange}
+              />
+            </div>
+          </div>
+          <div className="flex align-middle gap-2">
             <Textfield
-              title="Bredd"
+              title="Vikt"
               size="xSmall"
-              name="width"
-              value={formSection.width ?? 0}
+              name="weight"
+              value={formSection.weight ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Längd"
@@ -187,6 +268,8 @@ const Form_3: React.FC = () => {
               name="length"
               value={formSection.length ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Höjd"
@@ -194,6 +277,8 @@ const Form_3: React.FC = () => {
               name="height"
               value={formSection.height ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Djup"
@@ -201,6 +286,8 @@ const Form_3: React.FC = () => {
               name="depth"
               value={formSection.depth ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Diameter"
@@ -208,6 +295,8 @@ const Form_3: React.FC = () => {
               name="diameter"
               value={formSection.diameter ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Tjocklek"
@@ -215,6 +304,8 @@ const Form_3: React.FC = () => {
               name="thickness"
               value={formSection.thickness ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </div>
           <div className="flex gap-10">
@@ -251,6 +342,8 @@ const Form_3: React.FC = () => {
                 name="weight"
                 value={formSection.weight ?? 0}
                 onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </div>
           </div>
@@ -258,144 +351,77 @@ const Form_3: React.FC = () => {
           <Typography variant="h3">Egenskaper</Typography>
           {/* Conditionally render properties depending on product category */}
           <div className="flex gap-5">
-            <Textfield
-              title="Sitthöjd min (cm)"
-              size="small"
-              name="avg_height_min"
-              value={formSection.avg_height_min ?? 0}
-              onChange={handleInputChange}
+            {" "}
+            <Dropdown
+              title="Brandklass"
+              options={["1", "2", "3", "4", "5"]}
+              size="medium"
+              name="fire_resistance_class"
+              value={formSection.fire_resistance_class ?? 0}
+              onChange={handleSelectChange}
             />
-            <Textfield
-              title="Sitthöjd max (cm)"
-              size="small"
-              name="avg_height_max"
-              value={formSection.avg_height_max ?? 0}
-              onChange={handleInputChange}
+            <Dropdown
+              title="Inbrottsskydd"
+              options={["1", "2", "3", "4", "5"]}
+              size="medium"
+              name="burglary_resistance_class"
+              value={formSection.burglary_resistance_class ?? 0}
+              onChange={handleSelectChange}
             />
-            <Textfield
-              title="Ryggstöd(cm)"
-              size="small"
-              name="lumbal_support"
-              value={formSection.lumbal_support ?? 0}
-              onChange={handleInputChange}
+            <Dropdown
+              title="Omgivning/klimat"
+              options={["1", "2", "3", "4", "5"]}
+              size="medium"
+              name="environmental_profile"
+              value={formSection.environmental_profile ?? ""}
+              onChange={handleSelectChange}
             />
           </div>
+          <div className="flex gap-5">
+            {" "}
+            <Dropdown
+              title="Karmdjup (mm)"
+              options={["10", "20", "30", "40", "50"]}
+              size="medium"
+              name="frame_depth"
+              value={formSection.frame_depth ?? 0}
+              onChange={handleSelectChange}
+            />
+          </div>
+        </div>
 
-          <div className="flex flex-col gap-5">
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Glastyp"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="glass_type"
-                value={formSection.glass_type ?? ""}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Glasmodell"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="glass_model"
-                value={formSection.glass_model ?? ""}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Glastjocklek (mm)"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="glass_thickness"
-                value={formSection.glass_thickness ?? 0}
-                onChange={handleSelectChange}
-              />
-            </div>
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Hängning"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="hanging"
-                value={formSection.hanging ?? ""}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Modulmått"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="module_size"
-                value={formSection.module_size ?? ""}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Ljudreduktion (dB)"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="sound_reduction"
-                value={formSection.sound_reduction ?? 0}
-                onChange={handleSelectChange}
-              />
-            </div>
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Brandklass"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="fire_resistance_class"
-                value={formSection.fire_resistance_class ?? 0}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Inbrottsskydd"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="burglary_resistance_class"
-                value={formSection.burglary_resistance_class ?? 0}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Omgivning/klimat"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="environmental_profile"
-                value={formSection.environmental_profile ?? ""}
-                onChange={handleSelectChange}
-              />
-            </div>
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Karmdjup (mm)"
-                options={["10", "20", "30", "40", "50"]}
-                size="medium"
-                name="frame_depth"
-                value={formSection.frame_depth ?? 0}
-                onChange={handleSelectChange}
-              />
-            </div>
-          </div>
-
-          <div>
-            <p>Det finns inga specifika egenskaper för vald produkttyp.</p>
-          </div>
-        </form>
-      </div>
+        <div>
+          <p>Det finns inga specifika egenskaper för vald produkttyp.</p>
+        </div>
+      </form>
 
       <section className="w-full flex justify-between mb-12">
-        <Button onClick={handlePrevious} size="medium" variant="white">
-          &lt; Föregående
-        </Button>
-
-        <div className="flex gap-2">
-          <Button onClick={handleSave} size="medium" variant="white">
-            Spara utkast
+        {isEdit ? (
+          <Button
+            onClick={() => handleUpdate && handleUpdate(formSection)}
+            size="medium"
+            variant="white"
+            className="ml-auto"
+          >
+            Spara
           </Button>
+        ) : (
+          <>
+            <Button onClick={handlePrevious} size="medium" variant="white">
+              &lt; Föregående
+            </Button>
 
-          <Button onClick={handleNext} size="medium" variant="blue">
-            Nästa &gt;
-          </Button>
-        </div>
+            <div className="flex gap-2">
+              <Button onClick={handleSave} size="medium" variant="white">
+                Spara utkast
+              </Button>
+
+              <Button onClick={handleNext} size="medium" variant="blue">
+                Nästa &gt;
+              </Button>
+            </div>
+          </>
+        )}
       </section>
     </>
   );

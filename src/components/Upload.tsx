@@ -32,6 +32,7 @@ type AcceptedFileTypes = (typeof fileTypes)[number];
 type FileUploadProps = {
   title: string;
   uploadedFiles: File[];
+  urls?: string[];
   setUploadedFiles: (files: File[]) => void;
   className?: string;
   acceptedFileTypes?: AcceptedFileTypes[];
@@ -43,6 +44,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   uploadedFiles,
   setUploadedFiles,
   acceptedFileTypes = fileTypes,
+  urls,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
 
@@ -98,8 +100,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
     setUploadedFiles(allFiles);
   };
 
-  const handleRemoveFile = (file: File) => {
-    setUploadedFiles(uploadedFiles.filter((f) => f.name !== file.name));
+  const handleRemoveFile = (name: string) => {
+    setUploadedFiles(uploadedFiles.filter((f) => f.name !== name));
   };
 
   return (
@@ -142,6 +144,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
             key={file.name}
             file={file}
             removeFile={handleRemoveFile}
+          />
+        ))}
+        {urls?.map((url) => (
+          <FilePreview
+            key={url}
+            file={url}
+            removeFile={(file) => console.log(file)}
           />
         ))}
       </div>

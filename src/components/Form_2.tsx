@@ -9,8 +9,7 @@ import Typography from "./Typography";
 import Input from "./Input";
 import { Tooltip } from "./Tooltip";
 
-
-const Step2Schema = z.object({ 
+const Step2Schema = z.object({
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
   prod_status: z.string().optional(),
   market_status: z.string().optional(),
@@ -60,11 +59,16 @@ const Step2Schema = z.object({
     .or(z.literal("")),
 });
 
-type Step2Data = z.infer<typeof Step2Schema>;
+export type Step2Data = z.infer<typeof Step2Schema>;
 
+type Form2Props = {
+  isEdit?: boolean;
+  handleUpdate?: (values: Step2Data[]) => Promise<void>;
+};
 
-const Form_2: React.FC = () => {
-  const { formData, setFormData, errors, setErrors, saveForm } = useFormContext();
+const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
+  const { formData, setFormData, errors, setErrors, saveForm } =
+    useFormContext();
   const navigate = useNavigate();
 
   const [formSections, setFormSections] = useState<Step2Data[]>(
@@ -110,28 +114,30 @@ const Form_2: React.FC = () => {
   /* LAST WORKING CODE
   
   const [formSections, setFormSections] = useState<Step2Data[]>([
-    {            
-      amount: formData?.individual[0].amount || 1,
-      prod_status: formData?.individual[0].prod_status || "Ej inventerad",
-      market_status: formData?.individual[0].market_status || "Ej publicerad",
-      place1: formData?.individual[0].place1 || "",
-      place2: formData?.individual[0].place2 || "",
-      place3: formData?.individual[0].place3 || "",
-      place4: formData?.individual[0].place4 || "",
-      disassembly: formData?.individual[0].disassembly || "Ej Demonterbar",
-      accessibility: formData?.individual[0].accessibility || "Ej Åtkomlig",
-      availability: formData?.individual[0].availability || undefined,
-      delivery: formData?.individual[0].delivery || undefined,
-      decision_designation_1: formData?.individual[0].decision_designation_1 || "",
-      decision_designation_2: formData?.individual[0].decision_designation_2 || "",
-      decision_designation_3: formData?.individual[0].decision_designation_3 || "",
-      decision_designation_4: formData?.individual[0].decision_designation_4 || "",
+
+    {
+      amount: 1,
+      prod_status: "Ej inventerad",
+      market_status: "Ej publicerad",
+      place1: "",
+      place2: "",
+      place3: "",
+      place4: "",
+      disassembly: "Ej Demonterbar",
+      accessibility: "Ej Åtkomlig",
+      availability: undefined,
+      delivery: undefined,
+      decision_designation_1: "",
+      decision_designation_2: "",
+      decision_designation_3: "",
+      decision_designation_4: "",
+
     },
   ]); */
 
   useEffect(() => {
     if (!formData) {
-      const initialData: Step2Data = {         
+      const initialData: Step2Data = {
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
@@ -173,9 +179,8 @@ const Form_2: React.FC = () => {
   };
 
   const handleSave = async () => {
-   
     const results = formSections.map((section) =>
-      Step2Schema.safeParse(section)    
+      Step2Schema.safeParse(section)
     );
     const hasErrors = results.some((result) => !result.success);
     if (hasErrors) {
@@ -197,8 +202,11 @@ const Form_2: React.FC = () => {
       return;
     }
 
-    const updatedForm = {...formData, individual: formSections as typeof formData["individual"]};
-   
+    const updatedForm = {
+      ...formData,
+      individual: formSections as (typeof formData)["individual"],
+    };
+
     setFormData(updatedForm);
     saveForm(updatedForm);
   };
@@ -207,7 +215,7 @@ const Form_2: React.FC = () => {
   const handleAdd = () => {
     setFormSections((prevSections) => [
       ...prevSections,
-      {       
+      {
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
@@ -223,7 +231,6 @@ const Form_2: React.FC = () => {
         decision_designation_2: "",
         decision_designation_3: "",
         decision_designation_4: "",
-        
       },
     ]);
   };
@@ -241,14 +248,13 @@ const Form_2: React.FC = () => {
   const handleChange = () => console.log("Change selected section");
   const handleCom = () => console.log("Add comment to selected section");
 
-  const handleNext = () => {    
+  const handleNext = () => {
     setFormData((prevData) => ({
       ...prevData,
-      individual: formSections as typeof prevData["individual"], 
+      individual: formSections as (typeof prevData)["individual"],
     }));
     console.log("Form data:", formData);
     navigate(`/form-03`);
-
   };
 
   const handlePrevious = () => {
@@ -294,17 +300,7 @@ const Form_2: React.FC = () => {
   };
 
   return (
-    <main className="mt-16 px-28 flex flex-col">
-      <div className="flex justify-start items-center mb-4 ">
-        <Typography
-          variant="h2"
-          size="md"
-          className="text-[#151515] text-[31px] font-bold font-poppins"
-        >
-          Antal/Status/Plats
-        </Typography>
-      </div>
-
+    <>
       <div className="flex flex-row gap-6 pt-8 pb-4 ">
         <Button size="medium" variant="blue" onClick={handleAdd}>
           Lägg till ny
@@ -655,21 +651,33 @@ const Form_2: React.FC = () => {
       )}
 
       <section className="w-full flex justify-between mb-12">
-        <Button onClick={handlePrevious} size="medium" variant="white">
-          &lt; Föregående
-        </Button>
-
-        <div className="flex gap-2">
-          <Button onClick={handleSave} size="medium" variant="white">
-            Spara utkast
+        {isEdit ? (
+          <Button
+            onClick={() => handleUpdate && handleUpdate(formSections)}
+            size="medium"
+            variant="white"
+            className="ml-auto"
+          >
+            Spara
           </Button>
+        ) : (
+          <>
+            <Button onClick={handlePrevious} size="medium" variant="white">
+              &lt; Föregående
+            </Button>
+            <div className="flex gap-2">
+              <Button onClick={handleSave} size="medium" variant="white">
+                Spara utkast
+              </Button>
 
-          <Button onClick={handleNext} size="medium" variant="blue">
-            Nästa &gt;
-          </Button>
-        </div>
+              <Button onClick={handleNext} size="medium" variant="blue">
+                Nästa &gt;
+              </Button>
+            </div>
+          </>
+        )}
       </section>
-    </main>
+    </>
   );
 };
 
