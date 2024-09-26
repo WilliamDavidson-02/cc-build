@@ -212,9 +212,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   /*progresbar*/
 
   return (
-    <div className="flex mt-12">
+    <div className="flex mt-16">
       <form className="flex flex-col gap-6">
         <div className="flex gap-6 flex-wrap">
+<div className="flex flex-col  gap-10 shadow-lg px-4 py-6">
           <div className="flex gap-6 flex-wrap">
             <Dropdown
               title="Projekt"
@@ -244,7 +245,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
           </div>
           <div className="flex gap-6 flex-wrap">
             <Dropdown
-              title="Produktkategori 1"
+              title="Produktkategori*"
               options={categoryOptions1}
               size="medium"
               name="product_category_1"
@@ -253,7 +254,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               className="text-sm"
             />
             <Dropdown
-              title="Produktkategori 2"
+              title="Produktkategori*"
               options={categoryOptions2}
               size="medium"
               name="product_category_2"
@@ -263,7 +264,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               className="text-sm"
             />
             <Dropdown
-              title="Produktkategori 3"
+              title="Produktkategori*"
               options={categoryOptions3}
               size="medium"
               name="product_category_3"
@@ -273,7 +274,8 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               className="text-sm"
             />
           </div>
-
+</div>
+<div className="flex flex-col gap-10 px-4 py-6">
           <div className="flex gap-6 flex-wrap">
             <Dropdown
               title="Estetiskt skick"
@@ -336,9 +338,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               />
             </div>
           </div>
+</div>
         </div>
 
-        <section className="flex justify-end flex-wrap gap-6 my-16">
+        <section className="flex justify-end flex-wrap gap-6 mt-16">
           {isEdit ? (
             <Button
               size="medium"
