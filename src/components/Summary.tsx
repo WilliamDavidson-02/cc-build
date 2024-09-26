@@ -71,7 +71,7 @@ const Summary: FC = () => {
           Sammanfattning
         </Typography>
         <Typography size="sm">
-          Här är en sammanfattning och du kan rediger och sånna grejer.
+          Här är en sammanfattning och du kan redigera och sånna grejer.
         </Typography>
         <div className="flex flex-wrap gap-6">
           <Button size="small">
