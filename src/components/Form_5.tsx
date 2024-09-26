@@ -219,7 +219,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
               </div>
             </div>
 
-            <div className="flex gap-2 relative border border-black py-2 px-4 ">
+            <div className="flex gap-2 relative border border-black py-3 px-5 ">
               <Typography
                 variant="p"
                 size="md"

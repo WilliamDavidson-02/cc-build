@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { cn } from "@/lib/utils";
 
 type DropdownOption = {
   label: string;
@@ -13,6 +14,7 @@ type DropdownProps = {
   value: string | number;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   disabled?: boolean;
+  className?: string;
 };
 
 const Dropdown: FC<DropdownProps> = ({
@@ -21,6 +23,7 @@ const Dropdown: FC<DropdownProps> = ({
   size = "medium",
   name,
   value,
+  className,
   onChange,
   disabled = false,
 }) => {
@@ -34,7 +37,7 @@ const Dropdown: FC<DropdownProps> = ({
   const opacityClass = disabled ? "opacity-20" : "opacity-100";
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={cn("flex flex-col gap-1", className)}>
       <label className="font-semibold" htmlFor={name}>{title}</label>
       <select
         name={name}
