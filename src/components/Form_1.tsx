@@ -75,7 +75,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     visual_condition: formData?.visual_condition ?? "",
     working_condition: formData?.working_condition ?? "",
 
-    images: formData?.images ?? ([] as File[]),     
+    images: formData?.images ?? ([] as File[]),
 
     product_files: formData?.product_files ?? ([] as File[]),
     product_id:
@@ -165,7 +165,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   };
 
   const handleSetFiles = (files: File[], prop: "images" | "product_files") => {
-    setFormData((prev) => ({
+    setFormSection((prev) => ({
       ...prev,
       [prop]: files,
     }));
@@ -299,22 +299,19 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
           <div className="flex gap-6 ">
             <FileUpload
               title="Produktbilder"
-              uploadedFiles={formData.images}
+              uploadedFiles={formSection.images}
               setUploadedFiles={(files) => handleSetFiles(files, "images")}
               className="justify-end gap-0"
             />
             <FileUpload
               title="Filer"
-              uploadedFiles={formData.product_files}
+              uploadedFiles={formSection.product_files}
               setUploadedFiles={(files) =>
                 handleSetFiles(files, "product_files")
               }
-               className="justify-end gap-0"
+              className="justify-end gap-0"
             />
-            <div
-              className="flex flex-col justify-end"
-              style={{ marginBottom: "1rem" }}
-            >
+            <div className="flex flex-col justify-end">
               <Textfield
                 title="Eget ID"
                 size="medium"

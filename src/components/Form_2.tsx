@@ -256,7 +256,6 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
       ...prevData,
       individual: formSections as (typeof prevData)["individual"],
     }));
-    console.log("Form data:", formData);
     navigate(`/form-03`);
   };
 
@@ -307,35 +306,39 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
   return (
     <>
       <div className="flex flex-row gap-6 pt-8 pb-4 ">
-      <Button size="medium" variant="blue" onClick={handleAdd} >
+        <Button size="medium" variant="blue" onClick={handleAdd}>
           Lägg till ny
         </Button>
         {isAnyCheckboxChecked ? (
           <>
-          <Button size="medium" variant="white" onClick={handleDel} >
-          Radera
-        </Button>
-        <Button size="medium" variant="white" onClick={handleChange} >
-          Ändra
-        </Button>
-        <Button size="medium" variant="white" onClick={handleCom} >
-          Kommentar
-        </Button>
-        </>
+            <Button size="medium" variant="white" onClick={handleDel}>
+              Radera
+            </Button>
+            <Button size="medium" variant="white" onClick={handleChange}>
+              Ändra
+            </Button>
+            <Button size="medium" variant="white" onClick={handleCom}>
+              Kommentar
+            </Button>
+          </>
         ) : (
           <>
-          <Button size="medium" variant="ghost" onClick={handleDel} disabled >
-          Radera
-        </Button>
-        <Button size="medium" variant="ghost" onClick={handleChange} disabled>
-          Ändra
-        </Button>
-        <Button size="medium" variant="ghost" onClick={handleCom} disabled>
-          Kommentar
-        </Button>
-        </>
+            <Button size="medium" variant="ghost" onClick={handleDel} disabled>
+              Radera
+            </Button>
+            <Button
+              size="medium"
+              variant="ghost"
+              onClick={handleChange}
+              disabled
+            >
+              Ändra
+            </Button>
+            <Button size="medium" variant="ghost" onClick={handleCom} disabled>
+              Kommentar
+            </Button>
+          </>
         )}
-       
       </div>
 
       {formSections.map((section, index) => (
@@ -446,7 +449,6 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place1 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                   
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -489,7 +491,6 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place4 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                   
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -517,7 +518,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
               <>
                 <section className="flex flex-col gap-6 px-4 py-2 mb-12">
                   <div className="flex gap-6 w-full">
-                     {/* <div className="flex flex-col gap-2">
+                    {/* <div className="flex flex-col gap-2">
                       <label className="text-[14px] font-semibold">
                         Demonterbarhet
                       </label>
@@ -543,17 +544,20 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         </option>
                       </select>
                     </div> */}
-                    <Dropdown 
-                    title="Demonterbarhet" 
-                    name="disassembly" 
-                    size="large"
-                    value={formSections[index].disassembly || "Ej Demonterbar"} 
-                    onChange={(e) => handleInputChange(index, e)} 
-                    options={
-                      ["Enkel att demontera/demontering krävs ej",
+                    <Dropdown
+                      title="Demonterbarhet"
+                      name="disassembly"
+                      size="large"
+                      value={
+                        formSections[index].disassembly || "Ej Demonterbar"
+                      }
+                      onChange={(e) => handleInputChange(index, e)}
+                      options={[
+                        "Enkel att demontera/demontering krävs ej",
                         "Demonterbar men specialverktyg kan behövas",
-                        "Begränsad demonterbarhet"]}   
-                      className="min-w-[40%]"                 
+                        "Begränsad demonterbarhet",
+                      ]}
+                      className="min-w-[40%]"
                     />
                     <div className="flex flex-col gap-2">
                       <label className="text-[14px] font-semibold">
