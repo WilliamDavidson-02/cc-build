@@ -12,6 +12,11 @@ import {
 } from "./Accordion";
 import StatusColor from "./StatusColor";
 import { Status } from "./products/ProgressSteps";
+import Form_1, { StepOneData } from "./Form_1";
+import Form_2, { Step2Data } from "./Form_2";
+import Form_3, { StepThreeData } from "./Form_3";
+import Form_4, { Step4Data } from "./Form_4";
+import Form_5, { Step5Data } from "./Form_5";
 
 type SummaryItemBannerProps = {
   title: string;
@@ -39,8 +44,28 @@ const SummaryItemBanner: FC<SummaryItemBannerProps> = ({
 };
 
 const Summary: FC = () => {
+  const updateForm1 = async (values: StepOneData) => {
+    console.log(values);
+  };
+
+  const updateForm2 = async (values: Step2Data[]) => {
+    console.log(values);
+  };
+
+  const updateForm3 = async (values: StepThreeData) => {
+    console.log(values);
+  };
+
+  const updateForm4 = async (values: Step4Data) => {
+    console.log(values);
+  };
+
+  const updateForm5 = async (values: Step5Data) => {
+    console.log(values);
+  };
+
   return (
-    <section className="max-w-[60rem] mx-auto py-16 flex flex-col gap-16">
+    <section className="max-w-[1024px] mx-auto py-16 flex flex-col gap-16">
       <header className="flex flex-col gap-10">
         <Typography variant="h3" className="font-bold">
           Sammanfattning
@@ -71,25 +96,33 @@ const Summary: FC = () => {
               status={"complete"}
             />
           </AccordionTrigger>
-          <AccordionContent>Step form</AccordionContent>
+          <AccordionContent>
+            <Form_1 isEdit handleUpdate={updateForm1} />
+          </AccordionContent>
         </AccordionItem>
         <AccordionItem value="antal-status-plats">
           <AccordionTrigger>
             <SummaryItemBanner title="Antal/status/plats" />
           </AccordionTrigger>
-          <AccordionContent>Step form</AccordionContent>
+          <AccordionContent>
+            <Form_2 isEdit handleUpdate={updateForm2} />
+          </AccordionContent>
         </AccordionItem>
         <AccordionItem value="form-egenskaper">
           <AccordionTrigger>
             <SummaryItemBanner title="Form/egenskaper" status={"complete"} />
           </AccordionTrigger>
-          <AccordionContent>Step form</AccordionContent>
+          <AccordionContent>
+            <Form_3 isEdit handleUpdate={updateForm3} />
+          </AccordionContent>
         </AccordionItem>
         <AccordionItem value="produktinformation">
           <AccordionTrigger>
             <SummaryItemBanner title="Produktinformation" status={"pending"} />
           </AccordionTrigger>
-          <AccordionContent>Step form</AccordionContent>
+          <AccordionContent>
+            <Form_4 isEdit handleUpdate={updateForm4} />
+          </AccordionContent>
         </AccordionItem>
         <AccordionItem value="hantering-för-marknadsplats">
           <AccordionTrigger>
@@ -98,7 +131,9 @@ const Summary: FC = () => {
               status={"complete"}
             />
           </AccordionTrigger>
-          <AccordionContent>Step form</AccordionContent>
+          <AccordionContent>
+            <Form_5 isEdit handleUpdate={updateForm5} />
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
     </section>
