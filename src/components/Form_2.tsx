@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useFormContext } from "@/context/formContext";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -8,6 +8,8 @@ import DatePicker from "./DatePicker";
 import Typography from "./Typography";
 import Input from "./Input";
 import { Tooltip } from "./Tooltip";
+import ChevronLeft from "./icons/ChevronLeft";
+import ChevronRight from "./icons/ChevronRight";
 
 const Step2Schema = z.object({
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
@@ -135,7 +137,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
     },
   ]); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!formData) {
       const initialData: Step2Data = {
         amount: 1,
@@ -159,7 +161,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         ...initialData,
       }));
     }
-  }, [formData, setFormData]);
+  }, [formData, setFormData]); */
 
   const handleInputChange = (
     index: number,
@@ -663,7 +665,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         ) : (
           <>
             <Button onClick={handlePrevious} size="medium" variant="white">
-              &lt; Föregående
+              <ChevronLeft /> Föregående
             </Button>
             <div className="flex gap-2">
               <Button onClick={handleSave} size="medium" variant="white">
@@ -671,7 +673,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
               </Button>
 
               <Button onClick={handleNext} size="medium" variant="blue">
-                Nästa &gt;
+                Nästa <ChevronRight />
               </Button>
             </div>
           </>

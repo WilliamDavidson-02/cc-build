@@ -6,7 +6,8 @@ import { useFormContext } from "@/context/formContext";
 import Typography from "./Typography";
 import { z } from "zod";
 import Textfield from "./Textfield";
-//import { TablesInsert } from "@/lib/database.types";
+import ChevronLeft from "./icons/ChevronLeft";
+import ChevronRight from "./icons/ChevronRight";
 
 const Step4Schema = z.object({
   manufactor: z.string().optional(),
@@ -201,7 +202,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
         ) : (
           <>
             <Button onClick={handlePrevious} size="medium" variant="white">
-              &lt; Föregående
+            <ChevronLeft /> Föregående
             </Button>
 
             <div className="flex gap-2">
@@ -210,7 +211,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
               </Button>
 
               <Button onClick={handleNext} size="medium" variant="blue">
-                Nästa &gt;
+                Nästa <ChevronRight />
               </Button>
             </div>
           </>

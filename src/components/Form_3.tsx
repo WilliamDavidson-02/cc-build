@@ -6,6 +6,8 @@ import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
 import { FormContext } from "@/context/formContext";
 import Button from "@/components/Buttons";
+import ChevronLeft from "./icons/ChevronLeft";
+import ChevronRight from "./icons/ChevronRight";
 
 export interface StepThreeData {
   material?: string;
@@ -408,7 +410,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
         ) : (
           <>
             <Button onClick={handlePrevious} size="medium" variant="white">
-              &lt; Föregående
+            <ChevronLeft /> Föregående
             </Button>
 
             <div className="flex gap-2">
@@ -417,7 +419,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
               </Button>
 
               <Button onClick={handleNext} size="medium" variant="blue">
-                Nästa &gt;
+                Nästa <ChevronRight />
               </Button>
             </div>
           </>

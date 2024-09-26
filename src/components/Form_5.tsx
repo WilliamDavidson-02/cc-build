@@ -9,6 +9,7 @@ import Button from "./Buttons";
 import Info from "./icons/Info";
 import { useUser } from "@/context/userContext";
 import { UserProfile } from "./Navigation/Navbar";
+import ChevronLeft from "./icons/ChevronLeft";
 
 const step5Schema = z.object({
   product_id: z.string(),
@@ -366,7 +367,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
         ) : (
           <>
             <Button onClick={handlePrevious} size="medium" variant="white">
-              &lt; Föregående
+            <ChevronLeft /> Föregående
             </Button>
 
             <Button onClick={handleSave} size="medium" variant="blue">
