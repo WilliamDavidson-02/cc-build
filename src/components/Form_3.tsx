@@ -50,7 +50,12 @@ interface StepThreeData {
 
 type Category = Database["public"]["Tables"]["category"]["Row"];
 
-const Form_3: React.FC = () => {
+type Form3Props = {
+  isEdit?: boolean;
+  handleUpdate?: (values: StepThreeData) => Promise<void>;
+};
+
+const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   const { formData, setFormData, saveForm } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -446,7 +451,7 @@ const Form_3: React.FC = () => {
             </div>
           )}
         </form>
-      </div>
+     
 
       <section className="w-full flex justify-between  my-16">
         {isEdit ? (
