@@ -224,9 +224,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   /*progresbar*/
 
   return (
-    <div className="flex mt-12">
+    <div className="flex mt-16">
       <form className="flex flex-col gap-6">
         <div className="flex gap-6 flex-wrap">
+<div className="flex flex-col  gap-10 shadow-lg px-4 py-6">
           <div className="flex gap-6 flex-wrap">
             <Dropdown
               title="Projekt"
@@ -235,6 +236,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               name="project"
               value={formSection.project}
               onChange={handleProjectChange}
+              className="text-sm"
             />
             <div className="flex flex-col">
               <div>
@@ -244,9 +246,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
                   name="name"
                   value={formSection.name}
                   onChange={handleInputChange}
+                  className="text-sm"
                 />
               </div>
-              <p className="max-w-xs">
+              <p className="max-w-xs text-[12px] font-medium">
                 Om du inte anger något här skapas ett produktnamn när du sparar.
                 Du kan ändra namnet senare.
               </p>
@@ -254,33 +257,37 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
           </div>
           <div className="flex gap-6 flex-wrap">
             <Dropdown
-              title="Produktkategori 1"
+              title="Produktkategori*"
               options={categoryOptions1}
               size="medium"
               name="product_category_1"
               value={formSection.product_category_1}
               onChange={handleSelectChange}
+              className="text-sm"
             />
             <Dropdown
-              title="Produktkategori 2"
+              title="Produktkategori*"
               options={categoryOptions2}
               size="medium"
               name="product_category_2"
               value={formSection.product_category_2}
               onChange={handleSelectChange}
               disabled={!isCategory2Enabled}
+              className="text-sm"
             />
             <Dropdown
-              title="Produktkategori 3"
+              title="Produktkategori*"
               options={categoryOptions3}
               size="medium"
               name="product_category_3"
               value={formSection.product_category_3}
               onChange={handleSelectChange}
               disabled={!isCategory3Enabled}
+              className="text-sm"
             />
           </div>
-
+</div>
+<div className="flex flex-col gap-10 px-4 py-6">
           <div className="flex gap-6 flex-wrap">
             <Dropdown
               title="Estetiskt skick"
@@ -295,6 +302,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               name="visual_condition"
               value={formSection.visual_condition}
               onChange={handleSelectChange}
+              className="text-sm"
             />
             <Dropdown
               title="Funktionellt skick"
@@ -309,6 +317,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               name="working_condition"
               value={formSection.working_condition}
               onChange={handleSelectChange}
+              className="text-sm"
             />
           </div>
 
@@ -329,20 +338,22 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
             />
             <div
               className="flex flex-col justify-end"
-              style={{ marginBottom: "1rem" }}
+              
             >
               <Textfield
-                title="Eget ID"
+                title="Eget ID-nummer"
                 size="medium"
                 name="ownId"
                 value={formSection.ownId}
                 onChange={handleInputChange}
+                className="text-sm h-full mb-0"
               />
             </div>
           </div>
+</div>
         </div>
 
-        <section className="flex justify-end flex-wrap gap-6 my-16">
+        <section className="flex justify-end flex-wrap gap-6 mt-16">
           {isEdit ? (
             <Button
               size="medium"

@@ -140,7 +140,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
             placeholder="Ange tillverkare eller leverantör"
             value={formSection.manufactor || ""}
             onChange={handleInputChange}
-            className="text-[14px]"
+            className="text-[14px] "
           />
           <Textfield
             title="Artikelnummer"
@@ -214,7 +214,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
         )}
       </div>
 
-      <section className="w-full flex justify-between my-20">
+      <section className="w-full flex justify-between mt-20 mb-16">
         {isEdit ? (
           <Button
             onClick={() => handleUpdate && handleUpdate(formSection)}

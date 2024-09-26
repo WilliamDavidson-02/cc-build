@@ -10,7 +10,7 @@ import Input from "./Input";
 import { Tooltip } from "./Tooltip";
 import ChevronLeft from "./icons/ChevronLeft";
 import ChevronRight from "./icons/ChevronRight";
-import Dropdown from "./Dropdown";
+
 
 const Step2Schema = z.object({
   id: z.number().optional(),
@@ -332,10 +332,10 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
             />
           </div>
           <form key={index} className="flex flex-col  w-full">
-            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg w-full">
+            <section className="flex flex-col gap-10 px-4 py-6 shadow-lg-with-lightest-top w-full">
               <div className="flex gap-6">
                 <div className="flex flex-col gap-2">
-                  <label className="text-[14px] font-semibold">Antal</label>
+                  <label className="text-[14px] font-semibold">Antal (st)</label>
                   <input
                     type="number"
                     name="amount"
@@ -433,6 +433,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place1 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                    className="text-[14px]"
                     /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
@@ -448,6 +449,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place2 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                    className="text-[14px]"
                     /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
@@ -463,6 +465,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place3 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                    className="text-[14px]"
                     /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
@@ -478,6 +481,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place4 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                    className="text-[14px]"
                     /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
@@ -504,34 +508,39 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
             {/*section that is initially hidden under the expandable " se mer"*/}
             {expandedForms[index] && (
               <>
-                <section className="flex flex-col gap-6 px-4 py-2 mb-12">
+                <section className="flex flex-col gap-10 px-4 py-2 mb-12">
                   <div className="flex gap-6 w-full">
                      
-                    <Dropdown 
-                     /* disabled={!checkedStates[index]} */
-                    title="Demonterbarhet" 
-                    name="disassembly" 
-                    size="large"
-                    value={formSections[index].disassembly || "Ej Demonterbar"} 
-                    onChange={(e) => handleInputChange(index, e)} 
-                    options={
-                      ["Enkel att demontera/demontering krävs ej",
-                        "Demonterbar men specialverktyg kan behövas",
-                        "Begränsad demonterbarhet"]}   
-                      className="min-w-[40%]"                 
-                    />
+                    
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[14px] font-semibold">
+                      Demonterbarhet
+                      </label>
+                      <select 
+                      name="disassembly" 
+                      value={formSections[index].disassembly || "Ej Demonterbar"}
+                      onChange={(e) => handleInputChange(index, e)} 
+                      className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057]  text-[14px] font-semibold rounded-sm shadow-sm appearance-none focus:outline-none "
+                      >
+                        <option value="" disabled>
+                          Välj
+                        </option>
+                        <option value="Enkel att demontera/demontering krävs ej">
+                          Enkel att demontera/demontering krävs ej
+                        </option>
+                        <option value="Demonterbar men specialverktyg kan behövas">Demonterbar men specialverktyg kan behövas</option>
+                        <option value="Begränsad demonterbarhet">Begränsad demonterbarhet</option>
+                      </select>
+                    </div>
                     <div className="flex flex-col gap-2">
                       <label className="text-[14px] font-semibold">
                         Åtkomlighet
                       </label>
-                      <select
-                      /*  disabled={!checkedStates[index]} */
+                      <select                     
                         name="accessibility"
-                        value={
-                          formSections[index].accessibility || "Ej Åtkomlig"
-                        }
+                        value={formSections[index].accessibility || "Ej Åtkomlig"}
                         onChange={(e) => handleInputChange(index, e)}
-                        className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                        className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057]  text-[14px] font-semibold rounded-sm shadow-sm appearance-none focus:outline-none "
                       >
                         <option value="" disabled>
                           Välj
@@ -588,6 +597,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         placeholder="Ange"
                         value={formSections[index].decision_designation_1 || ""}
                         onChange={(e) => handleInputChange(index, e)}
+                        className="text-[14px]"
                       />
                       <Tooltip
                         className="position absolute -right-2 cursor-pointer select-none"
@@ -604,6 +614,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         placeholder="Ange"
                         value={formSections[index].decision_designation_2 || ""}
                         onChange={(e) => handleInputChange(index, e)}
+                        className="text-[14px]"
                       />
                       <Tooltip
                         className="position absolute -right-2 cursor-pointer select-none"
@@ -619,6 +630,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         placeholder="Ange"
                         value={formSections[index].decision_designation_3 || ""}
                         onChange={(e) => handleInputChange(index, e)}
+                        className="text-[14px]"
                       />
                       <Tooltip
                         className="position absolute -right-2 cursor-pointer select-none"
@@ -634,6 +646,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         placeholder="Ange"
                         value={formSections[index].decision_designation_4 || ""}
                         onChange={(e) => handleInputChange(index, e)}
+                        className="text-[14px]"
                       />
                       <Tooltip
                         className="position absolute -right-2 cursor-pointer select-none"

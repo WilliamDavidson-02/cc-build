@@ -36,7 +36,7 @@ const SummaryItemBanner: FC<SummaryItemBannerProps> = ({
   return (
     <div>
       <div className="flex justify-between py-8">
-        <Typography variant="h3" className="font-bold">
+        <Typography variant="h3" className="font-bold text-[31px] font-poppins">
           {title}
         </Typography>
         <div className="flex gap-6 items-center pr-9">
@@ -219,7 +219,7 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
   return (
     <section className="max-w-[1200px] mx-auto py-16 flex flex-col gap-16">
       <header className="flex flex-col gap-10">
-        <Typography variant="h3" className="font-bold">
+        <Typography variant="h3" className="font-bold text-[31px] font-poppins">
           Sammanfattning
         </Typography>
         <Typography size="sm">

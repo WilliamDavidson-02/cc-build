@@ -245,6 +245,9 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
       <form className="flex flex-col gap-12">
         {/* <h2 className="font-bold font-poppins text-[31px]">Form</h2> */}
 
+        
+<div className="flex flex-col gap-8 shadow-lg-with-lightest-top px-4 py-6">
+
         <div className="flex gap-8">
           <Textfield
             title="Material"
@@ -252,6 +255,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="material"
             value={formSection.material ?? ""}
             onChange={handleInputChange}
+            className="text-[14px]"
           />
           <Textfield
             title="Färg/finish"
@@ -259,11 +263,12 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="color_finish"
             value={formSection.color_finish ?? ""}
             onChange={handleInputChange}
+             className="text-[14px]"
           />
         </div>
         <div className="flex gap-6">
           <div className="flex flex-col gap-2">
-            <Typography variant="h6">Enhet mått</Typography>
+            <Typography variant="h6"  className="text-[14px] font-semibold">Enhet mått</Typography>
             <div className="flex align-middle gap-5">
               <Radiobutton
                 measurement="mm"
@@ -296,6 +301,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+             className="text-[14px]"
           />
           <Textfield
             title="Längd"
@@ -305,6 +311,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+             className="text-[14px]"
           />
           <Textfield
             title="Höjd"
@@ -314,6 +321,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+             className="text-[14px]"
           />
           <Textfield
             title="Djup"
@@ -323,6 +331,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+             className="text-[14px]"
           />
           <Textfield
             title="Diameter"
@@ -332,6 +341,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+             className="text-[14px]"
           />
           <Textfield
             title="Tjocklek"
@@ -341,11 +351,12 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             onChange={handleInputChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
+             className="text-[14px]"
           />
         </div>
         <div className="flex gap-10">
           <div className="flex flex-col gap-2">
-            <Typography variant="h6">Enhet vikt</Typography>
+            <Typography variant="h6"  className="text-[14px] font-semibold">Enhet vikt</Typography>
             <div className="flex align-middle gap-5">
               <Radiobutton
                 measurement="g"
@@ -379,11 +390,13 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
               onChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
+               className="text-[14px]"
             />
           </div>
         </div>
+    </div>
 
-        <Typography variant="h3">Egenskaper</Typography>
+        <Typography variant="h3"  className="text-[31px] font-bold">Egenskaper</Typography>
 
         {categoryName === "inredning&möbler" && (
           <div className="flex gap-5">
@@ -393,6 +406,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
               name="avg_height_min"
               value={formSection.avg_height_min ?? 0}
               onChange={handleInputChange}
+               className="text-[14px]"
             />
             <Textfield
               title="Sitthöjd max (cm)"
@@ -400,6 +414,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
               name="avg_height_max"
               value={formSection.avg_height_max ?? 0}
               onChange={handleInputChange}
+               className="text-[14px]"
             />
             <Textfield
               title="Ryggstöd(cm)"
@@ -407,6 +422,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
               name="lumbal_support"
               value={formSection.lumbal_support ?? 0}
               onChange={handleInputChange}
+               className="text-[14px]"
             />
           </div>
         )}
@@ -422,6 +438,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="glass_type"
                 value={formSection.glass_type ?? ""}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
               <Dropdown
                 title="Glasmodell"
@@ -430,6 +447,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="glass_model"
                 value={formSection.glass_model ?? ""}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
               <Dropdown
                 title="Glastjocklek (mm)"
@@ -438,6 +456,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="glass_thickness"
                 value={formSection.glass_thickness ?? 0}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
             </div>
             <div className="flex gap-5">
@@ -449,6 +468,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="hanging"
                 value={formSection.hanging ?? ""}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
               <Dropdown
                 title="Modulmått"
@@ -457,6 +477,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="module_size"
                 value={formSection.module_size ?? ""}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
               <Dropdown
                 title="Ljudreduktion (dB)"
@@ -465,6 +486,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="sound_reduction"
                 value={formSection.sound_reduction ?? 0}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
             </div>
             <div className="flex gap-5">
@@ -476,6 +498,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="fire_resistance_class"
                 value={formSection.fire_resistance_class ?? 0}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
               <Dropdown
                 title="Inbrottsskydd"
@@ -484,6 +507,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="burglary_resistance_class"
                 value={formSection.burglary_resistance_class ?? 0}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
               <Dropdown
                 title="Omgivning/klimat"
@@ -492,6 +516,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="environmental_profile"
                 value={formSection.environmental_profile ?? ""}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
             </div>
             <div className="flex gap-5">
@@ -503,6 +528,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
                 name="frame_depth"
                 value={formSection.frame_depth ?? 0}
                 onChange={handleSelectChange}
+                 className="text-[14px] font-semibold"
               />
             </div>
           </div>
