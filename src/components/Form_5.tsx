@@ -25,10 +25,16 @@ const step5Schema = z.object({
   contact_person: z.string().optional(),
 });
 
-type Step5Data = z.infer<typeof step5Schema>;
+export type Step5Data = z.infer<typeof step5Schema>;
 
-const Form_5: React.FC = () => {
-  const { formData, setFormData, saveForm, errors, setErrors } = useFormContext();
+type Form5Props = {
+  isEdit?: boolean;
+  handleUpdate?: (values: Step5Data) => Promise<void>;
+};
+
+const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
+  const { formData, setFormData, saveForm, errors, setErrors } =
+    useFormContext();
   const navigate = useNavigate();
   const { user } = useUser();
   const [fullName, setFullName] = useState<string | null>(null);
@@ -152,8 +158,8 @@ const Form_5: React.FC = () => {
     setErrors({});
     console.log("Form submitted successfully", formSection);
 
-    const updatedForm = {...formData, ...formSection }
-    
+    const updatedForm = { ...formData, ...formSection };
+
     setFormData(updatedForm);
     saveForm(updatedForm);
   };
@@ -170,20 +176,10 @@ const Form_5: React.FC = () => {
   const handlePrevious = () => {
     navigate(`/form_4`);
   };
-console.log(formData)
+  console.log(formData);
   return (
-    <main className="mt-16 px-52 flex flex-col items-center justify-center w-full">
+    <>
       <form className="flex flex-col gap-10 w-full">
-        <div className="flex justify-start items-center w-full px-4">
-          <Typography
-            variant="h2"
-            size="md"
-            className="text-[#151515] text-[31px] font-bold font-poppins"
-          >
-            Hantering för marknadsplats
-          </Typography>
-        </div>
-
         <section className="flex flex-col gap-6 py-6 px-4 w-full">
           <div className="flex justify-between items-center ">
             <div className="flex gap-6">
@@ -356,15 +352,28 @@ console.log(formData)
       </form>
 
       <section className="w-full flex justify-between my-16">
-        <Button onClick={handlePrevious} size="medium" variant="white">
-          &lt; Föregående
-        </Button>
+        {isEdit ? (
+          <Button
+            onClick={() => handleUpdate && handleUpdate(formSection)}
+            size="medium"
+            variant="white"
+            className="ml-auto"
+          >
+            Spara
+          </Button>
+        ) : (
+          <>
+            <Button onClick={handlePrevious} size="medium" variant="white">
+              &lt; Föregående
+            </Button>
 
-        <Button onClick={handleSave} size="medium" variant="blue">
-          Spara
-        </Button>
+            <Button onClick={handleSave} size="medium" variant="blue">
+              Spara
+            </Button>
+          </>
+        )}
       </section>
-    </main>
+    </>
   );
 };
 

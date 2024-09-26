@@ -5,7 +5,7 @@ type FormStepThreeProps = {};
 
 const FormPage03: FC<FormStepThreeProps> = ({}) => {
   return (
-    <div>
+    <div className=" py-28 px-28 flex flex-col justify-center">
       <Form_3 />
     </div>
   );
