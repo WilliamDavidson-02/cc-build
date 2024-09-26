@@ -188,6 +188,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="width"
             value={formSection.width ?? 0}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
           <Textfield
             title="Längd"
@@ -195,6 +197,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="length"
             value={formSection.length ?? 0}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
           <Textfield
             title="Höjd"
@@ -202,6 +206,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="height"
             value={formSection.height ?? 0}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
           <Textfield
             title="Djup"
@@ -209,6 +215,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="depth"
             value={formSection.depth ?? 0}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
           <Textfield
             title="Diameter"
@@ -216,6 +224,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="diameter"
             value={formSection.diameter ?? 0}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
           <Textfield
             title="Tjocklek"
@@ -223,6 +233,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
             name="thickness"
             value={formSection.thickness ?? 0}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
         </div>
         <div className="flex gap-10">
@@ -262,92 +274,10 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
-            <Textfield
-              title="Längd"
-              size="xSmall"
-              name="length"
-              value={formSection.length ?? 0}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <Textfield
-              title="Höjd"
-              size="xSmall"
-              name="height"
-              value={formSection.height ?? 0}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <Textfield
-              title="Djup"
-              size="xSmall"
-              name="depth"
-              value={formSection.depth ?? 0}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <Textfield
-              title="Diameter"
-              size="xSmall"
-              name="diameter"
-              value={formSection.diameter ?? 0}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-            <Textfield
-              title="Tjocklek"
-              size="xSmall"
-              name="thickness"
-              value={formSection.thickness ?? 0}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
           </div>
-          <div className="flex gap-10">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6">Enhet vikt</Typography>
-              <div className="flex align-middle gap-5">
-                <Radiobutton
-                  measurement="g"
-                  name="weight_unit"
-                  value="g"
-                  checked={formSection.weight_unit === "g"}
-                  onChange={handleRadioChange}
-                />
-                <Radiobutton
-                  measurement="hg"
-                  name="weight_unit"
-                  value="hg"
-                  checked={formSection.weight_unit === "hg"}
-                  onChange={handleRadioChange}
-                />
-                <Radiobutton
-                  measurement="kg"
-                  name="weight_unit"
-                  value="kg"
-                  checked={formSection.weight_unit === "kg"}
-                  onChange={handleRadioChange}
-                />
-              </div>
-            </div>
-            <div className="flex align-middle gap-2">
-              <Textfield
-                title="Vikt"
-                size="xSmall"
-                name="weight"
-                value={formSection.weight ?? 0}
-                onChange={handleInputChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-              />
-            </div>
-          </div>
+        </div>
 
+        <div className="flex flex-col gap-10">
           <Typography variant="h3">Egenskaper</Typography>
           {/* Conditionally render properties depending on product category */}
           <div className="flex gap-5">
