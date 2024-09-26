@@ -44,30 +44,30 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   const { formData, setFormData, saveForm } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<StepThreeData>({
-    material: "",
-    color_finish: "",
-    unit_of_measure: "mm",
-    width: 0,
-    length: 0,
-    height: 0,
-    depth: 0,
-    diameter: 0,
-    thickness: 0,
-    weight_unit: "g",
-    weight: 0,
-    avg_height_min: 0,
-    avg_height_max: 0,
-    lumbal_support: 0,
-    glass_type: "",
-    glass_model: "",
-    glass_thickness: 0,
-    hanging: "",
-    module_size: "",
-    sound_reduction: 0,
-    fire_resistance_class: 0,
-    burglary_resistance_class: 0,
-    environmental_profile: "",
-    frame_depth: 0,
+    material: formData?.material ?? "",
+    color_finish: formData?.color_finish ?? "",
+    unit_of_measure: formData?.unit_of_measure ?? "",
+    width: formData?.width ?? 0,
+    length: formData?.length ?? 0,
+    height: formData?.height ?? 0,
+    depth: formData?.depth ?? 0,
+    diameter: formData?.diameter ?? 0,
+    thickness: formData?.thickness ?? 0,
+    weight_unit: formData?.weight_unit ?? "g",
+    weight: formData?.weight ?? 0,
+    avg_height_min: formData?.avg_height_min ?? 0,
+    avg_height_max: formData?.avg_height_max ?? 0,
+    lumbal_support: formData?.lumbal_support ?? 0,
+    glass_type: formData?.glass_type ?? "",
+    glass_model: formData?.glass_model ?? "",
+    glass_thickness: formData?.glass_thickness ?? 0,
+    hanging: formData?.hanging ?? "",
+    module_size: formData?.module_size ?? "",
+    sound_reduction: formData?.sound_reduction ?? 0,
+    fire_resistance_class: formData?.fire_resistance_class ?? 0,
+    burglary_resistance_class: formData?.burglary_resistance_class ?? 0,
+    environmental_profile: formData?.environmental_profile ?? "",
+    frame_depth: formData?.frame_depth ?? 0,
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +125,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   };
 
   const handlePrevious = () => {
-    navigate(`/form-03`);
+    navigate(`/form-02`);
   };
 
   const handleSave = async () => {

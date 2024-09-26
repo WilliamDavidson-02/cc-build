@@ -49,6 +49,8 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
   const { user } = useUser();
   const navigate = useNavigate();
+  /*LAST WORKING CODE
+  
   const [formSection, setFormSection] = useState<StepOneData>({
     project: "",
     name: "",
@@ -61,6 +63,20 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     product_files: [] as File[],
     product_id: uuid(),
     ownId: "",
+  }); */
+
+  const [formSection, setFormSection] = useState<StepOneData>({
+    project: formData?.project ?? "",             
+    name: formData?.name ?? "",
+    product_category_1: formData?.product_category_1 ?? "",
+    product_category_2: formData?.product_category_2 ?? "",
+    product_category_3: formData?.product_category_3 ?? "",
+    visual_condition: formData?.visual_condition ?? "",
+    working_condition: formData?.working_condition ?? "",
+    image: formData?.images ?? ([] as File[]),     
+    product_files: formData?.product_files ?? ([] as File[]),
+    product_id: formData?.product_id && formData.product_id !== "" ? formData.product_id : uuid(),
+    ownId: formData?.ownId ?? "",
   });
 
   useEffect(() => {
@@ -99,12 +115,13 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     }));
   };
 
+  
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormSection((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
+    }));    
 
     if (name === "product_category_1") {
       setIsCategory2Enabled(true);
@@ -159,7 +176,9 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   };
 
   const handleSave = async () => {
+
     const updatedForm = { ...formData, ...formSection };
+
 
     setFormData(updatedForm);
     saveForm(updatedForm);

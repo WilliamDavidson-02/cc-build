@@ -28,18 +28,19 @@ type Form4Props = {
 
 const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   const navigate = useNavigate();
-  const { formData, setFormData, saveForm, errors, setErrors } =
-    useFormContext();
-  const [formSection, setFormSection] = useState<Step4Data>({
-    manufactor: "",
-    articel_number: "",
-    manufactor_year: undefined,
-    bought_year: undefined,
-    gtin: "",
-    rsk: "",
-    bsab: "",
-    enr: "",
-    bk04: "",
+
+  const { formData, setFormData, saveForm, errors, setErrors } = useFormContext();
+  const [formSection, setFormSection] = useState<Step4Data>({    
+    manufactor: formData.manufactor ?? "",
+    articel_number: formData.articel_number ?? "",
+    manufactor_year: formData.manufactor_year ?? undefined,
+    bought_year: formData.bought_year ?? undefined,
+    gtin: formData.gtin ?? "",
+    rsk: formData.rsk ?? "",
+    bsab: formData.bsab ?? "",
+    enr: formData.enr ?? "",
+    bk04: formData.bk04 ?? "",
+
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,11 +80,11 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   };
 
   const [visibleFields, setVisibleFields] = useState({
-    gtin: false,
-    rsk: false,
-    bsab: false,
-    enr: false,
-    bk04: false,
+    gtin: formData.gtin ? true : false,
+    rsk: formData.rsk ? true : false,
+    bsab: formData.bsab ? true : false,
+    enr: formData.enr ? true : false,
+    bk04: formData.bk04 ? true : false,
   });
 
   const toggleField = (field: keyof typeof visibleFields) => {

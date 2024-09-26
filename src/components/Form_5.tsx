@@ -79,20 +79,22 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
   }, [user]);
 
   const [formSection, setFormSection] = useState<Step5Data>({
-    product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14", //we need the id from the previous formstep
-    price_new: 0,
-    buyer_price: false,
-    extern_price: 0,
-    intern_price: 0,
-    pick_up_on_site: false,
-    send_with_freight: false,
-    address: "",
-    postal_code: "",
-    locality: "",
-    comment: "",
+    product_id: formData?.product_id ?? "",
+    price_new: formData?.price_new ?? 0,
+    buyer_price: formData?.buyer_price ?? false,
+    extern_price: formData?.extern_price ?? 0,
+    intern_price: formData?.intern_price ?? 0,
+    pick_up_on_site: formData?.pick_up_on_site ?? false,
+    send_with_freight: formData?.send_with_freight ?? false,
+    address: formData?.address ?? "",
+    postal_code: formData?.postal_code ?? "",
+    locality: formData?.locality ?? "",
+    comment: formData?.comment ?? "",
     contact_person: user?.id || "",
   });
 
+  /* WE DONT NEED THIS, REMOVE ON PRODUCTION
+  
   useEffect(() => {
     if (!formData) {
       const initialData: Step5Data = {
@@ -114,7 +116,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
         ...initialData,
       }));
     }
-  }, [formData, setFormData]);
+  }, [formData, setFormData]); */
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -174,7 +176,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
   };
 
   const handlePrevious = () => {
-    navigate(`/form_4`);
+    navigate(`/form-04`);
   };
   console.log(formData);
   return (
