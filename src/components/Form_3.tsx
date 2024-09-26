@@ -1,13 +1,11 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useState, FocusEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@/components/Typography";
 import Textfield from "@/components/Textfield";
 import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
 import { FormContext } from "@/context/formContext";
-
 import Button from "@/components/Buttons";
-
 
 interface StepThreeData {
   material?: string;
@@ -66,7 +64,6 @@ const Form_3: React.FC = () => {
     environmental_profile: "",
     frame_depth: 0,
   });
-  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -92,10 +89,23 @@ const Form_3: React.FC = () => {
     }));
   };
 
-  // const handleNext = () => {
-  //   handleSave();
-  //   navigate(`/form-04`);
-  // };
+  const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setFormSection((prevData) => ({
+      ...prevData,
+      [name]: "",
+    }));
+  };
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (value === "") {
+      setFormSection((prevData) => ({
+        ...prevData,
+        [name]: 0,
+      }));
+    }
+  };
 
   const handleNext = () => {
     setFormData((prev) => {
@@ -103,11 +113,9 @@ const Form_3: React.FC = () => {
         ...prev,
         ...formSection,
       };
-
-      console.log(newData);
       return newData;
     });
-    
+
     navigate("/form-04");
   };
 
@@ -116,15 +124,11 @@ const Form_3: React.FC = () => {
   };
 
   const handleSave = async () => {
-    const updatedForm = {...formData, ...formSection }
-    
+    const updatedForm = { ...formData, ...formSection };
+
     setFormData(updatedForm);
     saveForm(updatedForm);
-
   };
-
-  /* console.log("FormSection:", formSection);
-  console.log("FormData", formData); */
 
   return (
     <>
@@ -180,6 +184,8 @@ const Form_3: React.FC = () => {
               name="width"
               value={formSection.width ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Längd"
@@ -187,6 +193,8 @@ const Form_3: React.FC = () => {
               name="length"
               value={formSection.length ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Höjd"
@@ -194,6 +202,8 @@ const Form_3: React.FC = () => {
               name="height"
               value={formSection.height ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Djup"
@@ -201,6 +211,8 @@ const Form_3: React.FC = () => {
               name="depth"
               value={formSection.depth ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Diameter"
@@ -208,6 +220,8 @@ const Form_3: React.FC = () => {
               name="diameter"
               value={formSection.diameter ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
             <Textfield
               title="Tjocklek"
@@ -215,6 +229,8 @@ const Form_3: React.FC = () => {
               name="thickness"
               value={formSection.thickness ?? 0}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </div>
           <div className="flex gap-10">
@@ -251,6 +267,8 @@ const Form_3: React.FC = () => {
                 name="weight"
                 value={formSection.weight ?? 0}
                 onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </div>
           </div>
