@@ -36,7 +36,7 @@ type Form5Props = {
 };
 
 const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
-  const { formData, setFormData, saveForm, errors, setErrors } =
+  const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps, setCurrentStep } =
     useFormContext();
   const navigate = useNavigate();
   const { user } = useUser();
@@ -96,30 +96,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
     contact_person: user?.id || "",
   });
 
-  /* WE DONT NEED THIS, REMOVE ON PRODUCTION
   
-  useEffect(() => {
-    if (!formData) {
-      const initialData: Step5Data = {
-        product_id: "b002f5ad-8edb-4e94-9f7a-04c87a797f14", //we need the id from the previous formstep
-        price_new: 0,
-        buyer_price: false,
-        extern_price: 0,
-        intern_price: 0,
-        pick_up_on_site: false,
-        send_with_freight: false,
-        address: "",
-        postal_code: "",
-        locality: "",
-        comment: "",
-        contact_person: user?.id || "",
-      };
-      setFormData((prevData) => ({
-        ...prevData,
-        ...initialData,
-      }));
-    }
-  }, [formData, setFormData]); */
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -179,8 +156,27 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
   };
 
   const handlePrevious = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
     navigate(`/form-04`);
   };
+  
+  //PROGERSSBAR
+   // Effect to track progress
+   useEffect(() => {
+    // Check if required fields are filled
+    const isFilled = formSection.product_id !== "" &&
+                     formSection.price_new !== undefined && 
+                     formSection.address !== "" &&
+                     formSection.postal_code !== "" &&
+                     formSection.locality !== "";
+
+    // Update progress for step 5
+    setProgressSteps(prev => {
+      const newProgress = [...prev];
+      newProgress[4] = isFilled ? "complete" : "pending"; // Step 5 index is 4
+      return newProgress;
+    });
+  }, [formSection, setProgressSteps]);
 
   return (
     <>

@@ -23,6 +23,7 @@ type ProgressStepsCardProps = HTMLAttributes<HTMLDivElement> & {
   active: boolean;
   number: number;
   name: string;
+  onClick: () => void;
 };
 
 export const ProgressStepsCard: FC<ProgressStepsCardProps> = ({
@@ -30,6 +31,7 @@ export const ProgressStepsCard: FC<ProgressStepsCardProps> = ({
   active,
   number,
   name,
+  onClick,
   ...props
 }) => {
   return (
@@ -40,6 +42,7 @@ export const ProgressStepsCard: FC<ProgressStepsCardProps> = ({
         { "bg-complete": status === "complete" },
         { "bg-current": active }
       )}
+      onClick={onClick}
       {...props}
     >
       <div

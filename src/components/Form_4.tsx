@@ -1,5 +1,5 @@
 import Button from "./Buttons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormContext } from "@/context/formContext";
 
@@ -29,10 +29,10 @@ type Form4Props = {
 
 const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   const navigate = useNavigate();
+  
+  const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps, progressSteps, setCurrentStep } = useFormContext();
+  const [formSection, setFormSection] = useState<Step4Data>({    
 
-  const { formData, setFormData, saveForm, errors, setErrors } =
-    useFormContext();
-  const [formSection, setFormSection] = useState<Step4Data>({
     manufactor: formData.manufactor ?? "",
     articel_number: formData.articel_number ?? "",
     manufactor_year: formData.manufactor_year ?? undefined,
@@ -101,13 +101,34 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
       ...formSection,
     }));
     /*  handleSave(); */
+
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, progressSteps.length - 1)); 
     navigate(`/form-05`);
   };
 
   const handlePrevious = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
     navigate(`/form-03`);
   };
-  // console.log(formData, "step 4");
+  
+
+  //PROGRESSBAR
+ // Effect to track progress
+ useEffect(() => {
+  // Check if all required fields are filled
+  const isFilled = formSection.manufactor !== "" && 
+                   formSection.articel_number !== "" &&
+                   (formSection.manufactor_year !== undefined) &&
+                   (formSection.bought_year !== undefined);
+
+  // Update progress for step 4
+  setProgressSteps(prev => {
+    const newProgress = [...prev];
+    newProgress[3] = isFilled ? "complete" : "pending"; // Step 4 index is 3
+    return newProgress;
+  });
+}, [formSection, setProgressSteps]);
+
   return (
     <>
       <div className="flex flex-row gap-10 w-full justify-center">

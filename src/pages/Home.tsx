@@ -14,7 +14,7 @@ const defaultSteps: { title: string; status: Status }[] = [
   },
   {
     title: "Plats/status/antal",
-    status: "complete",
+    status: "pending",
   },
   {
     title: "Egenskaper",

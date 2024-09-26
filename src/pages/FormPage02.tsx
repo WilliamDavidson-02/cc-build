@@ -1,19 +1,40 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import FormStep2 from "@/components/Form_2";
-//import Typography from "@/components/Typography";
 
-type FormStepTwoProps = {};
+import { ProgressSteps, ProgressStepsCard } from "@/components/products/ProgressSteps"  // Ensure correct path
 
-const FormPage02: FC<FormStepTwoProps> = ({}) => {
+import { FormContext } from "@/context/formContext";
+import { useNavigate } from "react-router-dom";
+
+
+const FormPage02: FC = () => {
+  const { progressSteps, currentStep, setCurrentStep } = useContext(FormContext)!;
+  const navigate = useNavigate();
+
   return (
-    <main className="mt-16 px-48 flex flex-col">
-      <div className="flex justify-start items-center">
+    <main className="mt-16 px-32 flex flex-col">
+      <ProgressSteps>
+        {progressSteps.map((status, index) => (
+          <ProgressStepsCard
+            key={index}
+            status={status}
+            active={currentStep === index} // Use currentStep from context
+            number={index + 1}
+            name={`Step ${index + 1}`}
+            onClick={() => {
+              setCurrentStep(index); // Update the current step
+              navigate(`/form-0${index + 1}`); // Navigate to the corresponding form
+            }}
+          />
+        ))}
+      </ProgressSteps>    
+      <div className="flex flex-col px-16 justify-start mb-8  mt-16">
       <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
       Antal/Status/Plats
         </h2>      
        
-      </div>
       <FormStep2 />
+      </div>
     </main>
   );
 };
