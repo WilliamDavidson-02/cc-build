@@ -33,7 +33,7 @@ const ProjectCards: React.FC = () => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
         {projects.map((project, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden hover:scale-105 transition-transform duration-300 ease-in-out">
             <div className="h-40 bg-gray-200"></div>
             <div className="p-4">
               <h3 className="text-lg font-semibold text-[#2d4352] mb-2">{project.name}</h3>
