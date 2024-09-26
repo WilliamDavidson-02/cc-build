@@ -9,7 +9,7 @@ const FormPage01: FC = () => {
   const { progressSteps, currentStep, setCurrentStep } = useContext(FormContext)!;
   const navigate = useNavigate();
   return (
-    <main className="mt-16 px-48 flex flex-col">
+    <main className=" px-48 flex flex-col">
      <ProgressSteps>
         {progressSteps.map((status, index) => (
           <ProgressStepsCard
