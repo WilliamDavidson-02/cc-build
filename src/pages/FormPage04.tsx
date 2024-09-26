@@ -1,18 +1,21 @@
 import Form_4 from "@/components/Form_4";
-//import Typography from "@/components/Typography";
 import { FC } from "react";
 
-type FormStepFourProps = {};
 
-const FormPage04: FC<FormStepFourProps> = ({}) => {
+
+
+
+const FormPage04: FC = () => {
+  
   return (
-    <main className="mt-16 px-48 flex flex-col items-center justify-center w-full">
-      <div className="flex justify-start items-center mb-10 w-full ">
-        <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
+    <main className="px-32 flex flex-col items-center justify-center w-full">
+       
+      <div className="flex flex-col px-16 justify-start pt-16 w-full ">
+        <h2 className="text-[#151515] text-[31px] font-bold font-poppins mb-10 ">
         Produktinformation
         </h2>       
-      </div>
       <Form_4 />
+      </div>
     </main>
   );
 };

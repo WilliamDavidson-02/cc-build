@@ -114,55 +114,6 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         ]
   );
 
-  /* LAST WORKING CODE
-  
-  const [formSections, setFormSections] = useState<Step2Data[]>([
-
-    {
-      amount: 1,
-      prod_status: "Ej inventerad",
-      market_status: "Ej publicerad",
-      place1: "",
-      place2: "",
-      place3: "",
-      place4: "",
-      disassembly: "Ej Demonterbar",
-      accessibility: "Ej Åtkomlig",
-      availability: undefined,
-      delivery: undefined,
-      decision_designation_1: "",
-      decision_designation_2: "",
-      decision_designation_3: "",
-      decision_designation_4: "",
-
-    },
-  ]); */
-
-  /* useEffect(() => {
-    if (!formData) {
-      const initialData: Step2Data = {
-        amount: 1,
-        prod_status: "Ej inventerad",
-        market_status: "Ej publicerad",
-        place1: "",
-        place2: "",
-        place3: "",
-        place4: "",
-        disassembly: "Ej Demonterbar",
-        accessibility: "Ej Åtkomlig",
-        availability: undefined,
-        delivery: undefined,
-        decision_designation_1: "",
-        decision_designation_2: "",
-        decision_designation_3: "",
-        decision_designation_4: "",
-      };
-      setFormData((prevData) => ({
-        ...prevData,
-        ...initialData,
-      }));
-    }
-  }, [formData, setFormData]); */
 
   const handleInputChange = (
     index: number,
@@ -359,6 +310,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     onChange={(e) => handleInputChange(index, e)}
                     placeholder="Antal (st)"
                     className="bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                    disabled={!checkedStates[index]}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -368,6 +320,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     value={formSections[index].prod_status || "Ej inventerad"}
                     onChange={(e) => handleInputChange(index, e)}
                     className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                    disabled={!checkedStates[index]}
                   >
                     <option value="" disabled>
                       Välj
@@ -417,6 +370,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     value={formSections[index].market_status || "Ej publicerad"}
                     onChange={(e) => handleInputChange(index, e)}
                     className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                    disabled={!checkedStates[index]}
                   >
                     <option value="" disabled>
                       Välj
@@ -446,7 +400,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place1 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                   
+                    disabled={!checkedStates[index]}
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -461,6 +415,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place2 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                    disabled={!checkedStates[index]}
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -475,6 +430,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place3 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                    disabled={!checkedStates[index]}
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -489,7 +445,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place4 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                   
+                    disabled={!checkedStates[index]}
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -544,6 +500,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                       </select>
                     </div> */}
                     <Dropdown 
+                     disabled={!checkedStates[index]}
                     title="Demonterbarhet" 
                     name="disassembly" 
                     size="large"
@@ -560,6 +517,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         Åtkomlighet
                       </label>
                       <select
+                       disabled={!checkedStates[index]}
                         name="accessibility"
                         value={
                           formSections[index].accessibility || "Ej Åtkomlig"
@@ -615,6 +573,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                   <div className="flex gap-6">
                     <div className="relative flex flex-col gap-2">
                       <Textfield
+                       disabled={!checkedStates[index]}
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_1"
@@ -630,6 +589,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
 
                     <div className="relative flex flex-col gap-2">
                       <Textfield
+                       disabled={!checkedStates[index]}
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_2"
@@ -644,6 +604,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     </div>
                     <div className="relative flex flex-col gap-2">
                       <Textfield
+                       disabled={!checkedStates[index]}
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_3"
@@ -658,6 +619,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     </div>
                     <div className="relative flex flex-col gap-2">
                       <Textfield
+                       disabled={!checkedStates[index]}
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_4"

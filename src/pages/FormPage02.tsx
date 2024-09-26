@@ -1,19 +1,20 @@
 import { FC } from "react";
+
 import FormStep2 from "@/components/Form_2";
-//import Typography from "@/components/Typography";
 
-type FormStepTwoProps = {};
 
-const FormPage02: FC<FormStepTwoProps> = ({}) => {
+
+const FormPage02: FC = () => {
   return (
-    <main className="mt-16 px-48 flex flex-col">
-      <div className="flex justify-start items-center">
+    <main className="mt-16 px-32 flex flex-col">
+      
+      <div className="flex flex-col px-16 justify-start mb-8  mt-16">
       <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
       Antal/Status/Plats
         </h2>      
        
-      </div>
       <FormStep2 />
+      </div>
     </main>
   );
 };

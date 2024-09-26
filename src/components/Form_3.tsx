@@ -166,7 +166,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   };
 
   const handlePrevious = () => {
-    navigate(`/form-03`);
+    navigate(`/form-02`);
   };
 
   const handleSave = async () => {
@@ -179,7 +179,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   return (
     <>
       <form className="flex flex-col gap-12">
-        <h2 className="font-bold font-poppins text-[31px]">Form</h2>
+        {/* <h2 className="font-bold font-poppins text-[31px]">Form</h2> */}
         
         <div className="flex gap-8">
           <Textfield

@@ -1,19 +1,19 @@
 import Form_5 from "@/components/Form_5";
-//import Typography from "@/components/Typography";
 import { FC } from "react";
 
-type FormStepFiveProps = {};
 
-const FormPage05: FC<FormStepFiveProps> = ({}) => {
+
+const FormPage05: FC = () => {  
   return (
-    <main className="mt-16 px-48 md:px-32 flex flex-col items-center justify-center w-full">
-      <div className="flex justify-start items-center w-full px-4 pb-16">
-      <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
-      Hantering för marknadsplats
-        </h2>       
-      </div>
+    <main className="px-28 flex flex-col items-center justify-center w-full">
+       
+      <div className="flex flex-col px-16  justify-start w-full  ">
+      <h2 className="text-[#151515] text-[31px] font-bold font-poppins pt-16 pb-10">
+        Hantering för marknadsplats
+      </h2>       
        
       <Form_5 />
+      </div>
     </main>
   );
 };
