@@ -1,5 +1,4 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
 import Button from "@/components/Buttons";
@@ -13,7 +12,7 @@ import { Database } from "@/lib/database.types";
 
 export interface StepOneData {
   project: string;
-  name: string; // The length constraints (min and max) are not enforceable in a plain type
+  name: string;
   product_category_1: string;
   product_category_2: string;
   product_category_3: string;
