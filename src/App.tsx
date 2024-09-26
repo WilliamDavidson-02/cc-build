@@ -23,7 +23,7 @@ const AppContent: FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar currentPath={location.pathname} />
-      <main className="flex-grow">
+      <main className="flex-grow font-inter">
         <FormProvider>
           <Routes>
             <Route path="/" element={<Home />} />

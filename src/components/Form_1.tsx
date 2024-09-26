@@ -9,6 +9,7 @@ import { supabase } from "@/lib/sbClient";
 import { v4 as uuid } from "uuid";
 import { useUser } from "@/context/userContext";
 import { Database } from "@/lib/database.types";
+import ChevronRight from "./icons/ChevronRight";
 
 export interface StepOneData {
   project: string;
@@ -73,7 +74,9 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     product_category_3: formData?.product_category_3 ?? "",
     visual_condition: formData?.visual_condition ?? "",
     working_condition: formData?.working_condition ?? "",
-    images: formData?.images ?? ([] as File[]),
+
+    images: formData?.images ?? ([] as File[]),     
+
     product_files: formData?.product_files ?? ([] as File[]),
     product_id:
       formData?.product_id && formData.product_id !== ""
@@ -293,11 +296,12 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
             />
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 ">
             <FileUpload
               title="Produktbilder"
               uploadedFiles={formData.images}
               setUploadedFiles={(files) => handleSetFiles(files, "images")}
+              className="justify-end gap-0"
             />
             <FileUpload
               title="Filer"
@@ -305,6 +309,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               setUploadedFiles={(files) =>
                 handleSetFiles(files, "product_files")
               }
+               className="justify-end gap-0"
             />
             <div
               className="flex flex-col justify-end"
@@ -321,7 +326,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
           </div>
         </div>
 
-        <section className="flex justify-end flex-wrap gap-6">
+        <section className="flex justify-end flex-wrap gap-6 my-16">
           {isEdit ? (
             <Button
               size="medium"
@@ -336,7 +341,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
                 Spara utkast
               </Button>
               <Button size="medium" variant="blue" onClick={handleNext}>
-                Nästa &gt;
+                Nästa <ChevronRight />
               </Button>
             </>
           )}

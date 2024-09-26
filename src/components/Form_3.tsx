@@ -12,8 +12,13 @@ import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
 import { FormContext } from "@/context/formContext";
 import Button from "@/components/Buttons";
+
+import ChevronLeft from "./icons/ChevronLeft";
+import ChevronRight from "./icons/ChevronRight";
+
 import { supabase } from "@/lib/sbClient";
 import { Database } from "@/lib/database.types";
+
 
 interface StepThreeData {
   material?: string;
@@ -168,51 +173,52 @@ const Form_3: React.FC = () => {
 
   return (
     <>
-      <div className=" py-28 px-28 flex flex-col justify-center">
-        <form className="flex flex-col gap-12">
-          <Typography variant="h3">Form</Typography>
-          <div className="flex gap-8">
-            <Textfield
-              title="Material"
-              size="medium"
-              name="material"
-              value={formSection.material ?? ""}
-              onChange={handleInputChange}
-            />
-            <Textfield
-              title="Färg/finish"
-              size="medium"
-              name="color_finish"
-              value={formSection.color_finish ?? ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="flex gap-6">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h6">Enhet mått</Typography>
-              <div className="flex align-middle gap-5">
-                <Radiobutton
-                  measurement="mm"
-                  name="unit_of_measure"
-                  value="mm"
-                  checked={formSection.unit_of_measure === "mm"}
-                  onChange={handleRadioChange}
-                />
-                <Radiobutton
-                  measurement="cm"
-                  name="unit_of_measure"
-                  value="cm"
-                  checked={formSection.unit_of_measure === "cm"}
-                  onChange={handleRadioChange}
-                />
-                <Radiobutton
-                  measurement="m"
-                  name="unit_of_measure"
-                  value="m"
-                  checked={formSection.unit_of_measure === "m"}
-                  onChange={handleRadioChange}
-                />
-              </div>
+      <form className="flex flex-col gap-12">
+        <h2 className="font-bold font-poppins text-[31px]">Form</h2>
+        
+        <div className="flex gap-8">
+          <Textfield
+            title="Material"
+            size="medium"
+            name="material"
+            value={formSection.material ?? ""}
+            onChange={handleInputChange}
+          />
+          <Textfield
+            title="Färg/finish"
+            size="medium"
+            name="color_finish"
+            value={formSection.color_finish ?? ""}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="flex gap-6">
+          <div className="flex flex-col gap-2">
+            <Typography variant="h6">Enhet mått</Typography>
+            <div className="flex align-middle gap-5">
+              <Radiobutton
+                measurement="mm"
+                name="unit_of_measure"
+                value="mm"
+                checked={formSection.unit_of_measure === "mm"}
+                onChange={handleRadioChange}
+              />
+              <Radiobutton
+                measurement="cm"
+                name="unit_of_measure"
+                value="cm"
+                checked={formSection.unit_of_measure === "cm"}
+                onChange={handleRadioChange}
+              />
+              <Radiobutton
+                measurement="m"
+                name="unit_of_measure"
+                value="m"
+                checked={formSection.unit_of_measure === "m"}
+                onChange={handleRadioChange}
+              />
+            </div>              
+              
             </div>
             <Textfield
               title="Bredd"
@@ -442,20 +448,36 @@ const Form_3: React.FC = () => {
         </form>
       </div>
 
-      <section className="w-full flex justify-between mb-12">
-        <Button onClick={handlePrevious} size="medium" variant="white">
-          &lt; Föregående
-        </Button>
+      <section className="w-full flex justify-between  my-16">
+        {isEdit ? (
+          <Button
+            onClick={() => handleUpdate && handleUpdate(formSection)}
+            size="medium"
+            variant="white"
+            className="ml-auto"
+          >
+            Spara
+          </Button>
+        ) : (
+          <>
+            <Button onClick={handlePrevious} size="medium" variant="white">
+            <ChevronLeft /> Föregående
+            </Button>
+
 
         <div className="flex gap-2">
           <Button onClick={handleSave} size="medium" variant="white">
             Spara utkast
           </Button>
 
-          <Button onClick={handleNext} size="medium" variant="blue">
-            Nästa &gt;
-          </Button>
-        </div>
+
+              <Button onClick={handleNext} size="medium" variant="blue">
+                Nästa <ChevronRight />
+              </Button>
+            </div>
+          </>
+        )}
+
       </section>
     </>
   );
