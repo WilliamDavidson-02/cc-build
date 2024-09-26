@@ -140,7 +140,8 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
   return (
     <>
       <form className="flex flex-col gap-12">
-        <Typography variant="h3" className="font-bold font-poppins text-[31px]">Form</Typography>
+        <h2 className="font-bold font-poppins text-[31px]">Form</h2>
+        
         <div className="flex gap-8">
           <Textfield
             title="Material"

@@ -111,38 +111,42 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   return (
     <>
       <div className="flex flex-row gap-10 w-full justify-center">
-        <section className="flex flex-col gap-6 px-4 py-5 w-1/2 shadow-lg">
+        <section className="flex flex-col gap-6 px-4 py-5 w-1/2 shadow-lg  ">
           <Textfield
             title="Tillverkare/Leverantör"
             name="manufactor"
             size="large"
-            placeholder="ange tillverkare eller leverantör"
+            placeholder="Ange tillverkare eller leverantör"
             value={formSection.manufactor || ""}
             onChange={handleInputChange}
+            className="text-[14px]"
           />
           <Textfield
             title="Artikelnummer"
             name="articel_number"
             size="large"
-            placeholder="ange tillverkare/leverantörens artikelnummer"
+            placeholder="Ange tillverkarens/leverantörens artikelnummer"
             value={formSection.articel_number || ""}
             onChange={handleInputChange}
+            className="text-[14px]"
           />
           <Textfield
             title="Tillverkningsår"
             name="manufactor_year"
             size="large"
-            placeholder="ange uppskattat tillverkningsår"
+            placeholder="Ange uppskattat tillverkningsår"
             value={formSection.manufactor_year || ""}
             onChange={handleInputChange}
+            className="text-[14px]"
           />
           <Textfield
             title="Inköpsår"
             name="bought_year"
             size="large"
-            placeholder="ange uppskattat inköpsår"
+            placeholder="Ange uppskattat inköpsår"
             value={formSection.bought_year || ""}
             onChange={handleInputChange}
+            className="text-[14px]"
           />
         </section>
 
@@ -169,10 +173,10 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
                   placeholder={`Ange ${field.toUpperCase()}`}
                   value={formSection[field as keyof Step4Data] || ""}
                   onChange={handleInputChange}
-                  className="w-full"
+                  className="w-full text-[14px] text-[#495057]"
                 />
               ) : (
-                <Typography variant="p" size="md" className="text-inter">
+                <Typography variant="p" size="md" className="text-inter text-[14px]  text-[#495057]">
                   {getFieldDescription(field)}
                 </Typography>
               )}
@@ -189,7 +193,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
         )}
       </div>
 
-      <section className="w-full flex justify-between my-12">
+      <section className="w-full flex justify-between my-20">
         {isEdit ? (
           <Button
             onClick={() => handleUpdate && handleUpdate(formSection)}
