@@ -66,7 +66,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   }); */
 
   const [formSection, setFormSection] = useState<StepOneData>({
-    project: formData?.project ?? "",
+    project: formData?.project_id ?? "",
     name: formData?.name ?? "",
     product_category_1: formData?.product_category_1 ?? "",
     product_category_2: formData?.product_category_2 ?? "",
@@ -153,6 +153,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     const selectedProject = projects.find(
       (project) => project.id === e.target.value
     );
+
     if (selectedProject) {
       setFormSection((prevData) => ({
         ...prevData,

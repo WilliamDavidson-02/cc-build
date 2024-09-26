@@ -17,6 +17,12 @@ import Form_2, { Step2Data } from "./Form_2";
 import Form_3, { StepThreeData } from "./Form_3";
 import Form_4, { Step4Data } from "./Form_4";
 import Form_5, { Step5Data } from "./Form_5";
+import { supabase } from "@/lib/sbClient";
+import { FormData, useFormContext } from "@/context/formContext";
+import { Database } from "@/lib/database.types";
+
+type DBIndividual =
+  Database["public"]["Tables"]["product_individual"]["Update"];
 
 type SummaryItemBannerProps = {
   title: string;
@@ -43,25 +49,171 @@ const SummaryItemBanner: FC<SummaryItemBannerProps> = ({
   );
 };
 
-const Summary: FC = () => {
+type SummaryProps = {
+  initialData: FormData | null;
+};
+
+const Summary: FC<SummaryProps> = ({ initialData }) => {
+  const { formData } = useFormContext();
+
   const updateForm1 = async (values: StepOneData) => {
-    console.log(values);
+    const productData = {
+      project_id: values.project,
+      name: values.name,
+      visual_condition: values.visual_condition,
+      working_condition: values.working_condition,
+      product_id: values.ownId,
+    };
+
+    console.log(productData);
+
+    const products = await supabase
+      .from("products")
+      .update(productData)
+      .eq("id", formData.product_id);
+
+    if (products.error) {
+      console.log(products.error);
+      return;
+    }
+
+    const categories = [
+      {
+        old_category: initialData?.product_category_1,
+        new_category: values.product_category_1,
+      },
+      {
+        old_category: initialData?.product_category_2,
+        new_category: values.product_category_2,
+      },
+      {
+        old_category: initialData?.product_category_3,
+        new_category: values.product_category_3,
+      },
+    ];
+
+    categories.forEach(async ({ new_category, old_category }) => {
+      if (!old_category || new_category === old_category) return;
+
+      const { error } = await supabase
+        .from("product_category")
+        .update({ category_id: new_category })
+        .eq("category_id", old_category)
+        .eq("product_id", formData.project_id);
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+    });
   };
 
   const updateForm2 = async (values: Step2Data[]) => {
-    console.log(values);
+    // Delete
+    const toDelete = initialData?.individual
+      .filter(
+        (ind) => !values.some((v) => v.id === ind.id) && ind.id !== undefined
+      )
+      .map((ind) => ind.id);
+
+    if (toDelete) {
+      const deleteIndividuals = await supabase
+        .from("product_individual")
+        .delete()
+        .in("id", toDelete);
+
+      if (deleteIndividuals.error) {
+        console.log(deleteIndividuals.error);
+        return;
+      }
+    }
+
+    const toUpdate = values.filter(
+      (ind) =>
+        ind.id !== undefined ||
+        initialData?.individual.some((i) => i.id === ind.id)
+    );
+
+    toUpdate.forEach(async ({ id, ...rest }) => {
+      if (id === undefined) return;
+
+      const upsertedIndividual = await supabase
+        .from("product_individual")
+        .update({ ...rest } as DBIndividual)
+        .eq("prod_id", formData.product_id)
+        .eq("id", id);
+
+      if (upsertedIndividual.error) {
+        console.log(upsertedIndividual.error);
+        return;
+      }
+    });
+
+    const toInsert = values
+      .filter((ind) => ind.id === undefined)
+      .map(({ id, ...rest }) => ({ ...rest, prod_id: formData.product_id }));
+
+    const insertedIndividuals = await supabase
+      .from("product_individual")
+      .insert(toInsert);
+
+    if (insertedIndividuals.error) {
+      console.log(insertedIndividuals.error);
+      return;
+    }
   };
 
   const updateForm3 = async (values: StepThreeData) => {
-    console.log(values);
+    const formated = Object.entries(values).map(([name, value]) => ({
+      name,
+      value,
+    }));
+
+    formated.forEach(async ({ name, value }) => {
+      const { error } = await supabase
+        .from("product_property")
+        .update({ value })
+        .eq("prod_id", formData.product_id)
+        .eq("name", name);
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+    });
   };
 
   const updateForm4 = async (values: Step4Data) => {
-    console.log(values);
+    const formated = Object.entries(values).map(([name, value]) => ({
+      name,
+      value,
+    }));
+
+    formated.forEach(async ({ name, value }) => {
+      const { error } = await supabase
+        .from("product_property")
+        .update({ value })
+        .eq("prod_id", formData.product_id)
+        .eq("name", name);
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+    });
   };
 
   const updateForm5 = async (values: Step5Data) => {
     console.log(values);
+
+    const { product_id, ...rest } = values;
+
+    const { error } = await supabase
+      .from("product_market_place")
+      .update({ prod_id: product_id, ...rest })
+      .eq("prod_id", values.product_id);
+
+    if (error) console.log(error);
   };
 
   return (

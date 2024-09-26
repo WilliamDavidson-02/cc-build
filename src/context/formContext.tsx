@@ -4,13 +4,11 @@ import React, {
   createContext,
   ReactNode,
   useContext,
-  
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/sbClient";
 import { TablesInsert } from "@/lib/database.types";
-import {  useUser } from "./userContext";
-
+import { useUser } from "./userContext";
 
 export interface FormContextType {
   formData: FormData;
@@ -31,27 +29,31 @@ const defaultFormData = {
   visual_condition: "",
   working_condition: "",
   images: [] as File[],
+  image_urls: [] as string[],
   product_files: [] as File[],
+  product_file_urls: [] as string[],
   ownId: "",
 
-  individual: [{    
-    amount: 1 as number | undefined,
-    prod_status: "Ej inventerad" as string | undefined,
-    market_status: "Ej publicerad" as string | undefined,
-    place1: "" as string | undefined,
-    place2: "" as string | undefined,
-    place3: "" as string | undefined,
-    place4: "" as string | undefined,
-    disassembly: "Ej Demonterbar",
-    accessibility: "Ej Åtkomlig",
-    availability: new Date() as Date | undefined,
-    delivery: new Date() as Date | undefined,
-    decision_designation_1: "" as string | undefined,
-    decision_designation_2: "" as string | undefined,
-    decision_designation_3: "" as string | undefined,
-    decision_designation_4: "" as string | undefined,
-}],
-
+  individual: [
+    {
+      id: 0 as number | undefined,
+      amount: 1 as number | undefined,
+      prod_status: "Ej inventerad" as string | undefined,
+      market_status: "Ej publicerad" as string | undefined,
+      place1: "" as string | undefined,
+      place2: "" as string | undefined,
+      place3: "" as string | undefined,
+      place4: "" as string | undefined,
+      disassembly: "Ej Demonterbar",
+      accessibility: "Ej Åtkomlig",
+      availability: new Date() as Date | undefined,
+      delivery: new Date() as Date | undefined,
+      decision_designation_1: "" as string | undefined,
+      decision_designation_2: "" as string | undefined,
+      decision_designation_3: "" as string | undefined,
+      decision_designation_4: "" as string | undefined,
+    },
+  ],
 
   material: "",
   color_finish: "",
@@ -114,8 +116,6 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   /* const saveForm = useRef(() => {}); */
 
   const saveForm = async (formData: FormData) => {
-
-
     const productData = {
       project_id: formData.project,
       name: formData.name,
@@ -124,15 +124,11 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
       product_id: formData.ownId,
       id: formData.product_id,
     };
-    
+
     try {
-      const products = await supabase
-        .from("products")
-        .insert([productData])
-        
+      const products = await supabase.from("products").insert([productData]);
 
       if (products.error) throw products.error;
-
 
       const productCategoryData = [
         {
@@ -149,23 +145,19 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
         },
       ];
 
-      const productsCategory  = await supabase
+      const productsCategory = await supabase
         .from("product_category")
         .insert(productCategoryData);
 
-      
-      if(productsCategory.error){
+      if (productsCategory.error) {
         throw productsCategory.error;
       }
-      
-    
 
-    //step2 
-   
-    
+      //step2
+
       // Prepare data for insertion
-      const insertData: TablesInsert<"product_individual">[] = formData.individual.map(
-        (section) => ({
+      const insertData: TablesInsert<"product_individual">[] =
+        formData.individual.map((section) => ({
           accessibility: section.accessibility ?? undefined,
           amount: section.amount ?? undefined,
           availability: section.availability ?? undefined,
@@ -180,155 +172,152 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
           place2: section.place2 ?? undefined,
           place3: section.place3 ?? undefined,
           place4: section.place4 ?? undefined,
-          prod_id: formData.product_id ?? undefined, 
+          prod_id: formData.product_id ?? undefined,
           prod_status: section.prod_status ?? undefined,
-        })
-      );
+        }));
 
       // Insert into the 'product_individual' table
-      const  productIndividual  = await supabase
+      const productIndividual = await supabase
         .from("product_individual")
         .insert(insertData);
 
       if (productIndividual.error) throw productIndividual.error;
 
       console.log("Data inserted successfully:", productIndividual.data);
-    
-    
 
-    //step 3
+      //step 3
 
-    const {
-      unit_of_measure,
-      width,
-      length,
-      height,
-      depth,
-      diameter,
-      thickness,
-      weight,
-      weight_unit,
-    } = formData;
+      const {
+        unit_of_measure,
+        width,
+        length,
+        height,
+        depth,
+        diameter,
+        thickness,
+        weight,
+        weight_unit,
+        material,
+        color_finish,
+      } = formData;
 
-    
-    const properties = [
-      {
-        name: "unit of measure",
-        value: unit_of_measure?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "width",
-        value: width?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "length",
-        value: length?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "height",
-        value: height?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "depth",
-        value: depth?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "diameter",
-        value: diameter?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "thickness",
-        value: thickness?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "weight",
-        value: weight?.toString(),
-        prod_id: formData.product_id,
-      },
-      {
-        name: "weight_unit",
-        value: weight_unit?.toString(),
-        prod_id: formData.product_id,
-      },
-    ];
+      const prod_id = formData.product_id;
 
-    const validProperties = properties.filter(
-      (property) =>
-        property.value !== "0" &&
-        property.value !== "" &&
-        property.value !== null
-    );
+      const properties = [
+        {
+          name: "material",
+          value: material?.toString(),
+          prod_id,
+        },
+        {
+          name: "color_finish",
+          value: color_finish?.toString(),
+          prod_id,
+        },
+        {
+          name: "unit_of_measure",
+          value: unit_of_measure?.toString(),
+          prod_id,
+        },
+        {
+          name: "width",
+          value: width?.toString(),
+          prod_id,
+        },
+        {
+          name: "length",
+          value: length?.toString(),
+          prod_id,
+        },
+        {
+          name: "height",
+          value: height?.toString(),
+          prod_id,
+        },
+        {
+          name: "depth",
+          value: depth?.toString(),
+          prod_id,
+        },
+        {
+          name: "diameter",
+          value: diameter?.toString(),
+          prod_id,
+        },
+        {
+          name: "thickness",
+          value: thickness?.toString(),
+          prod_id,
+        },
+        {
+          name: "weight",
+          value: weight?.toString(),
+          prod_id,
+        },
+        {
+          name: "weight_unit",
+          value: weight_unit?.toString(),
+          prod_id,
+        },
+      ];
 
-    
-     
-      //step 4 
+      //step 4
 
       const propertiesToInsert = [
-
-        { name: 'manufactor', value: formData.manufactor },
-        { name: 'articel_number', value: formData.articel_number },
-        { name: 'manufactor_year', value: formData.manufactor_year },
-        { name: 'bought_year', value: formData.bought_year },
-        { name: 'gtin', value: formData.gtin },
-        { name: 'rsk', value: formData.rsk },
-        { name: 'bsab', value: formData.bsab },
-        { name: 'enr', value: formData.enr },
-        { name: 'bk04', value: formData.bk04 },
+        { name: "manufactor", value: formData.manufactor },
+        { name: "articel_number", value: formData.articel_number },
+        { name: "manufactor_year", value: formData.manufactor_year },
+        { name: "bought_year", value: formData.bought_year },
+        { name: "gtin", value: formData.gtin },
+        { name: "rsk", value: formData.rsk },
+        { name: "bsab", value: formData.bsab },
+        { name: "enr", value: formData.enr },
+        { name: "bk04", value: formData.bk04 },
       ];
-  
-      
-      let propertyInsert = propertiesToInsert.map(property => ({
-        prod_id: formData.product_id,  
+
+      let propertyInsert = propertiesToInsert.map((property) => ({
+        prod_id: formData.product_id,
         name: property.name,
         value: property.value,
       }));
-      propertyInsert = [...validProperties, ...propertyInsert];
-      //insert data 
+      propertyInsert = [...properties, ...propertyInsert];
+      //insert data
       const productProperty = await supabase
         .from("product_property")
-        .insert(propertyInsert); 
+        .insert(propertyInsert);
 
-        if(productProperty.error){
-          throw productProperty.error;
-        }
+      if (productProperty.error) {
+        throw productProperty.error;
+      }
 
-        //step 5
+      //step 5
 
-        const marketData: TablesInsert<"product_market_place"> = {
-          prod_id: formData.product_id, 
-          price_new: formData.price_new,
-          buyer_price: formData.buyer_price,
-          extern_price: formData.extern_price,
-          intern_price: formData.intern_price,
-          pick_up_on_site: formData.pick_up_on_site,
-          send_with_freight: formData.send_with_freight,
-          address: formData.address,
-          postal_code: formData.postal_code,
-          locality: formData.locality,
-          comment: formData.comment,
-          contact_person: user?.id || "",
-        };
-  
-        const market = await supabase
-          .from("product_market_place")
-          .insert([marketData]);
-  
-        if (market.error) throw market.error;
-        
-        navigate(`/products/${formData.product_id}`); 
+      const marketData: TablesInsert<"product_market_place"> = {
+        prod_id: formData.product_id,
+        price_new: formData.price_new,
+        buyer_price: formData.buyer_price,
+        extern_price: formData.extern_price,
+        intern_price: formData.intern_price,
+        pick_up_on_site: formData.pick_up_on_site,
+        send_with_freight: formData.send_with_freight,
+        address: formData.address,
+        postal_code: formData.postal_code,
+        locality: formData.locality,
+        comment: formData.comment,
+        contact_person: user?.id || "",
+      };
 
+      const market = await supabase
+        .from("product_market_place")
+        .insert([marketData]);
+
+      if (market.error) throw market.error;
+
+      navigate(`/products/${formData.product_id}`);
     } catch (error) {
       console.error("Unexpected error:", error);
     }
   };
-  
 
   return (
     <FormContext.Provider
