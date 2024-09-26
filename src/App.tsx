@@ -28,14 +28,14 @@ const AppContent: FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/test-components" element={<Test />} />
-            <Route element={<AuthRoute />}>
+            {/* <Route element={<AuthRoute />}> */}
             <Route path="/products/:id" element={<Product />} />
             <Route path="/form-01" element={<FormPage01 />} />
             <Route path="/form-02" element={<FormPage02 />} />
             <Route path="/form-03" element={<FormPage03 />} />
             <Route path="/form-04" element={<FormPage04 />} />
             <Route path="/form-05" element={<FormPage05 />} />
-             </Route> 
+            {/* </Route>  */}
             <Route element={<AuthenticationRoutes />}>
               <Route path="/sign-in" element={<Signin />} />
               <Route path="/sign-up" element={<Signup />} />
