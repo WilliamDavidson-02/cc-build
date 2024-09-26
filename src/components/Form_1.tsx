@@ -19,8 +19,8 @@ export interface StepOneData {
   product_category_3: string;
   visual_condition: string;
   working_condition: string;
-  images: File[]; // Since it's an array of `File`, we represent it as `File[]`
-  product_files: File[]; // Same for `product_files`
+  images: File[];
+  product_files: File[];
   product_id: string;
   ownId: string;
 }
@@ -67,16 +67,21 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   }); */
 
   const [formSection, setFormSection] = useState<StepOneData>({
-    project: formData?.project ?? "",             
+    project: formData?.project ?? "",
     name: formData?.name ?? "",
     product_category_1: formData?.product_category_1 ?? "",
     product_category_2: formData?.product_category_2 ?? "",
     product_category_3: formData?.product_category_3 ?? "",
     visual_condition: formData?.visual_condition ?? "",
     working_condition: formData?.working_condition ?? "",
+
     images: formData?.images ?? ([] as File[]),     
+
     product_files: formData?.product_files ?? ([] as File[]),
-    product_id: formData?.product_id && formData.product_id !== "" ? formData.product_id : uuid(),
+    product_id:
+      formData?.product_id && formData.product_id !== ""
+        ? formData.product_id
+        : uuid(),
     ownId: formData?.ownId ?? "",
   });
 
@@ -116,13 +121,12 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     }));
   };
 
-  
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormSection((prevData) => ({
       ...prevData,
       [name]: value,
-    }));    
+    }));
 
     if (name === "product_category_1") {
       setIsCategory2Enabled(true);
@@ -177,9 +181,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   };
 
   const handleSave = async () => {
-
     const updatedForm = { ...formData, ...formSection };
-
 
     setFormData(updatedForm);
     saveForm(updatedForm);
@@ -209,7 +211,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     <div className="flex mt-12">
       <form className="flex flex-col gap-6">
         <div className="flex gap-6 flex-wrap">
-          <div className="flex gap-6 ">
+          <div className="flex gap-6 flex-wrap">
             <Dropdown
               title="Projekt"
               options={projectOptions}
@@ -218,7 +220,6 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               value={formSection.project}
               onChange={handleProjectChange}
             />
-
             <div className="flex flex-col">
               <div>
                 <Textfield
@@ -310,7 +311,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               }
                className="justify-end gap-0"
             />
-            <div className="flex flex-col justify-end">
+            <div
+              className="flex flex-col justify-end"
+              style={{ marginBottom: "1rem" }}
+            >
               <Textfield
                 title="Eget ID"
                 size="medium"

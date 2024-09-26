@@ -89,7 +89,7 @@ const Signup: FC = () => {
 
     const err = await signUp(values);
     if (err) {
-      setError("Gick ett att skapa konto.");
+      setError("Gick inte att skapa konto.");
     }
   };
 
