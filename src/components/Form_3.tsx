@@ -20,7 +20,7 @@ import { supabase } from "@/lib/sbClient";
 import { Database } from "@/lib/database.types";
 
 
-interface StepThreeData {
+export interface StepThreeData {
   material?: string;
   color_finish?: string;
   unit_of_measure?: string;
