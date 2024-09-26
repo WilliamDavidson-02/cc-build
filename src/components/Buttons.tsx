@@ -45,7 +45,7 @@ const getButtonClassNames = (
   size: keyof typeof buttonVariants.variants.size
 ) => {
   const baseClass =
-    "rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
+    "rounded-full font-medium ";
   const variantClass =
     buttonVariants.variants.variant[variant] ||
     buttonVariants.defaultVariants.variant;

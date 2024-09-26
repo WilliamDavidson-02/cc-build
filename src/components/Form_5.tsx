@@ -10,6 +10,8 @@ import Info from "./icons/Info";
 import { useUser } from "@/context/userContext";
 import { UserProfile } from "./Navigation/Navbar";
 import Input from "./Input";
+import ChevronLeft from "./icons/ChevronLeft";
+
 
 const step5Schema = z.object({
   product_id: z.string(),
@@ -191,7 +193,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
                 name="price_new"
                 type="number"
                 size="large"
-                placeholder="nypris"
+                placeholder="Nypris"
                 value={formSection.price_new || ""}
                 onChange={handleInputChange}
               />
@@ -208,17 +210,18 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
 
               <div className="flex gap-2 items-center">
                 <Input
-                  className="transform scale-125"
+                  className="w-6 h-6 transform"
                   type="checkbox"
                   name="buyer_price"
                   checked={formSection.buyer_price}
                   onChange={handleCheckboxChange}
+                  style={{ transform: 'scale(1)' }}
                 />
                 <label htmlFor="buyer_price">Låt köparen föreslå pris</label>
               </div>
             </div>
 
-            <div className="flex gap-2 relative border border-black py-2 px-4 ">
+            <div className="flex gap-2 relative border border-black py-3 px-5 ">
               <Typography
                 variant="p"
                 size="md"
@@ -232,11 +235,11 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
 
           <div className="flex gap-6 items-end ">
             <Textfield
-              title="Externpris / st"
+              title="Externt pris / st"
               type="number"
               name="extern_price"
               size="large"
-              placeholder="externpris"
+              placeholder="Externt pris"
               value={formSection.extern_price || ""}
               onChange={handleInputChange}
             />
@@ -246,7 +249,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
               type="number"
               name="intern_price"
               size="large"
-              placeholder="internt pris"
+              placeholder="Internt pris"
               value={formSection.intern_price || ""}
               onChange={handleInputChange}
             />
@@ -259,21 +262,23 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
               <div className="flex gap-6 items-center">
                 <div className="flex gap-2 items-center font-inter">
                   <Input
-                    className="transform scale-125"
+                    className="w-6 h-6 transform"
                     type="checkbox"
                     name="pick_up_on_site"
                     checked={formSection.pick_up_on_site}
                     onChange={handleCheckboxChange}
+                    style={{ transform: 'scale(1)' }}
                   />
                   <label htmlFor="pick_up_on_site">Kan hämtas på plats</label>
                 </div>
                 <div className="flex gap-2 items-center font-inter">
                   <Input
-                    className="transform scale-125"
+                    className="w-6 h-6 transform"
                     type="checkbox"
                     name="send_with_freight"
                     checked={formSection.send_with_freight}
                     onChange={handleCheckboxChange}
+                    style={{ transform: 'scale(1)' }}
                   />
                   <label htmlFor="send_with_freight">
                     Kan skickas med frakt
@@ -286,7 +291,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
                   title="Adress"
                   name="address"
                   size="large"
-                  placeholder="ange adress"
+                  placeholder="Upphämtningsadress"
                   value={formSection.address || ""}
                   onChange={handleInputChange}
                 />
@@ -295,15 +300,15 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
                   title="Postnummer"
                   name="postal_code"
                   size="large"
-                  placeholder="ange postnummer"
+                  placeholder="Postkod"
                   value={formSection.postal_code || ""}
                   onChange={handleInputChange}
                 />
                 <Textfield
-                  title="Ort"
+                  title="Postort"
                   name="locality"
                   size="large"
-                  placeholder="ange ort"
+                  placeholder="Postort"
                   value={formSection.locality || ""}
                   onChange={handleInputChange}
                 />
@@ -317,7 +322,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
               title="Kommentar"
               name="comment"
               size="large"
-              placeholder="ange kommentar"
+              placeholder="Kommentar"
               value={formSection.comment || ""}
               onChange={handleInputChange}
             />
@@ -367,7 +372,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
         ) : (
           <>
             <Button onClick={handlePrevious} size="medium" variant="white">
-              &lt; Föregående
+            <ChevronLeft /> Föregående
             </Button>
 
             <Button onClick={handleSave} size="medium" variant="blue">

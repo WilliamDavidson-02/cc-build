@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useFormContext } from "@/context/formContext";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -8,6 +8,9 @@ import DatePicker from "./DatePicker";
 import Typography from "./Typography";
 import Input from "./Input";
 import { Tooltip } from "./Tooltip";
+import ChevronLeft from "./icons/ChevronLeft";
+import ChevronRight from "./icons/ChevronRight";
+import Dropdown from "./Dropdown";
 
 const Step2Schema = z.object({
   id: z.number().optional(),
@@ -138,7 +141,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
     },
   ]); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (!formData) {
       const initialData: Step2Data = {
         id: undefined,
@@ -163,7 +166,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         ...initialData,
       }));
     }
-  }, [formData, setFormData]);
+  }, [formData, setFormData]); */
 
   const handleInputChange = (
     index: number,
@@ -279,6 +282,8 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
     });
   };
 
+  const isAnyCheckboxChecked = checkedStates.some((checked) => checked);
+
   //expandable sections
   const [expandedForms, setExpandedForms] = React.useState<
     Record<number, boolean>
@@ -307,18 +312,35 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
   return (
     <>
       <div className="flex flex-row gap-6 pt-8 pb-4 ">
-        <Button size="medium" variant="blue" onClick={handleAdd}>
+      <Button size="medium" variant="blue" onClick={handleAdd} >
           Lägg till ny
         </Button>
-        <Button size="medium" variant="white" onClick={handleDel}>
+        {isAnyCheckboxChecked ? (
+          <>
+          <Button size="medium" variant="white" onClick={handleDel} >
           Radera
         </Button>
-        <Button size="medium" variant="white" onClick={handleChange}>
+        <Button size="medium" variant="white" onClick={handleChange} >
           Ändra
         </Button>
-        <Button size="medium" variant="white" onClick={handleCom}>
+        <Button size="medium" variant="white" onClick={handleCom} >
           Kommentar
         </Button>
+        </>
+        ) : (
+          <>
+          <Button size="medium" variant="ghost" onClick={handleDel} disabled >
+          Radera
+        </Button>
+        <Button size="medium" variant="ghost" onClick={handleChange} disabled>
+          Ändra
+        </Button>
+        <Button size="medium" variant="ghost" onClick={handleCom} disabled>
+          Kommentar
+        </Button>
+        </>
+        )}
+       
       </div>
 
       {formSections.map((section, index) => (
@@ -330,8 +352,8 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
               onChange={() => handleCheckboxChange(index)}
             />
           </div>
-          <form key={index} className="flex flex-col">
-            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
+          <form key={index} className="flex flex-col  w-full">
+            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg w-full">
               <div className="flex gap-6">
                 <div className="flex flex-col gap-2">
                   <label className="text-[14px] font-semibold">Antal</label>
@@ -429,6 +451,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place1 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                   
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -471,6 +494,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place4 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                   
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -497,8 +521,8 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
             {expandedForms[index] && (
               <>
                 <section className="flex flex-col gap-6 px-4 py-2 mb-12">
-                  <div className="flex gap-6">
-                    <div className="flex flex-col gap-2">
+                  <div className="flex gap-6 w-full">
+                     {/* <div className="flex flex-col gap-2">
                       <label className="text-[14px] font-semibold">
                         Demonterbarhet
                       </label>
@@ -508,7 +532,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                           formSections[index].disassembly || "Ej Demonterbar"
                         }
                         onChange={(e) => handleInputChange(index, e)}
-                        className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
+                        className="w-full px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
                       >
                         <option value="" disabled>
                           Välj
@@ -523,7 +547,19 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                           Begränsad demonterbarhet
                         </option>
                       </select>
-                    </div>
+                    </div> */}
+                    <Dropdown 
+                    title="Demonterbarhet" 
+                    name="disassembly" 
+                    size="large"
+                    value={formSections[index].disassembly || "Ej Demonterbar"} 
+                    onChange={(e) => handleInputChange(index, e)} 
+                    options={
+                      ["Enkel att demontera/demontering krävs ej",
+                        "Demonterbar men specialverktyg kan behövas",
+                        "Begränsad demonterbarhet"]}   
+                      className="min-w-[40%]"                 
+                    />
                     <div className="flex flex-col gap-2">
                       <label className="text-[14px] font-semibold">
                         Åtkomlighet
@@ -592,7 +628,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         onChange={(e) => handleInputChange(index, e)}
                       />
                       <Tooltip
-                        className="position absolute right-0 cursor-pointer select-none"
+                        className="position absolute -right-2 cursor-pointer select-none"
                         info="Ange ytterligare information angående beslutsfattningen"
                       />
                     </div>
@@ -607,7 +643,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         onChange={(e) => handleInputChange(index, e)}
                       />
                       <Tooltip
-                        className="position absolute right-0 cursor-pointer select-none"
+                        className="position absolute -right-2 cursor-pointer select-none"
                         info="Ange ytterligare information angående beslutsfattningen"
                       />
                     </div>
@@ -621,7 +657,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         onChange={(e) => handleInputChange(index, e)}
                       />
                       <Tooltip
-                        className="position absolute right-0 cursor-pointer select-none"
+                        className="position absolute -right-2 cursor-pointer select-none"
                         info="Ange ytterligare information angående beslutsfattningen"
                       />
                     </div>
@@ -635,7 +671,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         onChange={(e) => handleInputChange(index, e)}
                       />
                       <Tooltip
-                        className="position absolute right-0 cursor-pointer select-none"
+                        className="position absolute -right-2 cursor-pointer select-none"
                         info="Ange ytterligare information angående beslutsfattningen"
                       />
                     </div>
@@ -655,7 +691,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         </div>
       )}
 
-      <section className="w-full flex justify-between mb-12">
+      <section className="w-full flex justify-between  my-16">
         {isEdit ? (
           <Button
             onClick={() => handleUpdate && handleUpdate(formSections)}
@@ -668,7 +704,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         ) : (
           <>
             <Button onClick={handlePrevious} size="medium" variant="white">
-              &lt; Föregående
+              <ChevronLeft /> Föregående
             </Button>
             <div className="flex gap-2">
               <Button onClick={handleSave} size="medium" variant="white">
@@ -676,7 +712,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
               </Button>
 
               <Button onClick={handleNext} size="medium" variant="blue">
-                Nästa &gt;
+                Nästa <ChevronRight />
               </Button>
             </div>
           </>

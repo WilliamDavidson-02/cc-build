@@ -25,7 +25,7 @@ const DatePicker: FC<DatePickerProps> = ({ selected, setSelected }) => {
     <div className="relative">
       <div
         onClick={() => setShow((prev) => !prev)}
-        className="py-2 px-4 border border-zinc-300 rounded-md bg-white text-zinc-500 cursor-pointer"
+        className="py-2 px-4 border border-[#E2E2E2] rounded-md bg-[#F9F9F9] text-[#495057] cursor-pointer"
       >
         {selected ? format(selected, "yy.MM.dd") : "Välj ett datum"}
       </div>

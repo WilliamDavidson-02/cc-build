@@ -16,6 +16,10 @@ export default {
         mercury: "#E2E2E2",
         albaster: "#F9F9F9",
       },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
