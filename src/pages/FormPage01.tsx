@@ -9,7 +9,7 @@ const FormPage01: FC = () => {
   const { progressSteps, currentStep, setCurrentStep } = useContext(FormContext)!;
   const navigate = useNavigate();
   return (
-    <main className=" px-48 flex flex-col">
+    <main className=" px-32 flex flex-col">
      <ProgressSteps>
         {progressSteps.map((status, index) => (
           <ProgressStepsCard
@@ -25,7 +25,7 @@ const FormPage01: FC = () => {
           />
         ))}
       </ProgressSteps>
-      <div className=" py-16 px-36 flex flex-col justify-center pb-16">
+      <div className=" py-16 px-16 flex flex-col justify-center pb-16">
         
         <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
           Generell information
