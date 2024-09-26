@@ -37,7 +37,7 @@ const Textfield: FC<TextfieldProps> = ({
 
   return (
     <div className={cn("flex flex-col gap-1", className)}>
-      <label>{title}</label>
+      <label className="font-semibold">{title}</label>
       <input
         type={type}
         name={name}

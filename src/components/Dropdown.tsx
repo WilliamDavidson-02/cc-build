@@ -35,7 +35,7 @@ const Dropdown: FC<DropdownProps> = ({
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={name}>{title}</label>
+      <label className="font-semibold" htmlFor={name}>{title}</label>
       <select
         name={name}
         id={name}
