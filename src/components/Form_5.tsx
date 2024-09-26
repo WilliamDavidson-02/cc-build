@@ -221,7 +221,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
               <Typography
                 variant="p"
                 size="md"
-                className="text-[#151515] text-[18px]  font-poppins"
+                className="text-[#151515] text-[18px]  font-inter"
               >
                 Alla priser ska anges exklusive moms
               </Typography>
@@ -254,7 +254,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
 
         <section className="flex flex-col gap-6 py-6  w-full">
           <div className="w-full">
-            <div className="flex flex-col gap-6 shadow-lg w-[60%] p-4">
+            <div className="flex flex-col gap-6 shadow-lg w-[60%] px-4 py-6">
               <div className="flex gap-6 items-center">
                 <div className="flex gap-2 items-center font-inter">
                   <Input
@@ -265,7 +265,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
                     onChange={handleCheckboxChange}
                     style={{ transform: 'scale(1)' }}
                   />
-                  <label htmlFor="pick_up_on_site">Kan hämtas på plats</label>
+                  <label className="font-normal" htmlFor="pick_up_on_site">Kan hämtas på plats</label>
                 </div>
                 <div className="flex gap-2 items-center font-inter">
                   <Input
@@ -293,7 +293,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
                 />
 
                 <Textfield
-                  title="Postnummer"
+                  title="Postkod"
                   name="postal_code"
                   size="large"
                   placeholder="Postkod"
@@ -312,7 +312,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
             </div>
           </div>
         </section>
-        <section className="flex gap-6 px-4 w-full">
+        <section className="flex gap-6 px-4 py-6 w-full">
           <div className="flex flex-col gap-2 max-w-[60%]">
             <Textfield
               title="Kommentar"
@@ -325,7 +325,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
             <Typography
               variant="p"
               size="md"
-              className="text-[#151515] text-[18px]  font-poppins"
+              className="text-[#151515] text-[18px]  font-inter"
             >
               Ange kompletterande info om prissättningen och eventuella
               garantier, tex om kostnader tillkommer för demontering och frakt,

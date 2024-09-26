@@ -20,6 +20,9 @@ export default {
         poppins: ["Poppins", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },
+      boxShadow: {
+        'lg-with-lightest-top': '0 10px 15px -3px rgba(0, 0, 0, 0.01), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 -1px 1px rgba(0, 0, 0, 0.05)',
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

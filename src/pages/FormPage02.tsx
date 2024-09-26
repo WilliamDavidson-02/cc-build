@@ -28,7 +28,7 @@ const FormPage02: FC = () => {
           />
         ))}
       </ProgressSteps>    
-      <div className="flex flex-col px-16 justify-start mb-8  mt-16">
+      <div className="flex flex-col px-16 justify-start mt-16">
       <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
       Antal/Status/Plats
         </h2>      
