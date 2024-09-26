@@ -1,4 +1,10 @@
-import { ChangeEvent, useContext, useState, FocusEvent } from "react";
+import {
+  ChangeEvent,
+  useContext,
+  useState,
+  FocusEvent,
+  useEffect,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from "@/components/Typography";
 import Textfield from "@/components/Textfield";
@@ -6,6 +12,8 @@ import Radiobutton from "@/components/Radiobutton";
 import Dropdown from "@/components/Dropdown";
 import { FormContext } from "@/context/formContext";
 import Button from "@/components/Buttons";
+import { supabase } from "@/lib/sbClient";
+import { Database } from "@/lib/database.types";
 
 interface StepThreeData {
   material?: string;
@@ -35,9 +43,13 @@ interface StepThreeData {
   frame_depth?: number;
 }
 
+type Category = Database["public"]["Tables"]["category"]["Row"];
+
 const Form_3: React.FC = () => {
   const { formData, setFormData, saveForm } = useContext(FormContext)!;
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryName, setCategoryName] = useState<string | null>(null);
   const [formSection, setFormSection] = useState<StepThreeData>({
     material: "",
     color_finish: "",
@@ -64,6 +76,31 @@ const Form_3: React.FC = () => {
     environmental_profile: "",
     frame_depth: 0,
   });
+
+  useEffect(() => {
+    const fetchProjectNames = async () => {
+      const { data } = await supabase.from("category").select("*");
+      if (data) {
+        setCategories(data);
+      }
+    };
+
+    fetchProjectNames();
+  }, []);
+
+  useEffect(() => {
+    if (categories.length > 0 && formData.product_category_1) {
+      const matchedCategory = categories.find(
+        (category) => category.id === formData.product_category_1
+      );
+
+      if (matchedCategory) {
+        setCategoryName(matchedCategory.name);
+      } else {
+        setCategoryName(null);
+      }
+    }
+  }, [categories, formData.product_category_1]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -115,7 +152,6 @@ const Form_3: React.FC = () => {
       };
       return newData;
     });
-
     navigate("/form-04");
   };
 
@@ -274,129 +310,135 @@ const Form_3: React.FC = () => {
           </div>
 
           <Typography variant="h3">Egenskaper</Typography>
-          {/* Conditionally render properties depending on product category */}
-          <div className="flex gap-5">
-            <Textfield
-              title="Sitthöjd min (cm)"
-              size="small"
-              name="avg_height_min"
-              value={formSection.avg_height_min ?? 0}
-              onChange={handleInputChange}
-            />
-            <Textfield
-              title="Sitthöjd max (cm)"
-              size="small"
-              name="avg_height_max"
-              value={formSection.avg_height_max ?? 0}
-              onChange={handleInputChange}
-            />
-            <Textfield
-              title="Ryggstöd(cm)"
-              size="small"
-              name="lumbal_support"
-              value={formSection.lumbal_support ?? 0}
-              onChange={handleInputChange}
-            />
-          </div>
 
-          <div className="flex flex-col gap-5">
+          {categoryName === "Inredning & möbler" && (
             <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Glastyp"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="glass_type"
-                value={formSection.glass_type ?? ""}
-                onChange={handleSelectChange}
+              <Textfield
+                title="Sitthöjd min (cm)"
+                size="small"
+                name="avg_height_min"
+                value={formSection.avg_height_min ?? 0}
+                onChange={handleInputChange}
               />
-              <Dropdown
-                title="Glasmodell"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="glass_model"
-                value={formSection.glass_model ?? ""}
-                onChange={handleSelectChange}
+              <Textfield
+                title="Sitthöjd max (cm)"
+                size="small"
+                name="avg_height_max"
+                value={formSection.avg_height_max ?? 0}
+                onChange={handleInputChange}
               />
-              <Dropdown
-                title="Glastjocklek (mm)"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="glass_thickness"
-                value={formSection.glass_thickness ?? 0}
-                onChange={handleSelectChange}
+              <Textfield
+                title="Ryggstöd(cm)"
+                size="small"
+                name="lumbal_support"
+                value={formSection.lumbal_support ?? 0}
+                onChange={handleInputChange}
               />
             </div>
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Hängning"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="hanging"
-                value={formSection.hanging ?? ""}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Modulmått"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="module_size"
-                value={formSection.module_size ?? ""}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Ljudreduktion (dB)"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="sound_reduction"
-                value={formSection.sound_reduction ?? 0}
-                onChange={handleSelectChange}
-              />
-            </div>
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Brandklass"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="fire_resistance_class"
-                value={formSection.fire_resistance_class ?? 0}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Inbrottsskydd"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="burglary_resistance_class"
-                value={formSection.burglary_resistance_class ?? 0}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Omgivning/klimat"
-                options={["1", "2", "3", "4", "5"]}
-                size="medium"
-                name="environmental_profile"
-                value={formSection.environmental_profile ?? ""}
-                onChange={handleSelectChange}
-              />
-            </div>
-            <div className="flex gap-5">
-              {" "}
-              <Dropdown
-                title="Karmdjup (mm)"
-                options={["10", "20", "30", "40", "50"]}
-                size="medium"
-                name="frame_depth"
-                value={formSection.frame_depth ?? 0}
-                onChange={handleSelectChange}
-              />
-            </div>
-          </div>
+          )}
 
-          <div>
-            <p>Det finns inga specifika egenskaper för vald produkttyp.</p>
-          </div>
+          {categoryName === "Dörrar" && (
+            <div className="flex flex-col gap-5">
+              <div className="flex gap-5">
+                {" "}
+                <Dropdown
+                  title="Glastyp"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="glass_type"
+                  value={formSection.glass_type ?? ""}
+                  onChange={handleSelectChange}
+                />
+                <Dropdown
+                  title="Glasmodell"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="glass_model"
+                  value={formSection.glass_model ?? ""}
+                  onChange={handleSelectChange}
+                />
+                <Dropdown
+                  title="Glastjocklek (mm)"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="glass_thickness"
+                  value={formSection.glass_thickness ?? 0}
+                  onChange={handleSelectChange}
+                />
+              </div>
+              <div className="flex gap-5">
+                {" "}
+                <Dropdown
+                  title="Hängning"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="hanging"
+                  value={formSection.hanging ?? ""}
+                  onChange={handleSelectChange}
+                />
+                <Dropdown
+                  title="Modulmått"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="module_size"
+                  value={formSection.module_size ?? ""}
+                  onChange={handleSelectChange}
+                />
+                <Dropdown
+                  title="Ljudreduktion (dB)"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="sound_reduction"
+                  value={formSection.sound_reduction ?? 0}
+                  onChange={handleSelectChange}
+                />
+              </div>
+              <div className="flex gap-5">
+                {" "}
+                <Dropdown
+                  title="Brandklass"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="fire_resistance_class"
+                  value={formSection.fire_resistance_class ?? 0}
+                  onChange={handleSelectChange}
+                />
+                <Dropdown
+                  title="Inbrottsskydd"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="burglary_resistance_class"
+                  value={formSection.burglary_resistance_class ?? 0}
+                  onChange={handleSelectChange}
+                />
+                <Dropdown
+                  title="Omgivning/klimat"
+                  options={["1", "2", "3", "4", "5"]}
+                  size="medium"
+                  name="environmental_profile"
+                  value={formSection.environmental_profile ?? ""}
+                  onChange={handleSelectChange}
+                />
+              </div>
+              <div className="flex gap-5">
+                {" "}
+                <Dropdown
+                  title="Karmdjup (mm)"
+                  options={["10", "20", "30", "40", "50"]}
+                  size="medium"
+                  name="frame_depth"
+                  value={formSection.frame_depth ?? 0}
+                  onChange={handleSelectChange}
+                />
+              </div>
+            </div>
+          )}
+
+          {categoryName === "WC & badrum" && (
+            <div>
+              <p>Det finns inga specifika egenskaper för vald produkttyp.</p>
+            </div>
+          )}
         </form>
       </div>
 

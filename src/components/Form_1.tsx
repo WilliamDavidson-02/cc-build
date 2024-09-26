@@ -286,7 +286,10 @@ const Form_1: React.FC = () => {
                   handleSetFiles(files, "product_files")
                 }
               />
-              <div className="flex flex-col justify-end">
+              <div
+                className="flex flex-col justify-end"
+                style={{ marginBottom: "1rem" }}
+              >
                 <Textfield
                   title="Eget ID"
                   size="medium"
