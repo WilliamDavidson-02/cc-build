@@ -22,6 +22,9 @@ export interface FormContextType {
 
   progressSteps: ProgressStatus[]; // New state for progress
   setProgressSteps: React.Dispatch<React.SetStateAction<ProgressStatus[]>>;
+  
+  currentStep: number; // New state for current step
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const defaultFormData = {
@@ -117,6 +120,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
  
 
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [progressSteps, setProgressSteps] = useState<ProgressStatus[]>([null, null, null, null, null]);
 
   const saveForm = async (formData: FormData) => {
@@ -338,7 +342,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <FormContext.Provider
-      value={{ formData, setFormData, errors, setErrors, saveForm, progressSteps, setProgressSteps }}
+      value={{ formData, setFormData, errors, setErrors, saveForm, progressSteps, setProgressSteps, currentStep, setCurrentStep }}
     >
       {children}
     </FormContext.Provider>

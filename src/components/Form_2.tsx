@@ -73,7 +73,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
   const { formData, setFormData, errors, setErrors, saveForm } =
     useFormContext();
   const navigate = useNavigate();
-  const { setProgressSteps } = useContext(FormContext)!;
+  const { setProgressSteps, progressSteps, setCurrentStep } = useContext(FormContext)!;
 
   const [formSections, setFormSections] = useState<Step2Data[]>(
     formData?.individual.length > 0
@@ -208,11 +208,13 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
       ...prevData,
       individual: formSections as (typeof prevData)["individual"],
     }));
-    console.log("Form data:", formData);
+   
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, progressSteps.length - 1)); 
     navigate(`/form-03`);
   };
 
   const handlePrevious = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
     navigate(`/form-01`);
   };
 
@@ -258,18 +260,22 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
 
   //PROGRESSBAR
   useEffect(() => {
-    // Check if the current form is filled and update progress
-    const isFilled = Object.entries(formSections).every(([ field]) => {
-      if (typeof field === 'string') {
-        return field !== null && field !== ""; // Check for string fields
-      }
-      if (typeof field === 'number') {
-        return field !== null; // Check for number fields
-      }
-      
-      return false; // For other types, you can adjust as needed
+    // Check if all fields in each section are filled
+    const isFilled = formSections.every(section => {
+      return (
+        section.amount !== undefined && section.amount > 0 && // Ensure amount is a positive number
+        section.prod_status !== "" &&
+        section.market_status !== "" &&
+        section.place1 !== "" &&
+        section.place2 !== "" &&
+        section.place3 !== "" &&
+        section.place4 !== "" &&
+        section.disassembly !== "" &&
+        section.accessibility !== ""
+        // Add any other necessary fields here
+      );
     });
-    
+  
     // Update progress for the second step
     setProgressSteps(prev => {
       const newProgress = [...prev];

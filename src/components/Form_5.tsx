@@ -34,7 +34,7 @@ type Form5Props = {
 };
 
 const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
-  const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps } =
+  const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps, setCurrentStep } =
     useFormContext();
   const navigate = useNavigate();
   const { user } = useUser();
@@ -154,6 +154,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
   };
 
   const handlePrevious = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
     navigate(`/form-04`);
   };
   

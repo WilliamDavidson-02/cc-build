@@ -34,7 +34,7 @@ type Form1Props = {
 };
 
 const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
-  const { formData, setFormData, saveForm, setProgressSteps } = useContext(FormContext)!;
+  const { formData, setFormData, saveForm, setProgressSteps, progressSteps, setCurrentStep } = useContext(FormContext)!;
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredCategories1, setFilteredCategories1] = useState<Category[]>(
@@ -162,7 +162,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
       ...prev,
       ...formSection,
     }));
-
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, progressSteps.length - 1));
     navigate("/form-02");
   };
 
@@ -206,7 +206,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
       newProgress[0] = isFilled ? "complete" : "pending";
       return newProgress;
     });
-  }, [formSection]); // Trigger this effect when formSection changes
+  }, [formSection, setProgressSteps]); // Trigger this effect when formSection changes
 
   /*progresbar*/
 

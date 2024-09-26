@@ -56,35 +56,35 @@ type Form3Props = {
 };
 
 const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
-  const { formData, setFormData, saveForm, setProgressSteps } = useContext(FormContext)!;
+  const { formData, setFormData, saveForm, setProgressSteps, progressSteps, setCurrentStep } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryName, setCategoryName] = useState<string | null>(null);
   const [formSection, setFormSection] = useState<StepThreeData>({
-    material: "",
-    color_finish: "",
-    unit_of_measure: "mm",
-    width: 0,
-    length: 0,
-    height: 0,
-    depth: 0,
-    diameter: 0,
-    thickness: 0,
-    weight_unit: "g",
-    weight: 0,
-    avg_height_min: 0,
-    avg_height_max: 0,
-    lumbal_support: 0,
-    glass_type: "",
-    glass_model: "",
-    glass_thickness: 0,
-    hanging: "",
-    module_size: "",
-    sound_reduction: 0,
-    fire_resistance_class: 0,
-    burglary_resistance_class: 0,
-    environmental_profile: "",
-    frame_depth: 0,
+    material: formData.material ?? "",
+  color_finish: formData.color_finish ?? "",
+  unit_of_measure: formData.unit_of_measure ?? "mm",
+  width: formData.width ?? 0,
+  length: formData.length ?? 0,
+  height: formData.height ?? 0,
+  depth: formData.depth ?? 0,
+  diameter: formData.diameter ?? 0,
+  thickness: formData.thickness ?? 0,
+  weight_unit: formData.weight_unit ?? "g",
+  weight: formData.weight ?? 0,
+  avg_height_min: formData.avg_height_min ?? 0,
+  avg_height_max: formData.avg_height_max ?? 0,
+  lumbal_support: formData.lumbal_support ?? 0,
+  glass_type: formData.glass_type ?? "",
+  glass_model: formData.glass_model ?? "",
+  glass_thickness: formData.glass_thickness ?? 0,
+  hanging: formData.hanging ?? "",
+  module_size: formData.module_size ?? "",
+  sound_reduction: formData.sound_reduction ?? 0,
+  fire_resistance_class: formData.fire_resistance_class ?? 0,
+  burglary_resistance_class: formData.burglary_resistance_class ?? 0,
+  environmental_profile: formData.environmental_profile ?? "",
+  frame_depth: formData.frame_depth ?? 0,
   });
 
   useEffect(() => {
@@ -162,10 +162,13 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
       };
       return newData;
     });
+
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, progressSteps.length - 1)); 
     navigate("/form-04");
   };
 
   const handlePrevious = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
     navigate(`/form-02`);
   };
 
@@ -178,19 +181,32 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
 
 
   //PROGRESSBAR
-  // Update progress tracking for step 3
   useEffect(() => {
-    // Check if the current form is filled and update progress
-    const isFilled = Object.entries(formSection).every(([ field]) => {
-      if (typeof field === 'string') {
-        return field !== "" && field !== null; // Check for string fields
-      }
-      if (typeof field === 'number') {
-        return field >= 0; // Ensure numbers are non-negative
-      }
-      return false; // Handle other types if necessary
-    });
-
+    // Check if all required fields are filled
+    const isFilled = 
+      formSection.material !== "" &&
+      formSection.color_finish !== "" &&
+      (formSection.width !== undefined && formSection.width >= 0) &&
+      (formSection.length !== undefined && formSection.length >= 0) &&
+      (formSection.height !== undefined && formSection.height >= 0) &&
+      (formSection.depth !== undefined && formSection.depth >= 0) &&
+      (formSection.diameter !== undefined && formSection.diameter >= 0) &&
+      (formSection.thickness !== undefined && formSection.thickness >= 0) &&
+      (formSection.weight !== undefined && formSection.weight >= 0) &&
+      (formSection.avg_height_min !== undefined && formSection.avg_height_min >= 0) &&
+      (formSection.avg_height_max !== undefined && formSection.avg_height_max >= 0) &&
+      (formSection.lumbal_support !== undefined && formSection.lumbal_support >= 0) &&
+      (formSection.glass_type !== "") &&
+      (formSection.glass_model !== "") &&
+      (formSection.glass_thickness !== undefined && formSection.glass_thickness >= 0) &&
+      (formSection.hanging !== "") &&
+      (formSection.module_size !== "") &&
+      (formSection.sound_reduction !== undefined && formSection.sound_reduction >= 0) &&
+      (formSection.fire_resistance_class !== undefined && formSection.fire_resistance_class >= 0) &&
+      (formSection.burglary_resistance_class !== undefined && formSection.burglary_resistance_class >= 0) &&
+      (formSection.environmental_profile !== "") &&
+      (formSection.frame_depth !== undefined && formSection.frame_depth >= 0);
+  
     // Update progress for step 3
     setProgressSteps(prev => {
       const newProgress = [...prev];
@@ -198,7 +214,6 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
       return newProgress;
     });
   }, [formSection, setProgressSteps]);
-
   return (
     <>
       <form className="flex flex-col gap-12">

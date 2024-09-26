@@ -29,8 +29,8 @@ type Form4Props = {
 
 const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   const navigate = useNavigate();
-
-  const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps } = useFormContext();
+  
+  const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps, progressSteps, setCurrentStep } = useFormContext();
   const [formSection, setFormSection] = useState<Step4Data>({    
     manufactor: formData.manufactor ?? "",
     articel_number: formData.articel_number ?? "",
@@ -101,10 +101,13 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
       ...formSection,
     }));
     /*  handleSave(); */
+
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, progressSteps.length - 1)); 
     navigate(`/form-05`);
   };
 
   const handlePrevious = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
     navigate(`/form-03`);
   };
   
