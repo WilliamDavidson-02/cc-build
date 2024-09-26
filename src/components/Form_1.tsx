@@ -34,7 +34,7 @@ type Form1Props = {
 };
 
 const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
-  const { formData, setFormData, saveForm } = useContext(FormContext)!;
+  const { formData, setFormData, saveForm, setProgressSteps } = useContext(FormContext)!;
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredCategories1, setFilteredCategories1] = useState<Category[]>(
@@ -50,22 +50,8 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
   const { user } = useUser();
   const navigate = useNavigate();
-  /*LAST WORKING CODE
   
-  const [formSection, setFormSection] = useState<StepOneData>({
-    project: "",
-    name: "",
-    product_category_1: "",
-    product_category_2: "",
-    product_category_3: "",
-    visual_condition: "",
-    working_condition: "",
-    images: [] as File[],
-    product_files: [] as File[],
-    product_id: uuid(),
-    ownId: "",
-  }); */
-
+  
   const [formSection, setFormSection] = useState<StepOneData>({
     project: formData?.project ?? "",
     name: formData?.name ?? "",
@@ -206,6 +192,23 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     label: project.name ?? "",
     value: project.id ?? "",
   }));
+
+  /*progresbar*/
+  /* const { setProgressSteps, progressSteps } = useContext(FormContext)!; */
+
+  useEffect(() => {
+    // Check if the current form is filled and update progress
+    const isFilled = Object.values(formSection).every(field => field !== "");
+
+    // Update progress for the first step
+    setProgressSteps(prev => {
+      const newProgress = [...prev];
+      newProgress[0] = isFilled ? "complete" : "pending";
+      return newProgress;
+    });
+  }, [formSection]); // Trigger this effect when formSection changes
+
+  /*progresbar*/
 
   return (
     <div className="flex mt-12">

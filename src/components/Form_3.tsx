@@ -56,7 +56,7 @@ type Form3Props = {
 };
 
 const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
-  const { formData, setFormData, saveForm } = useContext(FormContext)!;
+  const { formData, setFormData, saveForm, setProgressSteps } = useContext(FormContext)!;
   const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryName, setCategoryName] = useState<string | null>(null);
@@ -175,6 +175,29 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
     setFormData(updatedForm);
     saveForm(updatedForm);
   };
+
+
+  //PROGRESSBAR
+  // Update progress tracking for step 3
+  useEffect(() => {
+    // Check if the current form is filled and update progress
+    const isFilled = Object.entries(formSection).every(([ field]) => {
+      if (typeof field === 'string') {
+        return field !== "" && field !== null; // Check for string fields
+      }
+      if (typeof field === 'number') {
+        return field >= 0; // Ensure numbers are non-negative
+      }
+      return false; // Handle other types if necessary
+    });
+
+    // Update progress for step 3
+    setProgressSteps(prev => {
+      const newProgress = [...prev];
+      newProgress[2] = isFilled ? "complete" : "pending"; // Step 3 index is 2
+      return newProgress;
+    });
+  }, [formSection, setProgressSteps]);
 
   return (
     <>

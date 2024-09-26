@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
-import { useFormContext } from "@/context/formContext";
+import React, { ChangeEvent, useState, useContext, useEffect } from "react";
+import { useFormContext, FormContext } from "@/context/formContext";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Button from "./Buttons";
@@ -73,6 +73,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
   const { formData, setFormData, errors, setErrors, saveForm } =
     useFormContext();
   const navigate = useNavigate();
+  const { setProgressSteps } = useContext(FormContext)!;
 
   const [formSections, setFormSections] = useState<Step2Data[]>(
     formData?.individual.length > 0
@@ -254,6 +255,28 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
       )
     );
   };
+
+  //PROGRESSBAR
+  useEffect(() => {
+    // Check if the current form is filled and update progress
+    const isFilled = Object.entries(formSections).every(([ field]) => {
+      if (typeof field === 'string') {
+        return field !== null && field !== ""; // Check for string fields
+      }
+      if (typeof field === 'number') {
+        return field !== null; // Check for number fields
+      }
+      
+      return false; // For other types, you can adjust as needed
+    });
+    
+    // Update progress for the second step
+    setProgressSteps(prev => {
+      const newProgress = [...prev];
+      newProgress[1] = isFilled ? "complete" : "pending"; // Step 2 index is 1
+      return newProgress;
+    });
+  }, [formSections, setProgressSteps]);
 
   return (
     <>

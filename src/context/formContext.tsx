@@ -11,6 +11,7 @@ import { supabase } from "@/lib/sbClient";
 import { TablesInsert } from "@/lib/database.types";
 import {  useUser } from "./userContext";
 
+type ProgressStatus = "complete" | "pending" | null;
 
 export interface FormContextType {
   formData: FormData;
@@ -18,6 +19,9 @@ export interface FormContextType {
   errors: Record<string, string[]> | null;
   setErrors: (errors: Record<string, string[]> | null) => void;
   saveForm: (formData: FormData) => Promise<void>;
+
+  progressSteps: ProgressStatus[]; // New state for progress
+  setProgressSteps: React.Dispatch<React.SetStateAction<ProgressStatus[]>>;
 }
 
 const defaultFormData = {
@@ -111,7 +115,9 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
-  /* const saveForm = useRef(() => {}); */
+ 
+
+  const [progressSteps, setProgressSteps] = useState<ProgressStatus[]>([null, null, null, null, null]);
 
   const saveForm = async (formData: FormData) => {
 
@@ -332,7 +338,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <FormContext.Provider
-      value={{ formData, setFormData, errors, setErrors, saveForm }}
+      value={{ formData, setFormData, errors, setErrors, saveForm, progressSteps, setProgressSteps }}
     >
       {children}
     </FormContext.Provider>
