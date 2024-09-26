@@ -47,7 +47,7 @@ const Textfield: FC<TextfieldProps> = ({
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
-        className={`bg-slate-100 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
+        className={`bg-[#F9F9F9] rounded ${sizeClasses[size]} px-4 py-2 rounded border border-[#E2E2E2] text-[#495057]`}
       ></input>
     </div>
   );

@@ -445,6 +445,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place1 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                   
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -487,6 +488,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place4 || ""}
                     onChange={(e) => handleInputChange(index, e)}
+                   
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"

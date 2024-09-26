@@ -39,7 +39,7 @@ const Dropdown: FC<DropdownProps> = ({
       <select
         name={name}
         id={name}
-        className={`${sizeClasses[size]} ${opacityClass}  bg-slate-100 p-2 rounded border border-gray-300 px-6 py-3`}
+        className={`${sizeClasses[size]} ${opacityClass}  bg-slate-100 p-2 rounded border border-gray-300 px-4 py-2`}
         value={value}
         onChange={onChange}
         disabled={disabled}
