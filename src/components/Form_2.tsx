@@ -67,25 +67,67 @@ const Form_2: React.FC = () => {
   const { formData, setFormData, errors, setErrors, saveForm } = useFormContext();
   const navigate = useNavigate();
 
+  const [formSections, setFormSections] = useState<Step2Data[]>(
+    formData?.individual.length > 0
+      ? formData.individual.map((individual) => ({
+          amount: individual.amount ?? 1,
+          prod_status: individual.prod_status ?? "Ej inventerad",
+          market_status: individual.market_status ?? "Ej publicerad",
+          place1: individual.place1 ?? "",
+          place2: individual.place2 ?? "",
+          place3: individual.place3 ?? "",
+          place4: individual.place4 ?? "",
+          disassembly: individual.disassembly ?? "Ej Demonterbar",
+          accessibility: individual.accessibility ?? "Ej Åtkomlig",
+          availability: individual.availability ?? undefined,
+          delivery: individual.delivery ?? undefined,
+          decision_designation_1: individual.decision_designation_1 ?? "",
+          decision_designation_2: individual.decision_designation_2 ?? "",
+          decision_designation_3: individual.decision_designation_3 ?? "",
+          decision_designation_4: individual.decision_designation_4 ?? "",
+        }))
+      : [
+          {
+            amount: 1,
+            prod_status: "Ej inventerad",
+            market_status: "Ej publicerad",
+            place1: "",
+            place2: "",
+            place3: "",
+            place4: "",
+            disassembly: "Ej Demonterbar",
+            accessibility: "Ej Åtkomlig",
+            availability: undefined,
+            delivery: undefined,
+            decision_designation_1: "",
+            decision_designation_2: "",
+            decision_designation_3: "",
+            decision_designation_4: "",
+          },
+        ]
+  );
+
+  /* LAST WORKING CODE
+  
   const [formSections, setFormSections] = useState<Step2Data[]>([
     {            
-      amount: 1,
-      prod_status: "Ej inventerad",
-      market_status: "Ej publicerad",
-      place1: "",
-      place2: "",
-      place3: "",
-      place4: "",
-      disassembly: "Ej Demonterbar",
-      accessibility: "Ej Åtkomlig",
-      availability: undefined,
-      delivery: undefined,
-      decision_designation_1: "",
-      decision_designation_2: "",
-      decision_designation_3: "",
-      decision_designation_4: "",
+      amount: formData?.individual[0].amount || 1,
+      prod_status: formData?.individual[0].prod_status || "Ej inventerad",
+      market_status: formData?.individual[0].market_status || "Ej publicerad",
+      place1: formData?.individual[0].place1 || "",
+      place2: formData?.individual[0].place2 || "",
+      place3: formData?.individual[0].place3 || "",
+      place4: formData?.individual[0].place4 || "",
+      disassembly: formData?.individual[0].disassembly || "Ej Demonterbar",
+      accessibility: formData?.individual[0].accessibility || "Ej Åtkomlig",
+      availability: formData?.individual[0].availability || undefined,
+      delivery: formData?.individual[0].delivery || undefined,
+      decision_designation_1: formData?.individual[0].decision_designation_1 || "",
+      decision_designation_2: formData?.individual[0].decision_designation_2 || "",
+      decision_designation_3: formData?.individual[0].decision_designation_3 || "",
+      decision_designation_4: formData?.individual[0].decision_designation_4 || "",
     },
-  ]);
+  ]); */
 
   useEffect(() => {
     if (!formData) {
