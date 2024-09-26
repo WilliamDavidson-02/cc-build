@@ -12,7 +12,7 @@ const FormPage02: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <main className="mt-16 px-32 flex flex-col">
+    <main className=" px-32 flex flex-col">
       <ProgressSteps>
         {progressSteps.map((status, index) => (
           <ProgressStepsCard
