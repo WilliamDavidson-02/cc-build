@@ -59,17 +59,7 @@ const getTypographyClassNames = (
   return cn(baseClass, sizeClass, compoundVariant?.class);
 };
 
-// usage exemple : choose variant, size(optional) and add your own classname(optional)
-/*
-<Typography variant="h1" size="xxxl" className="underline text-[#3f9a3e]">
-  Hello World
-</Typography>
 
-using the 'as' prop to change the element type
-<Typography variant="h1" as="h3" size="xxxl" className="underline text-[#3f9a3e]">
-  Hello World
-</Typography>
-*/
 
 const Typography: FC<TypographyProps> = ({ children, className, variant = 'p', size = 'md', as,  ...props }) => {  
 
