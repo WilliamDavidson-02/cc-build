@@ -66,16 +66,19 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   }); */
 
   const [formSection, setFormSection] = useState<StepOneData>({
-    project: formData?.project ?? "",             
+    project: formData?.project ?? "",
     name: formData?.name ?? "",
     product_category_1: formData?.product_category_1 ?? "",
     product_category_2: formData?.product_category_2 ?? "",
     product_category_3: formData?.product_category_3 ?? "",
     visual_condition: formData?.visual_condition ?? "",
     working_condition: formData?.working_condition ?? "",
-    image: formData?.images ?? ([] as File[]),     
+    images: formData?.images ?? ([] as File[]),
     product_files: formData?.product_files ?? ([] as File[]),
-    product_id: formData?.product_id && formData.product_id !== "" ? formData.product_id : uuid(),
+    product_id:
+      formData?.product_id && formData.product_id !== ""
+        ? formData.product_id
+        : uuid(),
     ownId: formData?.ownId ?? "",
   });
 
@@ -115,13 +118,12 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     }));
   };
 
-  
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormSection((prevData) => ({
       ...prevData,
       [name]: value,
-    }));    
+    }));
 
     if (name === "product_category_1") {
       setIsCategory2Enabled(true);
@@ -176,9 +178,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   };
 
   const handleSave = async () => {
-
     const updatedForm = { ...formData, ...formSection };
-
 
     setFormData(updatedForm);
     saveForm(updatedForm);
