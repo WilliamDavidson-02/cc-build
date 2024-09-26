@@ -276,6 +276,8 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
     });
   };
 
+  const isAnyCheckboxChecked = checkedStates.some((checked) => checked);
+
   //expandable sections
   const [expandedForms, setExpandedForms] = React.useState<
     Record<number, boolean>
@@ -304,18 +306,35 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
   return (
     <>
       <div className="flex flex-row gap-6 pt-8 pb-4 ">
-        <Button size="medium" variant="blue" onClick={handleAdd}>
+      <Button size="medium" variant="blue" onClick={handleAdd} >
           Lägg till ny
         </Button>
-        <Button size="medium" variant="white" onClick={handleDel}>
+        {isAnyCheckboxChecked ? (
+          <>
+          <Button size="medium" variant="white" onClick={handleDel} >
           Radera
         </Button>
-        <Button size="medium" variant="white" onClick={handleChange}>
+        <Button size="medium" variant="white" onClick={handleChange} >
           Ändra
         </Button>
-        <Button size="medium" variant="white" onClick={handleCom}>
+        <Button size="medium" variant="white" onClick={handleCom} >
           Kommentar
         </Button>
+        </>
+        ) : (
+          <>
+          <Button size="medium" variant="ghost" onClick={handleDel} disabled >
+          Radera
+        </Button>
+        <Button size="medium" variant="ghost" onClick={handleChange} disabled>
+          Ändra
+        </Button>
+        <Button size="medium" variant="ghost" onClick={handleCom} disabled>
+          Kommentar
+        </Button>
+        </>
+        )}
+       
       </div>
 
       {formSections.map((section, index) => (
