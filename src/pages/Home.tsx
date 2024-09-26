@@ -7,8 +7,6 @@ import {
 } from "@/components/products/ProgressSteps";
 import { FC, useState } from "react";
 
-
-
 const defaultSteps: { title: string; status: Status }[] = [
   {
     title: "Generell information",
@@ -33,10 +31,10 @@ const defaultSteps: { title: string; status: Status }[] = [
 ];
 
 const Home: FC = () => {
-  const [step, setStep] = useState(3);  
+  const [step, setStep] = useState(3);
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col justify-center items-center px-48">      
+    <div className="flex flex-col justify-center items-center px-48">
       <ProgressSteps>
         {defaultSteps.map((s, i) => (
           <ProgressStepsCard
@@ -49,9 +47,14 @@ const Home: FC = () => {
           />
         ))}
       </ProgressSteps>
-      <Button size="large" variant="blue" className="mt-32" onClick={() => navigate('/form-01')}>
-        Klicka här för att lägga till en produkten
-      </Button>   
+      <Button
+        size="large"
+        variant="blue"
+        className="mt-32"
+        onClick={() => navigate("/form-01")}
+      >
+        Klicka här för att lägga till en produkt
+      </Button>
     </div>
   );
 };
