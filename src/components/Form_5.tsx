@@ -9,7 +9,9 @@ import Button from "./Buttons";
 import Info from "./icons/Info";
 import { useUser } from "@/context/userContext";
 import { UserProfile } from "./Navigation/Navbar";
+import Input from "./Input";
 import ChevronLeft from "./icons/ChevronLeft";
+
 
 const step5Schema = z.object({
   product_id: z.string(),
@@ -175,6 +177,7 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
       return newProgress;
     });
   }, [formSection, setProgressSteps]);
+
   return (
     <>
       <form className="flex flex-col gap-10 w-full">
@@ -202,11 +205,11 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
               </div>
 
               <div className="flex gap-2 items-center">
-                <input
+                <Input
                   className="w-6 h-6 transform"
                   type="checkbox"
                   name="buyer_price"
-                  value="buyer_price"
+                  checked={formSection.buyer_price}
                   onChange={handleCheckboxChange}
                   style={{ transform: 'scale(1)' }}
                 />
@@ -254,22 +257,22 @@ const Form_5: React.FC<Form5Props> = ({ handleUpdate, isEdit = false }) => {
             <div className="flex flex-col gap-6 shadow-lg w-[60%] p-4">
               <div className="flex gap-6 items-center">
                 <div className="flex gap-2 items-center font-inter">
-                  <input
+                  <Input
                     className="w-6 h-6 transform"
                     type="checkbox"
                     name="pick_up_on_site"
-                    value="pick_up_on_site"
+                    checked={formSection.pick_up_on_site}
                     onChange={handleCheckboxChange}
                     style={{ transform: 'scale(1)' }}
                   />
                   <label htmlFor="pick_up_on_site">Kan hämtas på plats</label>
                 </div>
                 <div className="flex gap-2 items-center font-inter">
-                  <input
+                  <Input
                     className="w-6 h-6 transform"
                     type="checkbox"
                     name="send_with_freight"
-                    value="send_with_freight"
+                    checked={formSection.send_with_freight}
                     onChange={handleCheckboxChange}
                     style={{ transform: 'scale(1)' }}
                   />

@@ -32,6 +32,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   
   const { formData, setFormData, saveForm, errors, setErrors, setProgressSteps, progressSteps, setCurrentStep } = useFormContext();
   const [formSection, setFormSection] = useState<Step4Data>({    
+
     manufactor: formData.manufactor ?? "",
     articel_number: formData.articel_number ?? "",
     manufactor_year: formData.manufactor_year ?? undefined,
@@ -41,7 +42,6 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
     bsab: formData.bsab ?? "",
     enr: formData.enr ?? "",
     bk04: formData.bk04 ?? "",
-
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,6 +128,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
     return newProgress;
   });
 }, [formSection, setProgressSteps]);
+
   return (
     <>
       <div className="flex flex-row gap-10 w-full justify-center">

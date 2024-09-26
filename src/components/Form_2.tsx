@@ -13,6 +13,7 @@ import ChevronRight from "./icons/ChevronRight";
 import Dropdown from "./Dropdown";
 
 const Step2Schema = z.object({
+  id: z.number().optional(),
   amount: z.number().min(1, "Minsta tillåtna antal är 1"),
   prod_status: z.string().optional(),
   market_status: z.string().optional(),
@@ -78,6 +79,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
   const [formSections, setFormSections] = useState<Step2Data[]>(
     formData?.individual.length > 0
       ? formData.individual.map((individual) => ({
+          id: individual.id ?? undefined,
           amount: individual.amount ?? 1,
           prod_status: individual.prod_status ?? "Ej inventerad",
           market_status: individual.market_status ?? "Ej publicerad",
@@ -96,6 +98,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         }))
       : [
           {
+            id: undefined,
             amount: 1,
             prod_status: "Ej inventerad",
             market_status: "Ej publicerad",
@@ -171,6 +174,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
     setFormSections((prevSections) => [
       ...prevSections,
       {
+        id: undefined,
         amount: 1,
         prod_status: "Ej inventerad",
         market_status: "Ej publicerad",
