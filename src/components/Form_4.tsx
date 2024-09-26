@@ -8,7 +8,7 @@ import { z } from "zod";
 import Textfield from "./Textfield";
 //import { TablesInsert } from "@/lib/database.types";
 
-const Step4Schema = z.object({  
+const Step4Schema = z.object({
   manufactor: z.string().optional(),
   articel_number: z.string().optional(),
   manufactor_year: z.string().optional(),
@@ -19,23 +19,29 @@ const Step4Schema = z.object({
   enr: z.string().optional(),
   bk04: z.string().optional(),
 });
-type Step4Data = z.infer<typeof Step4Schema>;
+export type Step4Data = z.infer<typeof Step4Schema>;
 
-const Form_4: React.FC = () => {
+type Form4Props = {
+  isEdit?: boolean;
+  handleUpdate?: (values: Step4Data) => Promise<void>;
+};
+
+const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
   const navigate = useNavigate();
+
   const { formData, setFormData, saveForm, errors, setErrors } = useFormContext();
   const [formSection, setFormSection] = useState<Step4Data>({    
-    manufactor: "",
-    articel_number: "",
-    manufactor_year: undefined,
-    bought_year: undefined,
-    gtin: "",
-    rsk: "",
-    bsab: "",
-    enr: "",
-    bk04: "",
+    manufactor: formData.manufactor ?? "",
+    articel_number: formData.articel_number ?? "",
+    manufactor_year: formData.manufactor_year ?? undefined,
+    bought_year: formData.bought_year ?? undefined,
+    gtin: formData.gtin ?? "",
+    rsk: formData.rsk ?? "",
+    bsab: formData.bsab ?? "",
+    enr: formData.enr ?? "",
+    bk04: formData.bk04 ?? "",
+
   });
-  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,7 +51,6 @@ const Form_4: React.FC = () => {
       [name]: value,
     }));
   };
-  
 
   const handleSave = async () => {
     const result = Step4Schema.safeParse(formSection);
@@ -67,22 +72,19 @@ const Form_4: React.FC = () => {
 
     setErrors({});
     console.log("Form submitted successfully", formSection);
-    
 
-    const updatedForm = {...formData, ...formSection }
-    
+    const updatedForm = { ...formData, ...formSection };
+
     setFormData(updatedForm);
     saveForm(updatedForm);
-
-    
   };
 
   const [visibleFields, setVisibleFields] = useState({
-    gtin: false,
-    rsk: false,
-    bsab: false,
-    enr: false,
-    bk04: false,
+    gtin: formData.gtin ? true : false,
+    rsk: formData.rsk ? true : false,
+    bsab: formData.bsab ? true : false,
+    enr: formData.enr ? true : false,
+    bk04: formData.bk04 ? true : false,
   });
 
   const toggleField = (field: keyof typeof visibleFields) => {
@@ -97,26 +99,16 @@ const Form_4: React.FC = () => {
       ...prevData,
       ...formSection,
     }));
-   /*  handleSave(); */
+    /*  handleSave(); */
     navigate(`/form-05`);
   };
 
   const handlePrevious = () => {
     navigate(`/form-03`);
   };
-console.log(formData, 'step 4')
+  console.log(formData, "step 4");
   return (
-    <main className="mt-16 px-48 flex flex-col items-center justify-center w-full">
-      <div className="flex justify-start items-center mb-10 w-full">
-        <Typography
-          variant="h2"
-          size="md"
-          className="text-[#151515] text-[31px] font-bold font-poppins"
-        >
-          Produktinformation
-        </Typography>
-      </div>
-
+    <>
       <div className="flex flex-row gap-10 w-full justify-center">
         <section className="flex flex-col gap-6 px-4 py-5 w-1/2 shadow-lg">
           <Textfield
@@ -197,21 +189,34 @@ console.log(formData, 'step 4')
       </div>
 
       <section className="w-full flex justify-between my-12">
-        <Button onClick={handlePrevious} size="medium" variant="white">
-          &lt; Föregående
-        </Button>
-
-        <div className="flex gap-2">
-          <Button onClick={handleSave} size="medium" variant="white">
-            Spara utkast
+        {isEdit ? (
+          <Button
+            onClick={() => handleUpdate && handleUpdate(formSection)}
+            size="medium"
+            variant="white"
+            className="ml-auto"
+          >
+            Spara
           </Button>
+        ) : (
+          <>
+            <Button onClick={handlePrevious} size="medium" variant="white">
+              &lt; Föregående
+            </Button>
 
-          <Button onClick={handleNext} size="medium" variant="blue">
-            Nästa &gt;
-          </Button>
-        </div>
+            <div className="flex gap-2">
+              <Button onClick={handleSave} size="medium" variant="white">
+                Spara utkast
+              </Button>
+
+              <Button onClick={handleNext} size="medium" variant="blue">
+                Nästa &gt;
+              </Button>
+            </div>
+          </>
+        )}
       </section>
-    </main>
+    </>
   );
 };
 
