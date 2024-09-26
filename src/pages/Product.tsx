@@ -29,17 +29,22 @@ type DBMarketPlace = {
   profile: Profile;
 };
 
+type OrderedCategory = {
+  id: string;
+  name: string;
+};
+
 const Product: FC = () => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [initialData, setInitialData] = useState<FormData | null>(null);
   const { setFormData, formData } = useFormContext();
 
-  const orderCategories = (categories: DBCategory[]): string[] => {
-    const sorted: string[] = [];
+  const orderCategories = (categories: DBCategory[]): OrderedCategory[] => {
+    const sorted: OrderedCategory[] = [];
 
     const addCategory = (c: DBCategory) => {
-      if (sorted.includes(c.name as string)) return;
+      if (sorted.some((item) => item.id === (c.id as string))) return;
 
       if (c.parent_id) {
         const parent = categories.find((p) => p.id === c.parent_id);
@@ -49,7 +54,7 @@ const Product: FC = () => {
         }
       }
 
-      sorted.push(c.name as string);
+      sorted.push({ id: c.id, name: c.name ?? "" });
     };
 
     categories.forEach((c) => addCategory(c));
@@ -217,9 +222,9 @@ const Product: FC = () => {
         project: data.projects?.name ?? "",
         product_id: data.id,
         name: data.name ?? "",
-        product_category_1: orderedCategories[0],
-        product_category_2: orderedCategories[1],
-        product_category_3: orderedCategories[2],
+        product_category_1: orderedCategories[0].id,
+        product_category_2: orderedCategories[1].id,
+        product_category_3: orderedCategories[2].id,
         visual_condition: data.visual_condition ?? "",
         working_condition: data.working_condition ?? "",
         image_urls: data.images ?? [],
@@ -227,12 +232,10 @@ const Product: FC = () => {
         ownId: data.product_id ?? "",
         individual: data.product_individual as FormData["individual"],
         ...formatShape(data.product_property),
-        ...formatProperties(data.product_property, orderedCategories[0]),
+        ...formatProperties(data.product_property, orderedCategories[0].name),
         ...formatInformation(data.product_property),
         ...formatMarketPlace(marketPlaceData),
       };
-
-      console.log(formatedData);
 
       setFormData(formatedData);
       setInitialData(formatedData);

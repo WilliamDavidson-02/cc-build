@@ -65,8 +65,6 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
       product_id: values.ownId,
     };
 
-    console.log(productData);
-
     const products = await supabase
       .from("products")
       .update(productData)
@@ -99,7 +97,7 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
         .from("product_category")
         .update({ category_id: new_category })
         .eq("category_id", old_category)
-        .eq("product_id", formData.project_id);
+        .eq("product_id", formData.product_id);
 
       if (error) {
         console.log(error);
@@ -164,6 +162,8 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
   };
 
   const updateForm3 = async (values: StepThreeData) => {
+    console.log(values);
+
     const formated = Object.entries(values).map(([name, value]) => ({
       name,
       value,
@@ -217,7 +217,7 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
   };
 
   return (
-    <section className="max-w-[1024px] mx-auto py-16 flex flex-col gap-16">
+    <section className="max-w-[1200px] mx-auto py-16 flex flex-col gap-16">
       <header className="flex flex-col gap-10">
         <Typography variant="h3" className="font-bold text-[31px] font-poppins">
           Sammanfattning
@@ -265,7 +265,9 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
             <SummaryItemBanner title="Form/egenskaper" status={"complete"} />
           </AccordionTrigger>
           <AccordionContent>
-            <Form_3 isEdit handleUpdate={updateForm3} />
+            <div className="mt-10">
+              <Form_3 isEdit handleUpdate={updateForm3} />
+            </div>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="produktinformation">
@@ -273,7 +275,9 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
             <SummaryItemBanner title="Produktinformation" status={"pending"} />
           </AccordionTrigger>
           <AccordionContent>
-            <Form_4 isEdit handleUpdate={updateForm4} />
+            <div className="mt-10">
+              <Form_4 isEdit handleUpdate={updateForm4} />
+            </div>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="hantering-för-marknadsplats">
@@ -284,7 +288,9 @@ const Summary: FC<SummaryProps> = ({ initialData }) => {
             />
           </AccordionTrigger>
           <AccordionContent>
-            <Form_5 isEdit handleUpdate={updateForm5} />
+            <div className="mt-10">
+              <Form_5 isEdit handleUpdate={updateForm5} />
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
