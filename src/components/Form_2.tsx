@@ -339,7 +339,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     onChange={(e) => handleInputChange(index, e)}
                     placeholder="Antal (st)"
                     className="bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                    disabled={!checkedStates[index]}
+                    /* disabled={!checkedStates[index]} */
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -349,7 +349,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     value={formSections[index].prod_status || "Ej inventerad"}
                     onChange={(e) => handleInputChange(index, e)}
                     className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                    disabled={!checkedStates[index]}
+                   /*  disabled={!checkedStates[index]} */
                   >
                     <option value="" disabled>
                       Välj
@@ -399,7 +399,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     value={formSections[index].market_status || "Ej publicerad"}
                     onChange={(e) => handleInputChange(index, e)}
                     className=" px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                    disabled={!checkedStates[index]}
+                    /* disabled={!checkedStates[index]} */
                   >
                     <option value="" disabled>
                       Välj
@@ -429,7 +429,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place1 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                    disabled={!checkedStates[index]}
+                    /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -444,7 +444,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place2 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                    disabled={!checkedStates[index]}
+                    /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -459,7 +459,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place3 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                    disabled={!checkedStates[index]}
+                    /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -474,7 +474,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     placeholder="Ange plats"
                     value={formSections[index].place4 || ""}
                     onChange={(e) => handleInputChange(index, e)}
-                    disabled={!checkedStates[index]}
+                    /* disabled={!checkedStates[index]} */
                   />
                   <Tooltip
                     className="postition absolute left-10 cursor-pointer select-none"
@@ -502,34 +502,9 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
               <>
                 <section className="flex flex-col gap-6 px-4 py-2 mb-12">
                   <div className="flex gap-6 w-full">
-                     {/* <div className="flex flex-col gap-2">
-                      <label className="text-[14px] font-semibold">
-                        Demonterbarhet
-                      </label>
-                      <select
-                        name="disassembly"
-                        value={
-                          formSections[index].disassembly || "Ej Demonterbar"
-                        }
-                        onChange={(e) => handleInputChange(index, e)}
-                        className="w-full px-4 py-2 bg-[#F9F9F9] border border-[#E2E2E2] text-[#495057] rounded-sm shadow-sm appearance-none focus:outline-none "
-                      >
-                        <option value="" disabled>
-                          Välj
-                        </option>
-                        <option value="Enkel att demontera/demontering krävs ej">
-                          Enkel att demontera/demontering krävs ej
-                        </option>
-                        <option value="Demonterbar men specialverktyg kan behövas">
-                          Demonterbar men specialverktyg kan behövas
-                        </option>
-                        <option value="Begränsad demonterbarhet">
-                          Begränsad demonterbarhet
-                        </option>
-                      </select>
-                    </div> */}
+                     
                     <Dropdown 
-                     disabled={!checkedStates[index]}
+                     /* disabled={!checkedStates[index]} */
                     title="Demonterbarhet" 
                     name="disassembly" 
                     size="large"
@@ -546,7 +521,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                         Åtkomlighet
                       </label>
                       <select
-                       disabled={!checkedStates[index]}
+                      /*  disabled={!checkedStates[index]} */
                         name="accessibility"
                         value={
                           formSections[index].accessibility || "Ej Åtkomlig"
@@ -602,7 +577,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                   <div className="flex gap-6">
                     <div className="relative flex flex-col gap-2">
                       <Textfield
-                       disabled={!checkedStates[index]}
+                      /*  disabled={!checkedStates[index]} */
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_1"
@@ -618,7 +593,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
 
                     <div className="relative flex flex-col gap-2">
                       <Textfield
-                       disabled={!checkedStates[index]}
+                       /* disabled={!checkedStates[index]} */
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_2"
@@ -633,7 +608,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     </div>
                     <div className="relative flex flex-col gap-2">
                       <Textfield
-                       disabled={!checkedStates[index]}
+                       /* disabled={!checkedStates[index]} */
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_3"
@@ -648,7 +623,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
                     </div>
                     <div className="relative flex flex-col gap-2">
                       <Textfield
-                       disabled={!checkedStates[index]}
+                       /* disabled={!checkedStates[index]} */
                         title="Beslutsbenämning"
                         size="small"
                         name="decision_designation_4"
