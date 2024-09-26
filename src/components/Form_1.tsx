@@ -1,5 +1,4 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 import Textfield from "@/components/Textfield";
 import Button from "@/components/Buttons";
@@ -14,14 +13,14 @@ import { Database } from "@/lib/database.types";
 
 interface StepOneData {
   project: string;
-  name: string; // The length constraints (min and max) are not enforceable in a plain type
+  name: string;
   product_category_1: string;
   product_category_2: string;
   product_category_3: string;
   visual_condition: string;
   working_condition: string;
-  image: File[]; // Since it's an array of `File`, we represent it as `File[]`
-  product_files: File[]; // Same for `product_files`
+  image: File[];
+  product_files: File[];
   product_id: string;
   ownId: string;
 }

@@ -11,6 +11,8 @@ type TextfieldProps = {
   className?: string;
   type?: React.HTMLInputTypeAttribute;
   disabled?: boolean;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 const Textfield: FC<TextfieldProps> = ({
@@ -23,6 +25,8 @@ const Textfield: FC<TextfieldProps> = ({
   className,
   type = "text",
   disabled = false,
+  onFocus,
+  onBlur,
 }) => {
   const sizeClasses = {
     xSmall: "w-20",
@@ -41,6 +45,8 @@ const Textfield: FC<TextfieldProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
         className={`bg-slate-100 rounded ${sizeClasses[size]} px-4 py-3 bg-slate-100 p-2 rounded border border-gray-300`}
       ></input>
     </div>
