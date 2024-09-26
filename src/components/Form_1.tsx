@@ -18,8 +18,8 @@ export interface StepOneData {
   product_category_3: string;
   visual_condition: string;
   working_condition: string;
-  images: File[]; 
-  product_files: File[]; 
+  images: File[];
+  product_files: File[];
   product_id: string;
   ownId: string;
 }
@@ -208,7 +208,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     <div className="flex mt-12">
       <form className="flex flex-col gap-6">
         <div className="flex gap-6 flex-wrap">
-          <div className="flex gap-6 ">
+          <div className="flex gap-6 flex-wrap">
             <Dropdown
               title="Projekt"
               options={projectOptions}
@@ -217,100 +217,8 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               value={formSection.project}
               onChange={handleProjectChange}
             />
-              <div className="flex flex-col">
-                <div>
-                  <Textfield
-                    title="Produktnamn"
-                    size="medium"
-                    name="name"
-                    value={formSection.name}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <p className="max-w-xs">
-                  Om du inte anger något här skapas ett produktnamn när du
-                  sparar. Du kan ändra namnet senare.
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-6 flex-wrap">
-              <Dropdown
-                title="Produktkategori 1"
-                options={categoryOptions1}
-                size="medium"
-                name="product_category_1"
-                value={formSection.product_category_1}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Produktkategori 2"
-                options={categoryOptions2}
-                size="medium"
-                name="product_category_2"
-                value={formSection.product_category_2}
-                onChange={handleSelectChange}
-                disabled={!isCategory2Enabled}
-              />
-              <Dropdown
-                title="Produktkategori 3"
-                options={categoryOptions3}
-                size="medium"
-                name="product_category_3"
-                value={formSection.product_category_3}
-                onChange={handleSelectChange}
-                disabled={!isCategory3Enabled}
-              />
-            </div>
-
-            <div className="flex gap-6 flex-wrap">
-              <Dropdown
-                title="Estetiskt skick"
-                options={[
-                  { label: "1 - Skada går ej att åtgärda", value: 1 },
-                  { label: "2 - Skada är svår att åtgärda", value: 2 },
-                  { label: "3 - Skada går att åtgärda av proffs", value: 3 },
-                  { label: "4 - Skada går att åtgärda av lekman", value: 4 },
-                  { label: "5 - Inga skador", value: 5 },
-                ]}
-                size="medium"
-                name="visual_condition"
-                value={formSection.visual_condition}
-                onChange={handleSelectChange}
-              />
-              <Dropdown
-                title="Funktionellt skick"
-                options={[
-                  { label: "1 - Funktion går ej att åtgärda", value: 1 },
-                  { label: "2 - Funktion är svår att åtgärda", value: 2 },
-                  { label: "3 - Funktion går att åtgärda av proffs", value: 3 },
-                  { label: "4 - Funktion går att åtgärda av lekman", value: 4 },
-                  { label: "5 - Inga brister", value: 5 },
-                ]}
-                size="medium"
-                name="working_condition"
-                value={formSection.working_condition}
-                onChange={handleSelectChange}
-              />
-            </div>
-
-            <div className="flex gap-6">
-              <FileUpload
-                title="Produktbilder"
-                uploadedFiles={formData.images}
-                setUploadedFiles={(files) => handleSetFiles(files, "images")}
-              />
-              <FileUpload
-                title="Filer"
-                uploadedFiles={formData.product_files}
-                setUploadedFiles={(files) =>
-                  handleSetFiles(files, "product_files")
-                }
-              />
-              <div
-                className="flex flex-col justify-end"
-                style={{ marginBottom: "1rem" }}
-              >
-
+            <div className="flex flex-col">
+              <div>
                 <Textfield
                   title="Produktnamn"
                   size="medium"
@@ -398,7 +306,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
                 handleSetFiles(files, "product_files")
               }
             />
-            <div className="flex flex-col justify-end">
+            <div
+              className="flex flex-col justify-end"
+              style={{ marginBottom: "1rem" }}
+            >
               <Textfield
                 title="Eget ID"
                 size="medium"
