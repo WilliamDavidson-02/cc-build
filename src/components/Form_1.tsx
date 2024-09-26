@@ -8,7 +8,7 @@ import FileUpload from "@/components/Upload";
 import { FormContext } from "@/context/formContext";
 import Typography from "@/components/Typography";
 import { supabase } from "@/lib/sbClient";
-import { v4 as uuid } from "uuid"
+import { v4 as uuid } from "uuid";
 import { useUser } from "@/context/userContext";
 import { Database } from "@/lib/database.types";
 
@@ -26,19 +26,25 @@ interface StepOneData {
   ownId: string;
 }
 
-type Project = Database["public"]["Tables"]["projects"]["Row"]
-type Category = Database["public"]["Tables"]["category"]["Row"]
+type Project = Database["public"]["Tables"]["projects"]["Row"];
+type Category = Database["public"]["Tables"]["category"]["Row"];
 
 const Form_1: React.FC = () => {
   const { formData, setFormData, saveForm } = useContext(FormContext)!;
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [filteredCategories1, setFilteredCategories1] = useState<Category[]>([]);
-  const [filteredCategories2, setFilteredCategories2] = useState<Category[]>([]);
-  const [filteredCategories3, setFilteredCategories3] = useState<Category[]>([]);
+  const [filteredCategories1, setFilteredCategories1] = useState<Category[]>(
+    []
+  );
+  const [filteredCategories2, setFilteredCategories2] = useState<Category[]>(
+    []
+  );
+  const [filteredCategories3, setFilteredCategories3] = useState<Category[]>(
+    []
+  );
   const [isCategory2Enabled, setIsCategory2Enabled] = useState(false);
   const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
-  const {user} = useUser();
+  const { user } = useUser();
   const navigate = useNavigate();
   const [formSection, setFormSection] = useState<StepOneData>({
     project: "",
@@ -70,7 +76,7 @@ const Form_1: React.FC = () => {
       const { data: projectData, error: projectError } = await supabase
         .from("projects")
         .select("*")
-        .eq("user_id", user?.id?? "");
+        .eq("user_id", user?.id ?? "");
 
       if (projectError) {
         console.log("Error fetching projects", projectError);
@@ -145,37 +151,35 @@ const Form_1: React.FC = () => {
       ...prev,
       ...formSection,
     }));
-    
+
     navigate("/form-02");
   };
 
   const handleSave = async () => {
-    const updatedForm = {...formData, ...formSection }
-    
+    const updatedForm = { ...formData, ...formSection };
+
     setFormData(updatedForm);
     saveForm(updatedForm);
-
-   
   };
-  
+
   const categoryOptions1 = filteredCategories1.map((cat) => ({
-    label: cat.name?? "",
-    value: cat.id?? "",
+    label: cat.name ?? "",
+    value: cat.id ?? "",
   }));
 
   const categoryOptions2 = filteredCategories2.map((cat) => ({
-    label: cat.name?? "",
-    value: cat.id?? "",
+    label: cat.name ?? "",
+    value: cat.id ?? "",
   }));
 
   const categoryOptions3 = filteredCategories3.map((cat) => ({
-    label: cat.name?? "",
-    value: cat.id?? "",
+    label: cat.name ?? "",
+    value: cat.id ?? "",
   }));
 
   const projectOptions = projects.map((project) => ({
-    label: project.name?? "",
-    value: project.id?? "",
+    label: project.name ?? "",
+    value: project.id ?? "",
   }));
 
   return (
@@ -184,7 +188,7 @@ const Form_1: React.FC = () => {
       <div className="flex mt-12">
         <form className="flex flex-col gap-6">
           <div className="flex gap-6 flex-wrap">
-            <div className="flex gap-6 max-w-12">
+            <div className="flex gap-6 ">
               <Dropdown
                 title="Projekt"
                 options={projectOptions}
@@ -204,7 +208,7 @@ const Form_1: React.FC = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <p>
+                <p className="max-w-xs">
                   Om du inte anger något här skapas ett produktnamn när du
                   sparar. Du kan ändra namnet senare.
                 </p>
