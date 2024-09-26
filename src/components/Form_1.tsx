@@ -34,7 +34,14 @@ type Form1Props = {
 };
 
 const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
-  const { formData, setFormData, saveForm, setProgressSteps, progressSteps, setCurrentStep } = useContext(FormContext)!;
+  const {
+    formData,
+    setFormData,
+    saveForm,
+    setProgressSteps,
+    progressSteps,
+    setCurrentStep,
+  } = useContext(FormContext)!;
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [filteredCategories1, setFilteredCategories1] = useState<Category[]>(
@@ -50,8 +57,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   const [isCategory3Enabled, setIsCategory3Enabled] = useState(false);
   const { user } = useUser();
   const navigate = useNavigate();
-  
-  
+
   const [formSection, setFormSection] = useState<StepOneData>({
     project: formData?.project_id ?? "",
     name: formData?.name ?? "",
@@ -61,7 +67,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
     visual_condition: formData?.visual_condition ?? "",
     working_condition: formData?.working_condition ?? "",
 
-    images: formData?.images ?? ([] as File[]),     
+    images: formData?.images ?? ([] as File[]),
 
     product_files: formData?.product_files ?? ([] as File[]),
     product_id:
@@ -110,6 +116,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
   const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormSection((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -163,7 +173,9 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
       ...prev,
       ...formSection,
     }));
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, progressSteps.length - 1));
+    setCurrentStep((prevStep) =>
+      Math.min(prevStep + 1, progressSteps.length - 1)
+    );
     navigate("/form-02");
   };
 
@@ -199,10 +211,10 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
 
   useEffect(() => {
     // Check if the current form is filled and update progress
-    const isFilled = Object.values(formSection).every(field => field !== "");
+    const isFilled = Object.values(formSection).every((field) => field !== "");
 
     // Update progress for the first step
-    setProgressSteps(prev => {
+    setProgressSteps((prev) => {
       const newProgress = [...prev];
       newProgress[0] = isFilled ? "complete" : "pending";
       return newProgress;
@@ -313,7 +325,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               setUploadedFiles={(files) =>
                 handleSetFiles(files, "product_files")
               }
-               className="justify-end gap-0"
+              className="justify-end gap-0"
             />
             <div
               className="flex flex-col justify-end"

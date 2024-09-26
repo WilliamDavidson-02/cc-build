@@ -9,10 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/sbClient";
 import { TablesInsert } from "@/lib/database.types";
 
-import {  useUser } from "./userContext";
+import { useUser } from "./userContext";
 
 type ProgressStatus = "complete" | "pending" | null;
-
 
 export interface FormContextType {
   formData: FormData;
@@ -23,7 +22,7 @@ export interface FormContextType {
 
   progressSteps: ProgressStatus[]; // New state for progress
   setProgressSteps: React.Dispatch<React.SetStateAction<ProgressStatus[]>>;
-  
+
   currentStep: number; // New state for current step
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -123,10 +122,15 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useUser();
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string[]> | null>(null);
- 
 
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [progressSteps, setProgressSteps] = useState<ProgressStatus[]>([null, null, null, null, null]);
+  const [progressSteps, setProgressSteps] = useState<ProgressStatus[]>([
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
 
   const saveForm = async (formData: FormData) => {
     const productData = {
@@ -216,7 +220,7 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
       const prod_id = formData.product_id;
 
-      const properties = [
+      let properties = [
         {
           name: "material",
           value: material?.toString(),
@@ -270,6 +274,71 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
         {
           name: "weight_unit",
           value: weight_unit?.toString(),
+          prod_id,
+        },
+        {
+          name: "avg_height_min",
+          value: formData.avg_height_min?.toString(),
+          prod_id,
+        },
+        {
+          name: "avg_height_max",
+          value: formData.avg_height_max?.toString(),
+          prod_id,
+        },
+        {
+          name: "lumbal_support",
+          value: formData.lumbal_support?.toString(),
+          prod_id,
+        },
+        {
+          name: "glass_type",
+          value: formData.glass_type?.toString(),
+          prod_id,
+        },
+        {
+          name: "glass_model",
+          value: formData.glass_model?.toString(),
+          prod_id,
+        },
+        {
+          name: "glass_thickness",
+          value: formData.glass_thickness?.toString(),
+          prod_id,
+        },
+        {
+          name: "hanging",
+          value: formData.hanging?.toString(),
+          prod_id,
+        },
+        {
+          name: "module_size",
+          value: formData.module_size?.toString(),
+          prod_id,
+        },
+        {
+          name: "sound_reduction",
+          value: formData.sound_reduction?.toString(),
+          prod_id,
+        },
+        {
+          name: "fire_resistance_class",
+          value: formData.fire_resistance_class?.toString(),
+          prod_id,
+        },
+        {
+          name: "burglary_resistance_class",
+          value: formData.burglary_resistance_class?.toString(),
+          prod_id,
+        },
+        {
+          name: "environmental_profile",
+          value: formData.environmental_profile?.toString(),
+          prod_id,
+        },
+        {
+          name: "frame_depth",
+          value: formData.frame_depth?.toString(),
           prod_id,
         },
       ];
@@ -334,7 +403,17 @@ const FormProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <FormContext.Provider
-      value={{ formData, setFormData, errors, setErrors, saveForm, progressSteps, setProgressSteps, currentStep, setCurrentStep }}
+      value={{
+        formData,
+        setFormData,
+        errors,
+        setErrors,
+        saveForm,
+        progressSteps,
+        setProgressSteps,
+        currentStep,
+        setCurrentStep,
+      }}
     >
       {children}
     </FormContext.Provider>
