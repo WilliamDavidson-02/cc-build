@@ -205,7 +205,7 @@ const Form_4: React.FC<Form4Props> = ({ handleUpdate, isEdit = false }) => {
           </Button>
         ) : (
           <>
-            <Button onClick={handlePrevious} size="medium" variant="white">
+            <Button onClick={handlePrevious} size="medium" variant="white" className="py-2 px-4">
             <ChevronLeft /> Föregående
             </Button>
 

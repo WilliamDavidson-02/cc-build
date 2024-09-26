@@ -295,11 +295,12 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
             />
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 ">
             <FileUpload
               title="Produktbilder"
               uploadedFiles={formData.images}
               setUploadedFiles={(files) => handleSetFiles(files, "images")}
+              className="justify-end gap-0"
             />
             <FileUpload
               title="Filer"
@@ -307,6 +308,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
               setUploadedFiles={(files) =>
                 handleSetFiles(files, "product_files")
               }
+               className="justify-end gap-0"
             />
             <div className="flex flex-col justify-end">
               <Textfield

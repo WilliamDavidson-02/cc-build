@@ -105,7 +105,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   return (
-    <div className={cn("w-full flex flex-col gap-3", className)}>
+    <div className={cn("w-full flex flex-col gap-3 ", className)}>
       <label className="flex flex-col gap-2">
         <Typography size="sm" className="font-semibold">
           {title}
