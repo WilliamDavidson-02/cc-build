@@ -346,8 +346,8 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
               onChange={() => handleCheckboxChange(index)}
             />
           </div>
-          <form key={index} className="flex flex-col">
-            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg">
+          <form key={index} className="flex flex-col  w-full">
+            <section className="flex flex-col gap-6 px-4 py-6 shadow-lg w-full">
               <div className="flex gap-6">
                 <div className="flex flex-col gap-2">
                   <label className="text-[14px] font-semibold">Antal</label>
@@ -673,7 +673,7 @@ const Form_2: React.FC<Form2Props> = ({ handleUpdate, isEdit = false }) => {
         </div>
       )}
 
-      <section className="w-full flex justify-between mb-12">
+      <section className="w-full flex justify-between  my-16">
         {isEdit ? (
           <Button
             onClick={() => handleUpdate && handleUpdate(formSections)}

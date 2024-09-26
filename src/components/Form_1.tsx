@@ -322,7 +322,7 @@ const Form_1: React.FC<Form1Props> = ({ isEdit = false, handleUpdate }) => {
           </div>
         </div>
 
-        <section className="flex justify-end flex-wrap gap-6">
+        <section className="flex justify-end flex-wrap gap-6 my-16">
           {isEdit ? (
             <Button
               size="medium"

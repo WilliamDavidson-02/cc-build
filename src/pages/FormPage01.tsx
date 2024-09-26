@@ -6,7 +6,7 @@ type FormStepOneProps = {};
 
 const FormPage01: FC<FormStepOneProps> = ({}) => {
   return (
-    <div className=" py-28 px-28 flex flex-col justify-center">
+    <div className=" py-28 px-36 flex flex-col justify-center pb-16">
       <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
       Generell information
         </h2>      

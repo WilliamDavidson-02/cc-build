@@ -398,7 +398,7 @@ const Form_3: React.FC<Form3Props> = ({ isEdit = false, handleUpdate }) => {
         </div>
       </form>
 
-      <section className="w-full flex justify-between mb-12">
+      <section className="w-full flex justify-between  my-16">
         {isEdit ? (
           <Button
             onClick={() => handleUpdate && handleUpdate(formSection)}

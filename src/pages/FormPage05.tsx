@@ -6,8 +6,8 @@ type FormStepFiveProps = {};
 
 const FormPage05: FC<FormStepFiveProps> = ({}) => {
   return (
-    <main className="mt-16 px-52 flex flex-col items-center justify-center w-full">
-      <div className="flex justify-start items-center w-full px-4">
+    <main className="mt-16 px-48 md:px-32 flex flex-col items-center justify-center w-full">
+      <div className="flex justify-start items-center w-full px-4 pb-16">
       <h2 className="text-[#151515] text-[31px] font-bold font-poppins">
       Hantering för marknadsplats
         </h2>       
