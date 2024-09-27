@@ -18,16 +18,16 @@ const images = {
 }
 
 const descriptions = {
-  desc1: 'Transforming plastic waste into reusable building materials for low-income housing.',
-  desc2: 'A community-driven initiative to recycle e-waste and repurpose electronic components.',
-  desc3: 'Turning organic food waste into compost for local urban farming projects.',
-  desc4: 'Upcycling old tires into eco-friendly playgrounds for underprivileged communities.',
-  desc5: 'A program that collects and recycles textiles, creating sustainable fashion pieces.',
-  desc6: 'Recycling discarded paper and turning it into notebooks and school supplies for children.',
-  desc7: 'Using recycled glass bottles to create innovative insulation materials for homes.',
-  desc8: 'A project converting used coffee grounds into biofuel for local businesses.',
-  desc9: 'Repurposing scrap metal from cars and appliances to create public art installations.',
-  desc10: 'Collecting ocean plastic waste and turning it into sustainable packaging solutions.'
+  desc1: 'Omvandlar plastavfall till återanvändbara byggmaterial för bostäder med låga inkomster.',
+  desc2: 'Ett samhällsdrivet initiativ för att återvinna elektronik och återanvända komponenter.',
+  desc3: 'Gör matavfall till kompost för stadsnära jordbruk.',
+  desc4: 'Återanvänder gamla däck för att bygga miljövänliga lekplatser.',
+  desc5: 'Samlar in och återvinner textilier för att skapa hållbara kläder.',
+  desc6: 'Återvinner papper och gör anteckningsböcker och skolmaterial.',
+  desc7: 'Använder återvunna glasflaskor för att skapa isoleringsmaterial till hem.',
+  desc8: 'Konverterar använda kaffebönor till biobränsle för lokala företag.',
+  desc9: 'Återanvänder skrot från bilar och apparater till offentliga konstverk.',
+  desc10: 'Samlar plast från havet och gör hållbara förpackningslösningar.'
 };
 
 const ProjectCards: React.FC = () => {
@@ -82,7 +82,7 @@ const ProjectCards: React.FC = () => {
             </div>
             <div className="px-4 py-3 bg-gray-50">
               <button className="text-sm text-blue-600 font-medium hover:underline">
-                Learn more
+                Mer information
               </button>
             </div>
           </div>
